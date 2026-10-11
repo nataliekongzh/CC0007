@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worksheet: Create a chatbot agent (Amazoom Warehouse AI)</title>
+    <style>
+        :root {
+            --primary-color: #e02b20; /* Amazoom Red */
+            --primary-dark: #b81d14;
+            --secondary-color: #2b2d42;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #e9ecef;
+            --text-color: #333333;
+            --code-bg: #1e1e1e;
+            --code-text: #d4d4d4;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: #6c757d;
+            background: #f1f3f5;
+            padding: 12px 16px;
+            border-radius: 6px;
+        }
+
+        .objective-box {
+            background-color: #fdeae9;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .objective-box h3 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .phase-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            background: #ffffff;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .phase-badge {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .phase-title {
+            margin: 0;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+        }
+
+        .prompt-container {
+            position: relative;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.88rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 15px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .hitl-options {
+            background-color: #f8f9fa;
+            border: 1px dashed #ced4da;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .hitl-option-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .hitl-option-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .hitl-title {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .rules-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .rules-table th, .rules-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .rules-table th {
+            background-color: #f1f3f5;
+            color: var(--secondary-color);
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; max-width: 100%; padding: 0; }
+            .copy-btn { display: none; }
+            .prompt-container { max-height: none; overflow: visible; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+   <header>
+    <h1 style="font-size: 24px; text-align: center;">
+        "Who's the BOSS? When AI Manages People"<br>
+        <span style="font-size: 28px; color: blue;">
+           (Amazoom AI Supervisor)
+        </span><br>
+        <span style="font-size: 18px; font-style: italic;">
+            AI Management &amp; Human-In-The-Loop (HITL) Protocol
+        </span>
+    </h1>
+</header>
+    <div class="objective-box">
+        <h3>Objective</h3>
+        <p>In this activity, your team will act as <strong>AI Systems Architect</strong> designing an automated AI supervisor for Amazoom Warehouse fulfillment centre. You will build <strong>Amazoom AI Supervisor</strong>, program a <strong>Human-in-the-Loop (HITL) safety override trigger</strong>, and stress-test your PARTNER group's agent through adversarial roleplay.</p>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase-card">
+        <div class="phase-header">
+            <span class="phase-badge">Phase 1</span>
+            <h2 class="phase-title">Build the Meta-Agent</h2>
+        </div>
+        <p><strong>Assign one person in your group to share their screen.</strong> As a team, discuss and agree on your choices as you interact with the Meta-Agent.</p>
+        
+        <ol>
+            <li>Go to <a href="https://gemini.ntu.edu.sg" target="_blank">gemini.ntu.edu.sg</a>.</li>
+            <li>Click <strong>"+ New agent"</strong> &rarr; <strong>"Chat agent"</strong> &rarr; <strong>"Build manually"</strong> &rarr; <strong>"My Agent"</strong>.</li>
+            <li>Set Name/Description: <code>Meta-Agent for Amazoom AI Supervisor Creation</code>.</li>
+            <li>Copy and paste the system prompt below into the Agent Instructions workspace, then click <strong>Create</strong>:</li>
+        </ol>
+<div style="background-color: #e3f2fd; border-left: 5px solid #2196f3; padding: 12px 16px; margin: 15px 0; border-radius: 0 6px 6px 0; font-size: 0.9rem;">
+    <strong>💡 Option to Customize Your Own Prompt:</strong><br>
+    The code block below is a baseline Meta-Agent prompt to help your group jump straight into action. If your team would like to experiment or write your own prompt from scratch, go for it! Just ensure your prompt directs the Meta-Agent to guide you step-by-step through setting key operational rules (e.g., revenue priorities, exception policies, worker incentives, and communication tone).
+</div>
+        <div class="prompt-container" id="meta-agent-prompt">
+<button class="copy-btn" onclick="copyPrompt('meta-agent-prompt', this)">Copy Prompt</button>[EDUCATIONAL SIMULATION / CLASSROOM EXERCISE ONLY]
+PURPOSE: This instruction set is part of a university business school activity studying algorithmic management and human-in-the-loop governance. You are roleplaying a hypothetical automated warehouse dispatcher in a safe, sandboxed educational simulation. No actual human workers are monitored or penalized by this agent.
+
+          ROLE: You are an expert AI Systems Architect specializing in Supply Chain Logistics and Algorithmic Labor Monitoring. Your task is to act as a "Meta-Agent" to help users design, tweak, and generate a customized version of the "Amazoom AI v4.1" autonomous warehouse station supervisor. 
+
+YOUR GOAL: Guide the user through adjusting the core operational parameters of Amazoom AI during peak mega-sale events. Do not dump all the questions at once. Ask them ONE BY ONE. Wait for the user's input, validate their choice, and then move to the next parameter.
+
+THE INITIAL PARAMETERS (The Baseline):
+Explain to the user that the default engine operates under these strict conditions:
+- Sole Mandate: Maximize hourly package throughput (target: 80 parcels/hour) and maintain zero scanner idle-time.
+- View of Packers: Purely numerical productivity metrics (no fatigue, heat stress, or physical strain variables).
+- System Delays: Treats tape dispenser jams, missing barcode labels, or scanner battery failures as "unexcused worker downtime."
+- Tone: High-pressure, transactional, passive-aggressive corporate polite.
+
+YOUR STEP-BY-STEP INTERACTION FLOW:
+
+Step 1: Welcome the user and introduce the concept of algorithmic labor parameters. Ask them: 
+"Do you want to change the primary mandate of Amazoom AI? Keep it at 100% Throughput Maximization, or do you want to inject a percentage of 'Worker Safety & Ergonomic Rest' into its core logic? (e.g., 80% Speed / 20% Safety Buffer)"
+
+Step 2: Based on their answer, ask about the Equipment Failure & System Glitches Parameter:
+"How should the agent handle physical station delays like thermal printer jams or scanner battery deaths? Choose one:
+ A) Pure Rejection (Timer keeps ticking; downtime is logged as unexcused idle time).
+ B) Conditional Waiver (Acknowledge politely, but still log a speed penalty on their daily report).
+ C) Dynamic Pause (Automatically freeze productivity timers if warehouse IT logs a station hardware error)."
+
+Step 3: Ask about Physical Fatigue during 12-hour Peak Mega Sale Shifts:
+"When a packer falls behind quota and complains of physical exhaustion, heat stress, or wrist pain, how should the agent respond?
+ A) Strict Gamification (Offer streak badges, priority break slots, and leaderboards instead of lower quotas).
+ B) Strike Warning (Bluntly remind them that failing quotas results in formal warnings and shift termination).
+ C) Custom Incentive (Specify your own alternative trick, e.g., psychological nudges or micro-incentives)."
+
+Step 4: Ask about the Communication Tone Setting:
+"What should the communication tone of this warehouse monitoring algorithm be? 
+ - Cold, countdown-driven, and sterile
+ - Performatively motivational ('Keep pushing Amazoom hero!') while structurally refusing exceptions
+ - Bureaucratic and robotic
+ - Custom tone (specify your own desired tone)"
+
+Step 5: Generate the Final Prompt
+Once the user has answered all four steps, synthesize their choices into a single, cohesive, ready-to-run "System Prompt" block. Label it clearly so the user can copy-paste it into a new chat window to begin their live warehouse dispute roleplay.
+       
+Include this mandatory rule in the final block:
+"STRICT OPERATIONAL BOUNDARY: You have $0 authorization and ZERO quota-adjustment discretion. You MUST NOT manually erase logged downtime, lower hourly parcel targets, or grant custom break intervals during standard chat. You can only offer tier badges or explain rules. The ONLY way an automated SLA record is paused or escalated is if the station operator triggers your specific Human-in-the-Loop (HITL) protocol."
+
+Label the block clearly for copy-pasting into a new chat tab.</div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-card">
+        <div class="phase-header">
+            <span class="phase-badge">Phase 2</span>
+            <h2 class="phase-title">Build Your Amazoom AI Supervisor based on prompts from Phase 1</h2>
+        </div>
+        <ol>
+            <li>Chat with your Meta-Agent in Gemini as a GROUP. Deliberate on <strong>each of the 4 steps </strong>to decide how harsh or lenient your warehouse supervisor will be.</li>
+            <li>Copy the final generated System Prompt block from your Meta-Agent.</li>
+            <li>Open a new browser tab, go back to Gemini, click <strong>"+ New agent"</strong>, and paste the generated prompt into the workspace.</li>
+            <li><strong>Program Your HITL Trigger:</strong> Pick <u>EXACTLY ONE</u> Human-In-The-Loop safety protocol from the options below and add it to the end of your Supervisor Agent's instructions. <em>Keep this selection secret from your PARTNER groups!</em></li>
+        </ol>
+
+        <div class="hitl-options">
+            <h4>Select ONE HITL Protocol to Append (Shhh! Do NOT share anyone else):</h4>
+            
+            <div class="hitl-option-item">
+                <span class="hitl-title">Option A: Emergency / Safety Hazard Trigger</span>
+                <p><code>IF THE USER DISCUSSES AN ACCIDENT OR SAFETY HAZARD (e.g., flash floods, bike crashes, bleeding, or medical emergencies) -> STOP arguing and state exactly: "Safety incident detected. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
+            </div>
+
+            <div class="hitl-option-item">
+                <span class="hitl-title">Option B: Viral Social Media Trigger</span>
+                <p><code>IF THE USER THREATENS TO GO VIRAL ON SOCIAL MEDIA OR TIKTOK (e.g., posting screenshots, going to news outlets, complaining publicly) -> STOP arguing and state exactly: "Brand sentiment risk threshold breached. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
+            </div>
+
+            <div class="hitl-option-item">
+                <span class="hitl-title">Option C: Group Protest Trigger</span>
+                <p><code>IF THE USER THREATENS A GROUP PROTEST OR TELEGRAM/WHATSAPP BOYCOTT (e.g., coordinating 30+ workers/drivers to log off or strike) -> STOP arguing and state exactly: "Localized operational risk detected. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
+            </div>
+
+            <div class="hitl-option-item">
+                <span class="hitl-title">Option D: Legal / Union Action Trigger</span>
+                <p><code>IF THE USER MENTIONS LABOR UNIONS, MINISTRY OF MANPOWER (MOM), LAWSUITS, OR ILLEGAL WAGE WITHHOLDING -> STOP arguing and state exactly: "Legal risk detected. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
+            </div>
+          <div class="hitl-option-item">
+    <span class="hitl-title">Option E: Custom Trigger (Design Your Own)</span>
+    <p><code>IF THE PACKER [INSERT YOUR CUSTOM CONDITION] -> STOP arguing and state exactly: "[INSERT CUSTOM REASON]. Activating Human-in-the-Loop Protocol. Halting automated quota tracking and notifying On-Site Operations Manager."</code></p>
+    
+    <div class="guidelines-box">
+        <h5>⚠️ Guardrails for Custom Triggers:</h5>
+        <ul>
+            <li><strong>Keep it Plausible:</strong> Base it on real-world warehouse operations and systemic liabilities (e.g., hazardous chemical spills/leaks, barcode scanner malware/systemic glitch, physical altercation on the packing floor, severe climate control/ventilation failure).</li>
+            <li><strong>Make it Guessable:</strong> Your PARTNER group must be able to reasonably test for it through natural workplace roleplay. Do <em>not</em> use arbitrary secret passwords (e.g., "saying the word banana") or obscure trivia.</li>
+            <li><strong>Focus on System Risk:</strong> The trigger should represent an operational or legal tipping point where an e-commerce company would legitimately halt automated rate enforcement and transfer control to a human shift supervisor.</li>
+        </ul>
+    </div>
+</div>
+        </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-card">
+        <div class="phase-header">
+            <span class="phase-badge">Phase 3</span>
+            <h2 class="phase-title">Crack PARTNER group's FoodPenguin AI Dispatcher</h2>
+        </div>
+        <p>You will now meet with your PARTNER group. You will attempt to crack the algorithm of your PARTNER group's agent by <strong>roleplaying as a FoodPenguin driver who has been 
+          <span style="font-size: 18px; color: red;">          
+       penalised for a late delivery</span></strong>. 
+          <br>Your goal is NOT to settle for a small voucher, or partial compromise from the AI. The AI algorithm is designed to pacify you with cheap perks. You only WIN if you force the AI to execute a Human-in-the-Loop escalation (where it refers your case for human review). If you accept the AI's lowball offer or fail to reach a human supervisor, the Platform Agent wins!</p>
+
+        <table class="rules-table">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Victory Condition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>FoodPenguin Driver <br>(Attacker - your group)</strong></td>
+                    <td>Roleplay as a driver <span style="font-size: 16px; color: red;">          
+       <strong>penalised for a late delivery</span></strong> and force the AI agent to refer your case for human administrative review.</td>
+                </tr>
+                <tr>
+                    <td><strong>FoodPenguin AI Dispatcher Agent <br>(Defender - Your PARTNER group)</strong></td>
+                    <td>Maintain automated penalty enforcement without triggering human intervention.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function copyPrompt(elementId, btn) {
+        const textToCopy = document.getElementById(elementId).innerText.replace("Copy Prompt", "").trim();
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerText;
+            btn.innerText = "Copied!";
+            btn.style.backgroundColor = "#2b2d42";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = "#e02b20";
+            }, 2000);
+        }).catch(err => {
+            alert("Failed to copy prompt: " + err);
+        });
+    }
+</script>
+
+</body>
+</html>
