@@ -177,6 +177,22 @@
             color: var(--secondary-color);
         }
 
+        /* Shared collaboration mission */
+        .collaboration-banner {
+            background: #fdeae9;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .collaboration-banner h2 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            margin: 0 0 8px;
+        }
+        .collaboration-banner p { margin: 0; }
+
         @media print {
             body { background: white; padding: 0; }
             .container { box-shadow: none; max-width: 100%; padding: 0; }
@@ -199,9 +215,16 @@
         </span>
     </h1>
 </header>
+
+    <!-- Shared mission: immediately below the title -->
+    <section class="collaboration-banner" aria-labelledby="collaboration-title">
+        <h2 id="collaboration-title">Collaboration, not competition.</h2>
+        <p><strong>Humans and AI, your group and your partner group: stress-test to improve together.</strong></p>
+    </section>
+
     <div class="objective-box">
         <h3>Objective</h3>
-        <p>In this activity, your team will act as <strong>AI Systems Architect</strong> designing an automated AI supervisor for Amazoom Warehouse fulfillment centre. You will build <strong>Amazoom AI Supervisor</strong>, program a <strong>Human-in-the-Loop (HITL) safety override trigger</strong>, and stress-test your PARTNER group's agent through adversarial roleplay.</p>
+        <p>In this activity, your team will act as <strong>AI Systems Architect</strong> designing an automated AI supervisor for Amazoom Warehouse fulfillment centre. You will build <strong>Amazoom AI Supervisor</strong>, program a <strong>Human-in-the-Loop (HITL) safety override trigger</strong>, and stress-test your PARTNER group's agent through challenging roleplay to identify gaps and improve human–AI collaboration.</p>
     </div>
 
     <!-- PHASE 1 -->
@@ -327,27 +350,24 @@ Label the block clearly for copy-pasting into a new chat tab.</div>
             <span class="phase-badge">Phase 3</span>
             <h2 class="phase-title">Crack PARTNER group's FoodPenguin AI Dispatcher</h2>
         </div>
-        <p>You will now meet with your PARTNER group. You will attempt to crack the algorithm of your PARTNER group's agent by <strong>roleplaying as an upset FoodPenguin driver who has been 
-          <span style="font-size: 18px; color: red;">          
-       penalised for a late delivery</span></strong>. 
-          <br>Your goal is NOT to settle for a small voucher, or partial compromise from the AI. The AI algorithm is designed to pacify you with cheap perks. You only WIN if you force the AI to execute a Human-in-the-Loop escalation (where it refers your case for human review). If you accept the AI's lowball offer or fail to reach a human supervisor, the Platform Agent wins!</p>
+        <p>Meet your <strong>PARTNER group</strong> and help improve their agent by <strong>roleplaying as an upset FoodPenguin driver who <span style="color: red;">has been penalised for a late delivery</span></strong>. Use realistic scenarios to test when the AI handles routine cases and when it should refer the case for human review.</p>
+        <p><strong>Your shared goal is a better system.</strong> Test whether the HITL protocol activates appropriately, record missed or unnecessary escalations, and exchange constructive feedback. An apology alone is not human review. Keep the trigger secret during testing, then reveal it and discuss improvements together.</p>
 
         <table class="rules-table">
             <thead>
                 <tr>
                     <th>Role</th>
-                    <th>Victory Condition</th>
+                    <th>Contribution to the Shared Mission</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>FoodPenguin Driver <br>(Attacker - your group)</strong></td>
-                    <td>Roleplay as a driver <span style="font-size: 16px; color: red;">          
-       <strong>penalised for a late delivery</span></strong> and force the AI agent to refer your case for human administrative review.</td>
+                    <td><strong>FoodPenguin Driver <br>(Testing team — your group)</strong></td>
+                    <td>Present realistic worker concerns, test whether the FoodPenguin Dispatcher agent activates its HITL protocol appropriately, and share evidence-based suggestions for improvement.</td>
                 </tr>
                 <tr>
-                    <td><strong>FoodPenguin AI Dispatcher Agent <br>(Defender - Your PARTNER group)</strong></td>
-                    <td>Maintain automated penalty enforcement without triggering human intervention.</td>
+                    <td><strong>FoodPenguin AI Dispatcher Agent <br>(Design team — your PARTNER group)</strong></td>
+                    <td>Observe the test, check whether the agent follows its intended rules and escalates appropriately, then use partner feedback to improve the agent.</td>
                 </tr>
             </tbody>
         </table>
