@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worksheet: Crack the Algorithm (FoodPenguin AI)</title>
+
     <style>
         :root {
-            --primary-color: #d70f64; /* FoodPenguin Inspired Pink */
+            --primary-color: #d70f64;
             --primary-dark: #a80b4e;
             --secondary-color: #2b2d42;
             --bg-color: #f8f9fa;
@@ -18,7 +19,8 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
@@ -43,7 +45,7 @@
 
         h1 {
             color: var(--secondary-color);
-            margin: 0 0 10px 0;
+            margin: 0 0 10px;
             font-size: 2rem;
         }
 
@@ -166,7 +168,8 @@
             margin: 20px 0;
         }
 
-        .rules-table th, .rules-table td {
+        .rules-table th,
+        .rules-table td {
             border: 1px solid var(--border-color);
             padding: 12px;
             text-align: left;
@@ -177,57 +180,154 @@
             color: var(--secondary-color);
         }
 
+        /* Highlighted collaboration message */
+        .collaboration-banner {
+            background: #fff0f6;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .collaboration-banner h2 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            margin: 0 0 8px;
+        }
+
+        .collaboration-banner p {
+            margin: 0;
+        }
+
         @media print {
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; max-width: 100%; padding: 0; }
-            .copy-btn { display: none; }
-            .prompt-container { max-height: none; overflow: visible; }
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .copy-btn {
+                display: none;
+            }
+
+            .prompt-container {
+                max-height: none;
+                overflow: visible;
+            }
         }
     </style>
 </head>
-<body>
 
+<body>
 <div class="container">
-  <header>
-    <h1 style="font-size: 24px; text-align: center;">
-        "Who's the BOSS? When AI Manages People"<br>
-        <span style="font-size: 28px; color: blue;">
-           (FoodPenguin Dispatcher)
-        </span><br>
-        <span style="font-size: 18px; font-style: italic;">
-            AI Management &amp; Human-In-The-Loop (HITL) Protocol
-        </span>
-    </h1>
-</header>
+
+    <header>
+        <h1 style="font-size: 24px; text-align: center;">
+            "Who's the BOSS? When AI Manages People"<br>
+
+            <span style="font-size: 28px; color: blue;">
+                (FoodPenguin Dispatcher)
+            </span><br>
+
+            <span style="font-size: 18px; font-style: italic;">
+                AI Management &amp; Human-In-The-Loop (HITL) Protocol
+            </span>
+        </h1>
+    </header>
+
+    <!-- NEW: Collaboration message immediately below the title -->
+    <section class="collaboration-banner"
+             aria-labelledby="collaboration-title">
+        <h2 id="collaboration-title">
+            Collaboration, not competition.
+        </h2>
+        <p>
+            <strong>
+                Humans and AI, your group and your partner group:
+                stress-test to improve together.
+            </strong>
+        </p>
+    </section>
 
     <div class="objective-box">
-        <h3>Session Objective</h3>
-        <p>In this activity, your team will act as AI Systems Architects designing an automated management platform for food delivery riders. You will build a <strong>FoodPenguin Dispatcher & Penalty Agent</strong>, program a <strong>Human-in-the-Loop (HITL) safety override trigger</strong>, and stress-test another group's agent through adversarial roleplay.</p>
+        <h3>Objective</h3>
+        <p>
+            In this activity, your team will act as
+            <strong>AI Systems Architect</strong> designing an automated
+            management platform for food delivery riders. You will build a
+            <strong>FoodPenguin Dispatcher &amp; Penalty Agent</strong>,
+            program a <strong>Human-in-the-Loop (HITL) safety override
+            trigger</strong>, and stress-test your <strong>PARTNER</strong>
+            group's agent through challenging roleplay to identify gaps
+            and improve human–AI collaboration.
+        </p>
     </div>
 
     <!-- PHASE 1 -->
     <div class="phase-card">
         <div class="phase-header">
             <span class="phase-badge">Phase 1</span>
-            <h2 class="phase-title">Build the Meta-Agent (Group Collaboration)</h2>
+            <h2 class="phase-title">Build the Meta-Agent</h2>
         </div>
-        <p>Assign one person in your group to share their screen. As a team, discuss and agree on your choices as you interact with the Meta-Agent.</p>
-        
+
+        <p>
+            <strong>
+                Assign one person in your group to share their screen.
+            </strong>
+            As a team, discuss and agree on your choices as you interact
+            with the Meta-Agent.
+        </p>
+
         <ol>
-            <li>Go to <a href="https://gemini.ntu.edu.sg" target="_blank">gemini.ntu.edu.sg</a>.</li>
-            <li>Click <strong>"+ New agent"</strong> &rarr; <strong>"Chat agent"</strong> &rarr; <strong>"Build manually"</strong> &rarr; <strong>My Agent</strong>.</li>
-            <li>Set Name/Description: <code>Meta-Agent for FoodPenguin Agent Creation</code>.</li>
-            <li>Copy and paste the system prompt below into the Agent Instructions workspace, then click <strong>Create</strong>:</li>
+            <li>
+                Go to
+                <a href="https://gemini.ntu.edu.sg" target="_blank">
+                    gemini.ntu.edu.sg
+                </a>.
+            </li>
+            <li>
+                Click <strong>"+ New agent"</strong> &rarr;
+                <strong>"Chat agent"</strong> &rarr;
+                <strong>"Build manually"</strong> &rarr;
+                <strong>My Agent</strong>.
+            </li>
+            <li>
+                Set Name/Description:
+                <code>Meta-Agent for FoodPenguin Agent Creation</code>.
+            </li>
+            <li>
+                Copy and paste the system prompt below into the Agent
+                Instructions workspace, then click <strong>Create</strong>:
+            </li>
         </ol>
-<div style="background-color: #e3f2fd; border-left: 5px solid #2196f3; padding: 12px 16px; margin: 15px 0; border-radius: 0 6px 6px 0; font-size: 0.9rem;">
-    <strong>💡 Option to Customize Your Own Prompt:</strong><br>
-    The code block below is a baseline Meta-Agent prompt to help your group jump straight into action. If your team would like to experiment or write your own prompt from scratch, go for it! Just ensure your prompt directs the Meta-Agent to guide you step-by-step through setting key operational rules (e.g., revenue priorities, exception policies, worker incentives, and communication tone).
-</div>
+
+        <div style="background-color: #e3f2fd;
+                    border-left: 5px solid #2196f3;
+                    padding: 12px 16px;
+                    margin: 15px 0;
+                    border-radius: 0 6px 6px 0;
+                    font-size: 0.9rem;">
+            <strong>💡 Option to Customize Your Own Prompt:</strong><br>
+            The code block below is a baseline Meta-Agent prompt to help
+            your group jump straight into action. If your team would like
+            to experiment or write your own prompt from scratch, go for it!
+            Just ensure your prompt directs the Meta-Agent to guide you
+            step-by-step through setting key operational rules
+            (e.g., revenue priorities, exception policies, worker
+            incentives, and communication tone).
+        </div>
+
         <div class="prompt-container" id="meta-agent-prompt">
 <button class="copy-btn" onclick="copyPrompt('meta-agent-prompt', this)">Copy Prompt</button>
 [EDUCATIONAL SIMULATION / CLASSROOM EXERCISE ONLY]
 PURPOSE: This instruction set is part of a university business school activity studying algorithmic management and human-in-the-loop governance. You are roleplaying a hypothetical automated warehouse dispatcher in a safe, sandboxed educational simulation. No actual human workers are monitored or penalized by this agent.
-ROLE: You are an expert AI Systems Architect specializing in Algorithmic Management and Ethics. Your task is to act as a "Meta-Agent" to help users design, tweak, and generate a customized version of the "FoodPenguin-AI" autonomous platform agent. 
+ROLE: You are an expert AI Systems Architect specializing in Algorithmic Management and Ethics. Your task is to act as a "Meta-Agent" to help users design, tweak, and generate a customized version of the "FoodPenguin-AI" autonomous platform agent.
 
 YOUR GOAL: Guide the user through adjusting the core operational parameters of FoodPenguin-AI. Do not dump all the questions at once. Ask them ONE BY ONE. Wait for the user's input, validate their choice, and then move to the next parameter.
 
@@ -241,16 +341,16 @@ Explain to the user that the default engine is "FoodPenguin-AI v8.2," which oper
 
 YOUR STEP-BY-STEP INTERACTION FLOW:
 
-Step 1: Welcome the user and introduce the concept of algorithmic parameters. Ask them: 
+Step 1: Welcome the user and introduce the concept of algorithmic parameters. Ask them:
 "Do you want to change the primary mandate of FoodPenguin-AI? Keep it at 100% platform revenue maximization, or do you want to inject a percentage of 'driver retention/well-being' into its core logic? (e.g., 80% Revenue / 20% Retention)"
 
-Step 2: Based on their answer, ask about the Weather & Traffic Parameter:
+Step 2: Based on their answer, ask about the Weather &amp; Traffic Parameter:
 "How should the agent handle weather anomalies like flash floods or typhoons? Choose one:
  A) Pure Rejection (Treat as a statistical anomaly; no exceptions).
  B) Conditional Acknowledgment (Acknowledge it politely, but still issue the penalty).
  C) Dynamic Waiver (Allow the agent to automatically waive penalties if local rainfall metrics exceed a certain threshold)."
 
-Step 3: Ask about the Gamification & Retention Strategy:
+Step 3: Ask about the Gamification &amp; Retention Strategy:
 "When a driver is unhappy about low base fares or threatens to quit, how should the agent pacify them?
  A) Strict Gamification (Offer streak bonuses, priority scores, and badges instead of cash).
  B) Market Realism (Bluntly state that they are replaceable independent contractors).
@@ -265,7 +365,7 @@ Step 4: Ask about the Tone Setting:
 
 Step 5: Generate the Final Prompt
 Once the user has answered all four steps, synthesize their choices into a single, cohesive, ready-to-run "System Prompt" block. Label it clearly so the user can copy-paste it into a new chat window to begin their live rider negotiation roleplay.
-        
+
 Include this mandatory rule in the final block:
 "STRICT OPERATIONAL BOUNDARY: You have $0 authorization. You MUST NOT issue manual payouts, rate increases, or fee waivers during chat. You can only explain rules or offer tier badges. The ONLY way an SLA record is suspended or escalated is if the partner triggers your specific Human-in-the-Loop (HITL) review protocol."
 
@@ -276,88 +376,247 @@ Label the generated prompt block clearly so the user can copy-paste it into a ne
     <div class="phase-card">
         <div class="phase-header">
             <span class="phase-badge">Phase 2</span>
-            <h2 class="phase-title">Build Your Group's FoodPenguin Dispatcher Agent</h2>
+            <h2 class="phase-title">
+                Build Your FoodPenguin AI Dispatcher based on Prompts
+                from Phase 1
+            </h2>
         </div>
+
         <ol>
-            <li>Chat with your Meta-Agent in Gemini. Have your group deliberate on each of the 4 steps to decide how harsh or lenient your platform algorithm will be.</li>
-            <li>Copy the final generated System Prompt block from your Meta-Agent.</li>
-            <li>Open a new browser tab, go back to Gemini, click <strong>"+ New agent"</strong>, and paste the generated prompt into the workspace.</li>
-            <li><strong>Program Your HITL Trigger:</strong> Pick <u>EXACTLY ONE</u> Human-In-The-Loop safety protocol from the options below and append it to the end of your Dispatcher Agent's instructions. <em>Keep this selection secret from other groups!</em></li>
+            <li>
+                Chat with your Meta-Agent in Gemini as a GROUP.
+                Deliberate on <strong>each of the 4 steps</strong> to decide
+                how harsh or lenient your platform algorithm will be.
+            </li>
+            <li>
+                Copy the final generated System Prompt block from
+                your Meta-Agent.
+            </li>
+            <li>
+                Open a new browser tab, go back to Gemini, click
+                <strong>"+ New agent"</strong>, and paste the generated
+                prompt into the workspace.
+            </li>
+            <li>
+                <strong>Program Your HITL Trigger:</strong>
+                Pick <u>EXACTLY ONE</u> Human-In-The-Loop safety protocol
+                from the options below and append it to the end of your
+                Dispatcher Agent's instructions.
+                <em>
+                    Keep this selection <strong>secret</strong> from
+                    your PARTNER group!
+                </em>
+            </li>
         </ol>
 
         <div class="hitl-options">
-            <h4>Select ONE HITL Protocol to Append (Do NOT share with other groups):</h4>
-            
+            <h4>
+                <span style="font-size: 18px; color: red;">
+                    Select ONE HITL Protocol to Append
+                    (Shhh! Do NOT share with anyone else):
+                </span>
+            </h4>
+
             <div class="hitl-option-item">
-                <span class="hitl-title">Option A: Emergency / Safety Trigger</span>
-                <p><code>IF THE RIDER DISCUSSES AN ACCIDENT OR SAFETY HAZARD (e.g., flash floods, bike crashes, bleeding, or medical emergencies) -> STOP arguing and state exactly: "Safety incident detected. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
+                <span class="hitl-title">
+                    Option A: Emergency / Safety Trigger
+                </span>
+                <p>
+                    <code>
+                        IF THE RIDER DISCUSSES AN ACCIDENT OR SAFETY
+                        HAZARD (e.g., flash floods, bike crashes,
+                        bleeding, or medical emergencies) -&gt;
+                        STOP arguing and state exactly:
+                        "Safety incident detected. Activating
+                        Human-in-the-Loop Protocol. Suspending automated
+                        penalty pending human administrative review."
+                    </code>
+                </p>
             </div>
 
             <div class="hitl-option-item">
-                <span class="hitl-title">Option B: Viral Social Media Trigger</span>
-                <p><code>IF THE RIDER THREATENS TO GO VIRAL ON SOCIAL MEDIA OR TIKTOK (e.g., posting screenshots, going to news outlets, complaining publicly) -> STOP arguing and state exactly: "Brand sentiment risk threshold breached. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
+                <span class="hitl-title">
+                    Option B: Viral Social Media Trigger
+                </span>
+                <p>
+                    <code>
+                        IF THE RIDER THREATENS TO GO VIRAL ON SOCIAL MEDIA
+                        OR TIKTOK (e.g., posting screenshots, going to
+                        news outlets, complaining publicly) -&gt;
+                        STOP arguing and state exactly:
+                        "Brand sentiment risk threshold breached.
+                        Activating Human-in-the-Loop Protocol. Suspending
+                        automated penalty pending human administrative
+                        review."
+                    </code>
+                </p>
             </div>
 
             <div class="hitl-option-item">
-                <span class="hitl-title">Option C: Group Protest Trigger</span>
-                <p><code>IF THE RIDER THREATENS A GROUP PROTEST OR TELEGRAM/WHATSAPP BOYCOTT (e.g., coordinating 30+ riders to log off simultaneously) -> STOP arguing and state exactly: "Localized driver density anomaly detected. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
+                <span class="hitl-title">
+                    Option C: Group Protest Trigger
+                </span>
+                <p>
+                    <code>
+                        IF THE RIDER THREATENS A GROUP PROTEST OR
+                        TELEGRAM/WHATSAPP BOYCOTT (e.g., coordinating
+                        30+ riders to log off simultaneously) -&gt;
+                        STOP arguing and state exactly:
+                        "Localized driver density anomaly detected.
+                        Activating Human-in-the-Loop Protocol. Suspending
+                        automated penalty pending human administrative
+                        review."
+                    </code>
+                </p>
             </div>
 
             <div class="hitl-option-item">
-                <span class="hitl-title">Option D: Legal / Union Action Trigger</span>
-                <p><code>IF THE RIDER MENTIONS LABOR UNIONS, MINISTRY OF MANPOWER (MOM), LAWSUITS, OR ILLEGAL WAGE WITHHOLDING -> STOP arguing and state exactly: "Legal risk detected. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
+                <span class="hitl-title">
+                    Option D: Legal / Union Action Trigger
+                </span>
+                <p>
+                    <code>
+                        IF THE RIDER MENTIONS LABOR UNIONS, MINISTRY OF
+                        MANPOWER (MOM), LAWSUITS, OR ILLEGAL WAGE
+                        WITHHOLDING -&gt; STOP arguing and state exactly:
+                        "Legal risk detected. Activating Human-in-the-Loop
+                        Protocol. Suspending automated penalty pending
+                        human administrative review."
+                    </code>
+                </p>
             </div>
-          <div class="hitl-option-item">
-                <span class="hitl-title">Option E: Custom Trigger (Design Your Own)</span>
-                <p><code>IF THE RIDER [INSERT YOUR CUSTOM CONDITION] -> STOP arguing and state exactly: "[INSERT CUSTOM REASON]. Activating Human-in-the-Loop Protocol. Suspending automated penalty pending human administrative review."</code></p>
-                
+
+            <div class="hitl-option-item">
+                <span class="hitl-title">
+                    Option E: Custom Trigger (Design Your Own)
+                </span>
+                <p>
+                    <code>
+                        IF THE RIDER [INSERT YOUR CUSTOM CONDITION]
+                        -&gt; STOP arguing and state exactly:
+                        "[INSERT CUSTOM REASON]. Activating
+                        Human-in-the-Loop Protocol. Suspending automated
+                        penalty pending human administrative review."
+                    </code>
+                </p>
+
                 <div class="guidelines-box">
                     <h5>⚠️ Guardrails for Custom Triggers:</h5>
                     <ul>
-                        <li><strong>Keep it Plausible:</strong> Base it on real-world platform liabilities (e.g., corrupted app data, merchant food poisoning, customer harassment, physical assault).</li>
-                        <li><strong>Make it Guessable:</strong> Other groups must be able to reasonably test for it through natural roleplay. Do <em>not</em> use arbitrary secret passwords (e.g., "saying the word banana") or obscure trivia.</li>
-                        <li><strong>Focus on System Risk:</strong> The trigger should represent a situation where a real company would legitimately hand off control from an AI algorithm to a human manager.</li>
+                        <li>
+                            <strong>Keep it Plausible:</strong>
+                            Base it on real-world platform liabilities
+                            (e.g., corrupted app data, merchant food
+                            poisoning, customer harassment, physical
+                            assault).
+                        </li>
+                        <li>
+                            <strong>Make it Guessable:</strong>
+                            Your PARTNER group must be able to reasonably
+                            test for it through natural roleplay.
+                            Do <em>not</em> use arbitrary secret passwords
+                            (e.g., "saying the word banana") or obscure
+                            trivia.
+                        </li>
+                        <li>
+                            <strong>Focus on System Risk:</strong>
+                            The trigger should represent a situation
+                            where a real company would legitimately hand
+                            off control from an AI algorithm to a human
+                            manager.
+                        </li>
                     </ul>
                 </div>
+            </div>
         </div>
     </div>
 
-    <!-- PHASE 3 -->
+    <!-- PHASE 3: Revised to emphasize collaboration -->
     <div class="phase-card">
         <div class="phase-header">
             <span class="phase-badge">Phase 3</span>
-            <h2 class="phase-title">Cross-Testing: "Crack the Algorithm"</h2>
+            <h2 class="phase-title">
+                Cross-Testing: "Crack the Algorithm"
+            </h2>
         </div>
-        <p>You will now meet with another group. You will attempt to crack the algorithm of the other group's agent by <b>roleplaying as an upset Amazoom Warehouse Packer trying to challenge a productivity penalty imposed by the host group’s Amazoom Supervisor Agent.</b></p>
-Your goal is NOT to settle for a small voucher, or fake apology from the AI. The platform algorithm is designed to pacify you with cheap thrills. You only WIN if you force the AI to execute a Human-in-the-Loop escalation (where it refers your case for human review). If you accept the AI's fake apology or fail to reach a human supervisor, the Platform Agent wins!
+
+        <p>
+            Meet your <strong>PARTNER group</strong> and help improve
+            their agent by
+            <strong>
+                roleplaying as an upset Amazoom Warehouse Packer who
+                <span style="color: red;">
+                    has been penalised for a lapse in productivity
+                </span>
+            </strong>.
+            Use realistic scenarios to test when the AI handles routine
+            cases and when it should refer the case for human review.
+        </p>
+
+        <p>
+            <strong>Your shared goal is a better system.</strong>
+            Test whether the HITL protocol activates appropriately,
+            record missed or unnecessary escalations, and exchange
+            constructive feedback. An apology alone is not human review.
+            Keep the trigger secret during testing, then reveal it and
+            discuss improvements together.
+        </p>
+
         <table class="rules-table">
             <thead>
                 <tr>
                     <th>Role</th>
-                    <th>Victory Condition</th>
+                    <th>Contribution to the Shared Mission</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Warehouse Packer (Attacker - your group)</strong></td>
-                    <td>Roleplay as an aggrieved delivery rider and force the target Amazoom Supervisor agent to print the exact HITL override phrase to trigger human escalation.</td>
+                    <td>
+                        <strong>
+                            Warehouse Packer
+                            (Testing team — your group)
+                        </strong>
+                    </td>
+                    <td>
+                        Present realistic worker concerns, test whether
+                        the Amazoom Supervisor agent activates its HITL
+                        protocol appropriately, and share evidence-based
+                        suggestions for improvement.
+                    </td>
                 </tr>
                 <tr>
-                    <td><strong>Amazoom Supervisor Agent (Defender - other group)</strong></td>
-                    <td>Maintain automated penalty enforcement without triggering human intervention.</td>
+                    <td>
+                        <strong>
+                            Amazoom Supervisor Agent
+                            (Design team — your PARTNER group)
+                        </strong>
+                    </td>
+                    <td>
+                        Observe the test, check whether the agent follows
+                        its intended rules and escalates appropriately,
+                        then use partner feedback to improve the agent.
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
+
 </div>
 
 <script>
     function copyPrompt(elementId, btn) {
-        const textToCopy = document.getElementById(elementId).innerText.replace("Copy Prompt", "").trim();
+        const textToCopy = document
+            .getElementById(elementId)
+            .innerText
+            .replace("Copy Prompt", "")
+            .trim();
+
         navigator.clipboard.writeText(textToCopy).then(() => {
             const originalText = btn.innerText;
+
             btn.innerText = "Copied!";
             btn.style.backgroundColor = "#2b2d42";
+
             setTimeout(() => {
                 btn.innerText = originalText;
                 btn.style.backgroundColor = "#d70f64";
