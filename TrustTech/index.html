@@ -1,335 +1,395 @@
-<!-- NTULEARN DIRECT COPY-PASTE SNIPPET: CONCEPT MAP CREATOR QUEST -->
-<div id="concept-map-quest-root">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Head or Heart: What Makes Us Trust Tech?</title>
   <style>
-    /* Scoped Root Container & Resets */
-    #concept-map-quest-root {
-      --cm-bg: linear-gradient(135deg, #0b1120 0%, #171d3d 50%, #111c44 100%);
-      --cm-card-bg: #ffffff;
-      --cm-panel-bg: rgba(15, 23, 42, 0.96);
-      --cm-primary: #6366f1;
-      --cm-accent: #f59e0b;
-      --cm-success: #10b981;
-      --cm-danger: #ef4444;
-      --cm-text-dark: #0f172a;
-      --cm-text-light: #f8fafc;
-      --cm-radius-sm: 8px;
-      --cm-radius-md: 12px;
-      --cm-radius-lg: 18px;
-      
-      all: initial;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      width: 100%;
-      height: 860px;
-      min-height: 650px;
-      background: var(--cm-bg);
-      color: var(--cm-text-light);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      border-radius: var(--cm-radius-md);
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0b1120 0%, #171d3d 50%, #111c44 100%);
+      --card-bg: #ffffff;
+      --panel-bg: rgba(15, 23, 42, 0.94);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --core-color: #818cf8;
+      --factor-color: #38bdf8;
+      --text-main: #0f172a;
+      --text-light: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.25);
+    }
+
+    * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       user-select: none;
     }
 
-    #concept-map-quest-root * {
-      box-sizing: border-box;
-      font-family: inherit;
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-light);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-size: 16px;
     }
 
-    /* Scoped Confetti Canvas Layer */
-    #concept-map-quest-root #cm-confetti-canvas {
-      position: absolute;
+    /* Confetti Canvas Layer */
+    #confetti-canvas {
+      position: fixed;
       inset: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
-      z-index: 999;
+      z-index: 9999;
     }
 
-    /* Header & Gamification Bar */
-    #concept-map-quest-root .cm-header {
-      background: rgba(15, 23, 42, 0.98);
+    /* Top Navigation / Gamification HUD */
+    header {
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 12px 20px;
+      padding: 12px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      z-index: 30;
-      gap: 12px;
-      flex-wrap: wrap;
+      z-index: 100;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
     }
 
-    #concept-map-quest-root .cm-brand {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    #concept-map-quest-root .cm-brand-icon {
-      font-size: 24px;
+    .brand-icon {
+      font-size: 26px;
       background: linear-gradient(135deg, #818cf8, #ec4899);
-      border-radius: 10px;
-      padding: 6px 8px;
+      border-radius: 12px;
+      padding: 8px;
       display: inline-flex;
     }
 
-    #concept-map-quest-root .cm-brand h1 {
-      font-size: 1.25rem;
+    .brand h1 {
+      font-size: 1.35rem;
       font-weight: 800;
+      letter-spacing: 0.3px;
       color: #fff;
-      margin: 0;
-      line-height: 1.2;
     }
 
-    #concept-map-quest-root .cm-hud-metrics {
+    .hud-metrics {
       display: flex;
-      gap: 10px;
+      gap: 14px;
       align-items: center;
-      flex-wrap: wrap;
     }
 
-    #concept-map-quest-root .cm-metric-badge {
+    .metric-badge {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       background: rgba(255, 255, 255, 0.08);
-      padding: 6px 14px;
+      padding: 7px 16px;
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.14);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
     }
 
-    #concept-map-quest-root .cm-points-badge .cm-val {
+    .metric-badge .val {
+      color: #38bdf8;
+      font-weight: 800;
+    }
+
+    .points-badge .val {
       color: #fbbf24;
-      font-weight: 800;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
     }
 
-    #concept-map-quest-root .cm-bonus-badge {
+    .bonus-badge {
       background: rgba(245, 158, 11, 0.15);
-      border-color: rgba(245, 158, 11, 0.45);
+      border-color: rgba(245, 158, 11, 0.4);
     }
 
-    #concept-map-quest-root .cm-bonus-badge .cm-val {
+    .bonus-badge .val {
       color: #f59e0b;
-      font-weight: 800;
     }
 
-    #concept-map-quest-root .cm-header-actions {
+    .header-actions {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
     }
 
-    #concept-map-quest-root .cm-btn {
-      padding: 8px 14px;
-      border-radius: 8px;
+    .btn {
+      padding: 9px 16px;
+      border-radius: 10px;
       border: none;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-      color: #fff;
-      line-height: 1;
+      gap: 7px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    #concept-map-quest-root .cm-btn:hover {
+    .btn:hover {
       transform: translateY(-1px);
     }
 
-    #concept-map-quest-root .cm-btn-primary {
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    .btn:active {
+      transform: translateY(1px);
     }
 
-    #concept-map-quest-root .cm-btn-secondary {
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-secondary {
       background: rgba(255, 255, 255, 0.12);
+      color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.18);
     }
 
-    #concept-map-quest-root .cm-btn-secondary:hover {
+    .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.22);
     }
 
-    #concept-map-quest-root .cm-btn-bonus {
+    .btn-bonus {
       background: linear-gradient(135deg, #f59e0b, #d97706);
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+      color: white;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
     }
 
-    /* Student Instructions Banner */
-    #concept-map-quest-root .cm-instructions-banner {
+    /* Highly Prominent Student Instructions Bar */
+    .instructions-banner {
       background: linear-gradient(90deg, #1e1b4b 0%, #1e293b 60%, #0f172a 100%);
       border-bottom: 2px solid #6366f1;
-      padding: 12px 20px;
+      padding: 13px 26px;
       display: flex;
       align-items: center;
-      z-index: 25;
-      font-size: 0.96rem;
-      line-height: 1.45;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      z-index: 80;
+    }
+
+    .instructions-text {
       color: #f1f5f9;
+      font-size: 1.02rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
     }
 
-    #concept-map-quest-root .cm-instructions-banner strong {
+    .instruction-icon {
+      font-size: 1.5rem;
+      background: rgba(99, 102, 241, 0.25);
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      border-radius: 10px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .instructions-text strong {
       color: #38bdf8;
+      font-weight: 700;
     }
 
-    #concept-map-quest-root .cm-highlight-pill {
-      background: rgba(245, 158, 11, 0.25);
+    .instructions-text .highlight-pill {
+      background: rgba(245, 158, 11, 0.22);
       color: #fde68a;
-      padding: 2px 8px;
+      padding: 2px 10px;
       border-radius: 6px;
       border: 1px solid rgba(245, 158, 11, 0.45);
       font-weight: 700;
     }
 
-    /* Workspace Body */
-    #concept-map-quest-root .cm-app-body {
+    /* Main Workspace Layout */
+    .app-body {
       display: flex;
       flex: 1;
+      height: calc(100vh - 145px);
       position: relative;
       overflow: hidden;
     }
 
-    /* Sidebar Drawer */
-    #concept-map-quest-root .cm-sidebar {
-      width: 380px;
-      background: var(--cm-panel-bg);
+    /* Sidebar / Drawer */
+    .sidebar {
+      width: 410px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
       border-right: 1px solid rgba(255, 255, 255, 0.12);
       display: flex;
       flex-direction: column;
       z-index: 20;
     }
 
-    #concept-map-quest-root .cm-sidebar-header {
-      padding: 12px 16px;
+    .sidebar-header {
+      padding: 14px 20px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    #concept-map-quest-root .cm-sidebar-header h2 {
-      font-size: 1.05rem;
+    .sidebar-header h2 {
+      font-size: 1.15rem;
       font-weight: 800;
       color: #e2e8f0;
-      margin: 0;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    #concept-map-quest-root .cm-badge-count {
+    .badge-count {
       background: #4f46e5;
-      padding: 3px 8px;
-      border-radius: 10px;
-      font-size: 0.8rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
     }
 
-    #concept-map-quest-root .cm-card-list {
-      padding: 12px;
+    .card-list {
+      padding: 14px;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 10px;
     }
 
-    #concept-map-quest-root .cm-section-category-header {
-      font-size: 0.8rem;
+    .section-category-header {
+      font-size: 0.85rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 5px 8px;
-      border-radius: 5px;
-      margin-top: 6px;
+      letter-spacing: 0.08em;
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    #concept-map-quest-root .cm-section-category-header.core {
+    .section-category-header.core {
       color: #a5b4fc;
-      background: rgba(99, 102, 241, 0.2);
+      background: rgba(99, 102, 241, 0.18);
       border-left: 3px solid #818cf8;
     }
 
-    #concept-map-quest-root .cm-section-category-header.factors {
+    .section-category-header.factors {
       color: #7dd3fc;
-      background: rgba(14, 165, 233, 0.2);
+      background: rgba(14, 165, 233, 0.18);
       border-left: 3px solid #38bdf8;
     }
 
-    #concept-map-quest-root .cm-drawer-card {
+    .drawer-card {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: var(--cm-radius-md);
-      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
       cursor: grab;
-      font-size: 0.92rem;
-      line-height: 1.35;
+      font-size: 0.96rem;
+      line-height: 1.4;
       color: #f8fafc;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.25);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      transition: background 0.15s, border-color 0.15s;
+      gap: 10px;
     }
 
-    #concept-map-quest-root .cm-drawer-card:hover {
-      background: rgba(255, 255, 255, 0.15);
+    .drawer-card:hover {
+      background: rgba(255, 255, 255, 0.16);
       border-color: #818cf8;
+      transform: translateY(-2px);
     }
 
-    #concept-map-quest-root .cm-drawer-card.placed {
+    .drawer-card.placed {
       opacity: 0.35;
-      pointer-events: none;
+      filter: grayscale(0.85);
+      cursor: not-allowed;
       border-style: dashed;
+      pointer-events: none;
     }
 
-    #concept-map-quest-root .cm-card-num {
-      background: rgba(255, 255, 255, 0.14);
+    .card-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .card-drag-handle {
+      color: #94a3b8;
+      font-size: 1.25rem;
+      cursor: grab;
+      line-height: 1;
+    }
+
+    .card-num {
+      background: rgba(255, 255, 255, 0.12);
       color: #cbd5e1;
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 800;
       padding: 2px 6px;
       border-radius: 4px;
-      margin-right: 4px;
+      margin-right: 2px;
     }
 
-    #concept-map-quest-root .cm-card-add-btn {
+    .card-add-btn {
       background: #4f46e5;
       border: none;
       color: white;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
+      transition: background 0.15s;
+    }
+
+    .card-add-btn:hover {
+      background: #6366f1;
     }
 
     /* Canvas Area & Zoom Container */
-    #concept-map-quest-root .cm-canvas-container {
+    .canvas-container {
       flex: 1;
       position: relative;
       background: radial-gradient(circle at 50% 50%, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.95) 100%);
       overflow: hidden;
+      cursor: default;
     }
 
-    #concept-map-quest-root .cm-canvas-grid {
+    .canvas-grid {
       position: absolute;
       inset: 0;
-      background-size: 30px 30px;
+      background-size: 32px 32px;
       background-image: radial-gradient(circle, rgba(255, 255, 255, 0.09) 1.5px, transparent 1.5px);
       pointer-events: none;
     }
 
-    #concept-map-quest-root .cm-zoom-stage {
+    /* Zoomable Stage Layer */
+    .zoom-stage {
       position: absolute;
       top: 0;
       left: 0;
@@ -339,46 +399,56 @@
       transition: transform 0.08s ease-out;
     }
 
-    /* Floating Zoom Controls */
-    #concept-map-quest-root .cm-zoom-controls {
+    /* Zoom Controls Floating Widget */
+    .zoom-controls {
       position: absolute;
-      top: 14px;
-      right: 18px;
-      background: rgba(15, 23, 42, 0.94);
+      top: 18px;
+      right: 22px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: var(--cm-radius-sm);
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 4px 6px;
-      z-index: 40;
+      gap: 5px;
+      padding: 5px 8px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      z-index: 45;
     }
 
-    #concept-map-quest-root .cm-zoom-btn {
+    .zoom-btn {
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       color: #fff;
-      border-radius: 5px;
-      width: 28px;
-      height: 28px;
-      font-size: 1.1rem;
+      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      font-size: 1.15rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: all 0.15s;
     }
 
-    #concept-map-quest-root .cm-zoom-level {
-      font-size: 0.85rem;
+    .zoom-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: #38bdf8;
+      border-color: #38bdf8;
+    }
+
+    .zoom-level {
+      font-size: 0.88rem;
       font-weight: 700;
       color: #cbd5e1;
-      min-width: 44px;
+      min-width: 48px;
       text-align: center;
+      user-select: none;
     }
 
-    /* SVG Layer */
-    #concept-map-quest-root svg.cm-connections-layer {
+    /* SVG Link layer */
+    svg.connections-layer {
       position: absolute;
       top: 0;
       left: 0;
@@ -389,32 +459,151 @@
       overflow: visible;
     }
 
-    #concept-map-quest-root .cm-connection-line {
+    /* Nodes on Canvas */
+    .concept-node {
+      position: absolute;
+      min-width: 230px;
+      max-width: 290px;
+      background: var(--card-bg);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      padding: 13px 14px;
+      box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.45), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+      cursor: grab;
+      border: 3.5px solid #818cf8;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      z-index: 10;
+      touch-action: none;
+    }
+
+    .concept-node:active {
+      cursor: grabbing;
+    }
+
+    .concept-node.connect-source {
+      border-color: #10b981 !important;
+      animation: pulseConnect 1.3s infinite;
+    }
+
+    @keyframes pulseConnect {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .node-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+    }
+
+    .node-category-pill {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .node-category-pill.core {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+
+    .node-category-pill.factor {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .node-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .node-btn {
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: #475569;
+      cursor: pointer;
+      border-radius: 5px;
+      padding: 3px 8px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .node-btn:hover {
+      background: rgba(0, 0, 0, 0.12);
+      color: #0f172a;
+    }
+
+    .node-btn.delete-btn:hover {
+      color: #ef4444;
+      background: #fee2e2;
+    }
+
+    .node-content {
+      font-size: 0.98rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #0f172a;
+      pointer-events: none;
+    }
+
+    .color-swatches {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .color-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.2);
+      transition: transform 0.15s;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.35);
+    }
+
+    /* SVG Connection Lines & Labels */
+    .connection-line {
       stroke: #818cf8;
-      stroke-width: 3.5px;
+      stroke-width: 4px;
       fill: none;
       cursor: pointer;
       pointer-events: stroke;
       transition: stroke 0.2s, stroke-width 0.2s;
     }
 
-    #concept-map-quest-root .cm-connection-line:hover {
+    .connection-line:hover {
       stroke: #f59e0b;
-      stroke-width: 5.5px;
+      stroke-width: 6px;
     }
 
-    #concept-map-quest-root .cm-connection-label-rect {
+    .connection-label-rect {
       fill: #1e293b;
       stroke: #64748b;
       stroke-width: 1.5px;
-      rx: 6;
+      rx: 7;
       cursor: pointer;
       pointer-events: all;
     }
 
-    #concept-map-quest-root .cm-connection-label-text {
+    .connection-label-text {
       fill: #f8fafc;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 700;
       text-anchor: middle;
       dominant-baseline: central;
@@ -422,435 +611,459 @@
       pointer-events: all;
     }
 
-    /* Canvas Nodes */
-    #concept-map-quest-root .cm-concept-node {
-      position: absolute;
-      min-width: 210px;
-      max-width: 270px;
-      background: var(--cm-card-bg);
-      color: var(--cm-text-dark);
-      border-radius: var(--cm-radius-md);
-      padding: 12px 14px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      cursor: grab;
-      border: 3.5px solid #818cf8;
-      z-index: 10;
-      touch-action: none;
-    }
-
-    #concept-map-quest-root .cm-concept-node:active {
-      cursor: grabbing;
-    }
-
-    #concept-map-quest-root .cm-concept-node.connect-source {
-      border-color: #10b981 !important;
-      animation: cmPulse 1.2s infinite;
-    }
-
-    @keyframes cmPulse {
-      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-    }
-
-    #concept-map-quest-root .cm-node-header {
+    /* Direction Pill Selector inside modal */
+    .arrow-type-selector {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
+      gap: 12px;
+      margin-top: 10px;
     }
 
-    #concept-map-quest-root .cm-node-category-pill {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    #concept-map-quest-root .cm-node-category-pill.core {
-      background: #e0e7ff;
-      color: #4338ca;
-    }
-
-    #concept-map-quest-root .cm-node-category-pill.factor {
-      background: #e0f2fe;
-      color: #0369a1;
-    }
-
-    #concept-map-quest-root .cm-node-actions {
-      display: flex;
-      gap: 5px;
-    }
-
-    #concept-map-quest-root .cm-node-btn {
-      background: rgba(0, 0, 0, 0.06);
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      color: #475569;
-      cursor: pointer;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 0.8rem;
-    }
-
-    #concept-map-quest-root .cm-node-btn:hover {
-      background: rgba(0, 0, 0, 0.12);
-      color: #0f172a;
-    }
-
-    #concept-map-quest-root .cm-node-content {
-      font-size: 0.94rem;
-      font-weight: 600;
-      line-height: 1.35;
-      color: #0f172a;
-      pointer-events: none;
-    }
-
-    #concept-map-quest-root .cm-color-swatches {
-      display: flex;
-      gap: 5px;
-      margin-top: 8px;
-      padding-top: 6px;
-      border-top: 1px solid rgba(0,0,0,0.08);
-    }
-
-    #concept-map-quest-root .cm-color-swatch {
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 1px solid rgba(0,0,0,0.2);
-    }
-
-    /* Floating Toolbar */
-    #concept-map-quest-root .cm-floating-tools {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(15, 23, 42, 0.94);
-      padding: 6px 16px;
-      border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 30;
-    }
-
-    #concept-map-quest-root .cm-tool-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: #e2e8f0;
-      cursor: pointer;
-      padding: 6px 14px;
-      border-radius: 16px;
-      transition: background 0.15s;
-    }
-
-    #concept-map-quest-root .cm-tool-item:hover {
-      background: rgba(255, 255, 255, 0.14);
-    }
-
-    #concept-map-quest-root .cm-tool-item.active {
-      background: #4f46e5;
-      color: #fff;
-    }
-
-    /* Modals (Scoped Absolutely within Root) */
-    #concept-map-quest-root .cm-modal-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.78);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-      padding: 20px;
-    }
-
-    #concept-map-quest-root .cm-modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    #concept-map-quest-root .cm-modal-card {
-      background: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: var(--cm-radius-lg);
-      padding: 24px;
-      max-width: 620px;
-      width: 100%;
-      max-height: 92%;
-      overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    #concept-map-quest-root .cm-modal-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      margin: 0 0 6px 0;
-      color: #fff;
-    }
-
-    #concept-map-quest-root .cm-modal-subtitle {
-      font-size: 0.92rem;
-      color: #94a3b8;
-      margin-bottom: 16px;
-      line-height: 1.4;
-    }
-
-    #concept-map-quest-root .cm-form-group {
-      margin-bottom: 14px;
-    }
-
-    #concept-map-quest-root .cm-form-group label {
-      display: block;
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: #cbd5e1;
-      margin-bottom: 6px;
-    }
-
-    #concept-map-quest-root .cm-form-control {
-      width: 100%;
-      padding: 10px 14px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: var(--cm-radius-sm);
-      color: #fff;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    #concept-map-quest-root .cm-form-control:focus {
-      border-color: #6366f1;
-    }
-
-    #concept-map-quest-root .cm-modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    #concept-map-quest-root .cm-arrow-type-selector {
-      display: flex;
-      gap: 10px;
-    }
-
-    #concept-map-quest-root .cm-arrow-option {
+    .arrow-option {
       flex: 1;
-      padding: 10px;
+      padding: 12px 16px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: var(--cm-radius-sm);
+      border-radius: var(--radius-sm);
       color: #cbd5e1;
       cursor: pointer;
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 700;
+      transition: all 0.2s;
     }
 
-    #concept-map-quest-root .cm-arrow-option.active {
-      background: rgba(99, 102, 241, 0.35);
+    .arrow-option.active {
+      background: rgba(99, 102, 241, 0.32);
       border-color: #818cf8;
       color: #fff;
     }
 
-    /* Save/Load Action Grid */
-    #concept-map-quest-root .cm-save-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    /* Floating Toolbar */
+    .floating-tools {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(14px);
+      padding: 8px 20px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 30;
     }
 
-    #concept-map-quest-root .cm-action-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: var(--cm-radius-md);
-      padding: 14px;
+    .tool-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: background 0.2s;
+    }
+
+    .tool-item:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .tool-item.active {
+      background: #4f46e5;
+      color: #fff;
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: absolute;
+      top: 20px;
+      right: 180px;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      z-index: 200;
+      pointer-events: none;
     }
 
-    #concept-map-quest-root .cm-action-card h3 {
-      font-size: 1rem;
-      color: #f8fafc;
-      margin: 0;
+    .toast {
+      background: rgba(15, 23, 42, 0.96);
+      border-left: 4px solid var(--accent);
+      color: white;
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      font-size: 0.96rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideInToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      pointer-events: all;
     }
 
-    #concept-map-quest-root .cm-action-card p {
-      font-size: 0.85rem;
+    @keyframes slideInToast {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-card {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      max-width: 680px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+
+    .modal-subtitle {
+      font-size: 0.96rem;
       color: #94a3b8;
-      margin: 0;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      resize: vertical;
+    }
+
+    .form-control:focus {
+      border-color: #6366f1;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    /* Save/Load Action Grid in Modal */
+    .save-load-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .action-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .action-card:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: #818cf8;
+    }
+
+    .action-card h3 {
+      font-size: 1.1rem;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-card p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      line-height: 1.4;
       flex: 1;
     }
 
-    /* Summary Stats */
-    #concept-map-quest-root .cm-summary-stats {
+    /* Badges List in Modal */
+    .badge-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+      margin: 18px 0;
     }
 
-    #concept-map-quest-root .cm-stat-box {
+    .badge-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+    }
+
+    .badge-item.unlocked {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.25));
+      border-color: #a855f7;
+    }
+
+    .badge-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .badge-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+
+    .badge-status {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    .badge-item.unlocked .badge-status {
+      color: #34d399;
+      font-weight: 700;
+    }
+
+    /* Summary Stats */
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
       background: rgba(255, 255, 255, 0.06);
-      border-radius: var(--cm-radius-sm);
-      padding: 12px;
+      border-radius: var(--radius-sm);
+      padding: 14px;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
-    #concept-map-quest-root .cm-stat-number {
-      font-size: 1.45rem;
+    .stat-number {
+      font-size: 1.6rem;
       font-weight: 800;
       color: #38bdf8;
     }
 
-    #concept-map-quest-root .cm-stat-label {
-      font-size: 0.75rem;
+    .stat-label {
+      font-size: 0.78rem;
       color: #94a3b8;
       text-transform: uppercase;
-      font-weight: 700;
-      margin-top: 3px;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+      font-weight: 600;
     }
 
-    /* Scoped Toast Alerts */
-    #concept-map-quest-root .cm-toast-container {
-      position: absolute;
-      top: 14px;
-      right: 170px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      z-index: 450;
-      pointer-events: none;
+    .answers-review {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin: 16px 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    #concept-map-quest-root .cm-toast {
-      background: rgba(15, 23, 42, 0.96);
-      border-left: 4px solid var(--cm-accent);
-      color: white;
-      padding: 10px 16px;
-      border-radius: var(--cm-radius-sm);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    .review-q {
       font-size: 0.92rem;
+      font-weight: 700;
+      color: #f59e0b;
+      margin-top: 12px;
+    }
+
+    .review-q:first-child {
+      margin-top: 0;
+    }
+
+    .review-a {
+      font-size: 0.96rem;
+      color: #e2e8f0;
+      margin-top: 4px;
+      padding-left: 10px;
+      border-left: 3px solid rgba(255, 255, 255, 0.25);
+    }
+
+    /* Instructor Verification Status Card */
+    .instructor-verified-box {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.28));
+      border: 1px solid #10b981;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-top: 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      pointer-events: all;
+      gap: 14px;
+    }
+
+    .instructor-verified-box .icon {
+      font-size: 32px;
     }
   </style>
+</head>
+<body>
 
   <!-- Confetti Canvas -->
-  <canvas id="cm-confetti-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
 
   <!-- Hidden File Input for Loading JSON Maps -->
-  <input type="file" id="cm-map-file-loader" accept=".json" style="display: none;">
+  <input type="file" id="map-file-loader" accept=".json" style="display: none;">
 
-  <!-- Header & Gamification Bar -->
-  <div class="cm-header">
-    <div class="cm-brand">
-      <div class="cm-brand-icon">🧠❤️</div>
+  <!-- Top Navigation & Gamification HUD -->
+  <header>
+    <div class="brand">
       <div>
         <h1>Head or Heart: What Makes Us Trust Tech?</h1>
       </div>
     </div>
 
-    <div class="cm-hud-metrics">
-      <div class="cm-metric-badge cm-points-badge" title="Points earned">
+    <div class="hud-metrics">
+      <div class="metric-badge points-badge" title="Points earned through exploration">
         <span>⭐ Points:</span>
-        <span class="cm-val" id="cm-hud-points">0</span>
+        <span class="val" id="hud-points">0</span>
       </div>
-      <div class="cm-metric-badge cm-bonus-badge" id="cm-hud-instructor-badge" title="Instructor Bonus Status">
+      <div class="metric-badge bonus-badge" id="hud-instructor-badge" title="Instructor Bonus Status">
         <span>🎓 Bonus:</span>
-        <span class="cm-val" id="cm-hud-bonus-status">Pending</span>
+        <span class="val" id="hud-bonus-status">Pending</span>
       </div>
-      <div class="cm-metric-badge" title="Concepts placed">
+      <div class="metric-badge" title="Concepts placed on map">
         <span>🧩 Placed:</span>
-        <span class="cm-val" id="cm-hud-placed">0 / 11</span>
+        <span class="val" id="hud-placed">0 / 11</span>
       </div>
-      <div class="cm-metric-badge" title="Connections formed">
+      <div class="metric-badge" title="Connections formed">
         <span>🔗 Links:</span>
-        <span class="cm-val" id="cm-hud-connections">0</span>
+        <span class="val" id="hud-connections">0</span>
       </div>
     </div>
 
-    <div class="cm-header-actions">
-      <button class="cm-btn cm-btn-secondary" id="cm-btn-save-load">💾 Save / Load</button>
-      <button class="cm-btn cm-btn-secondary" id="cm-btn-badges-view">🏆 Badges</button>
-      <button class="cm-btn cm-btn-bonus" id="cm-btn-instructor-trigger">🔑 Instructor Verification (+300)</button>
-      <button class="cm-btn cm-btn-primary" id="cm-btn-complete-map">✨ Finish &amp; Reflect</button>
-      <button class="cm-btn cm-btn-secondary" id="cm-btn-fullscreen" title="Toggle Fullscreen">⛶ Fullscreen</button>
+    <div class="header-actions">
+      <button class="btn btn-secondary" id="btn-save-load" title="Save or Load your concept map">💾 Save / Load</button>
+      <button class="btn btn-secondary" id="btn-badges-view">🏆 Badges</button>
+      <button class="btn btn-bonus" id="btn-instructor-trigger">🔑 Instructor Verification (+300)</button>
+      <button class="btn btn-primary" id="btn-complete-map">✨ Finish &amp; Reflect</button>
+    </div>
+  </header>
+
+  <!-- Prominent Student Instructions Bar -->
+  <div class="instructions-banner">
+    <div class="instructions-text">
+      <div class="instruction-icon">💡</div>
+      <div>
+        <strong>Student Instructions:</strong> Map out the 4 Core Concepts and 7 Shaping Factors using single (➜) or dual (⬄) connectors to articulate how cognitive and emotional trust emerge. <span class="highlight-pill">There is no one fixed solution.</span> When ready, present your map to your cluster instructor to receive <strong>+300 bonus points</strong>. Groups can reset and construct other defensible maps to continue earning bonus points! You can also save your map to your computer or load it anytime.
+      </div>
     </div>
   </div>
 
-  <!-- Student Instructions Banner -->
-  <div class="cm-instructions-banner">
-    <div>
-      <strong>Student Instructions:</strong> Map out the 4 Core Concepts and 7 Shaping Factors using single (➜) or dual (⬄) connectors to articulate how cognitive and emotional trust emerge. <span class="cm-highlight-pill">There is no one fixed solution.</span> When ready, present your map to your cluster instructor to receive <strong>+300 bonus points</strong>. Groups can reset and construct other defensible maps to continue earning bonus points!
-    </div>
-  </div>
-
-  <!-- Workspace Body -->
-  <div class="cm-app-body">
+  <!-- Workspace Container -->
+  <div class="app-body">
     <!-- Sidebar Concept Bank -->
-    <aside class="cm-sidebar">
-      <div class="cm-sidebar-header">
-        <h2>Concept Bank <span class="cm-badge-count" id="cm-drawer-count">11 Left</span></h2>
-        <button class="cm-btn cm-btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" id="cm-btn-auto-layout" title="Arrange placed concepts in a circle">Arrange</button>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>Concept Bank <span class="badge-count" id="drawer-count">11 Left</span></h2>
+        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;" id="btn-auto-layout" title="Arrange placed concepts in a circle">Arrange</button>
       </div>
-      <div class="cm-card-list" id="cm-card-list"></div>
+
+      <div class="card-list" id="card-list">
+        <!-- Rendered dynamically with category headers -->
+      </div>
     </aside>
 
-    <!-- Canvas Workspace -->
-    <main class="cm-canvas-container" id="cm-canvas-area">
-      <div class="cm-canvas-grid"></div>
+    <!-- Canvas Area -->
+    <main class="canvas-container" id="canvas-area">
+      <div class="canvas-grid"></div>
 
-      <!-- Zoom Controller -->
-      <div class="cm-zoom-controls">
-        <button class="cm-zoom-btn" id="cm-btn-zoom-out" title="Zoom Out">−</button>
-        <span class="cm-zoom-level" id="cm-zoom-level-text">100%</span>
-        <button class="cm-zoom-btn" id="cm-btn-zoom-in" title="Zoom In">+</button>
-        <button class="cm-zoom-btn" id="cm-btn-zoom-reset" title="Reset Zoom">↺</button>
+      <!-- Dedicated Zoom Controls Widget -->
+      <div class="zoom-controls">
+        <button class="zoom-btn" id="btn-zoom-out" title="Zoom Out">−</button>
+        <span class="zoom-level" id="zoom-level-text">100%</span>
+        <button class="zoom-btn" id="btn-zoom-in" title="Zoom In">+</button>
+        <button class="zoom-btn" id="btn-zoom-reset" title="Reset Zoom">↺</button>
       </div>
 
-      <!-- Scaled Stage -->
-      <div class="cm-zoom-stage" id="cm-zoom-stage">
-        <svg class="cm-connections-layer" id="cm-svg-layer">
+      <!-- Zoomable Container Stage -->
+      <div class="zoom-stage" id="zoom-stage">
+        <!-- SVG Layer for Links & Arrows -->
+        <svg class="connections-layer" id="svg-layer">
           <defs>
-            <marker id="cm-arrow" viewBox="0 0 10 10" refX="21" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <!-- Forward arrow marker -->
+            <marker id="arrow" viewBox="0 0 10 10" refX="21" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
               <path d="M 0 1 L 9 5 L 0 9 z" fill="#818cf8" />
             </marker>
-            <marker id="cm-arrow-start" viewBox="0 0 10 10" refX="-11" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <!-- Backward arrow marker for dual arrows -->
+            <marker id="arrow-start" viewBox="0 0 10 10" refX="-11" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
               <path d="M 9 1 L 0 5 L 9 9 z" fill="#818cf8" />
             </marker>
           </defs>
         </svg>
+
+        <!-- Concept nodes get appended dynamically here inside zoom-stage -->
       </div>
 
-      <!-- Floating Toolbar -->
-      <div class="cm-floating-tools">
-        <div class="cm-tool-item" id="cm-tool-connect" title="Toggle Connection Mode">
+      <!-- Floating Canvas Quick Tools -->
+      <div class="floating-tools">
+        <div class="tool-item" id="tool-mode-connect" title="Toggle connection mode between nodes">
           <span>🔗 Connect Mode</span>
         </div>
-        <div class="cm-tool-item" id="cm-tool-instructor-quick" title="Ask Instructor for Verification">
+        <div class="tool-item" id="tool-instructor-quick" title="Show instructor to enter code">
           <span>🎓 Instructor Sign-Off (+300)</span>
         </div>
-        <div class="cm-tool-item" id="cm-tool-quick-save" title="Export this map to a file">
+        <div class="tool-item" id="tool-quick-save" title="Export this concept map to a file">
           <span>💾 Download Map</span>
         </div>
-        <div class="cm-tool-item" id="cm-tool-clear" title="Reset map to explore another perspective (earned bonus points are kept)">
+        <div class="tool-item" id="tool-clear-canvas" title="Reset workspace to build another map (earned bonus points are kept)">
           <span>🔄 Reset Map</span>
         </div>
       </div>
@@ -858,1082 +1071,1392 @@
   </div>
 
   <!-- Toast Notification Hub -->
-  <div class="cm-toast-container" id="cm-toast-hub"></div>
+  <div class="toast-container" id="toast-hub"></div>
 
-  <!-- Save / Load Modal -->
-  <div class="cm-modal-overlay" id="cm-save-load-modal">
-    <div class="cm-modal-card">
-      <h2 class="cm-modal-title">💾 Save &amp; Load Concept Map</h2>
-      <p class="cm-modal-subtitle">Save your current arrangement to share with team members or cluster instructors, or restore a previously saved map.</p>
-      <div class="cm-save-grid">
-        <div class="cm-action-card">
+  <!-- Save & Load Modal -->
+  <div class="modal-overlay" id="save-load-modal">
+    <div class="modal-card" style="max-width: 650px;">
+      <h2 class="modal-title">💾 Save &amp; Load Concept Map</h2>
+      <p class="modal-subtitle">Save your current arrangement to share with team members or cluster instructors, or restore a previously saved map.</p>
+
+      <div class="save-load-grid">
+        <!-- Option 1: Download JSON File -->
+        <div class="action-card">
           <h3>📥 Download Map File</h3>
-          <p>Export your full concept map layout, connections, reflection notes, and bonus state as a <code>.json</code> file.</p>
-          <button class="cm-btn cm-btn-primary" id="cm-btn-export-file">Download (.json)</button>
+          <p>Export your full concept map layout, connections, reflection notes, and bonus state as a portable <code>.json</code> file.</p>
+          <button class="btn btn-primary" id="btn-export-file">Download (.json)</button>
         </div>
-        <div class="cm-action-card">
+
+        <!-- Option 2: Upload JSON File -->
+        <div class="action-card">
           <h3>📂 Open Map File</h3>
-          <p>Load an existing <code>.json</code> map file from your computer to continue editing or presenting.</p>
-          <button class="cm-btn cm-btn-secondary" id="cm-btn-import-file">Upload (.json)</button>
+          <p>Load an existing <code>.json</code> map file from your computer to continue editing or presenting to your instructor.</p>
+          <button class="btn btn-secondary" id="btn-import-file">Upload (.json)</button>
         </div>
-        <div class="cm-action-card">
+
+        <!-- Option 3: Browser Quick Save -->
+        <div class="action-card">
           <h3>⚡ Quick Save to Browser</h3>
           <p>Store your map directly in this browser's local storage so you don't lose work when refreshing.</p>
-          <button class="cm-btn cm-btn-secondary" id="cm-btn-quick-save-local">Save to Browser</button>
+          <button class="btn btn-secondary" id="btn-quick-save-local">Save to Browser</button>
         </div>
-        <div class="cm-action-card">
+
+        <!-- Option 4: Browser Quick Load -->
+        <div class="action-card">
           <h3>🔄 Restore from Browser</h3>
           <p>Retrieve the latest map layout saved to this browser.</p>
-          <button class="cm-btn cm-btn-secondary" id="cm-btn-quick-load-local">Restore</button>
+          <button class="btn btn-secondary" id="btn-quick-load-local">Restore</button>
         </div>
       </div>
-      <div class="cm-modal-actions">
-        <button class="cm-btn cm-btn-secondary" id="cm-btn-close-save-load">Close</button>
+
+      <div class="modal-actions" style="margin-top: 20px;">
+        <button class="btn btn-secondary" id="btn-close-save-load">Close</button>
       </div>
     </div>
   </div>
 
-  <!-- Connection Label Modal -->
-  <div class="cm-modal-overlay" id="cm-connection-modal">
-    <div class="cm-modal-card">
-      <h2 class="cm-modal-title">🔗 Configure Connection</h2>
-      <p class="cm-modal-subtitle">Specify whether this relation flows one-way or two-ways, and describe the relationship.</p>
-      <div class="cm-form-group">
+  <!-- Connection Label & Arrow Type Editor Modal -->
+  <div class="modal-overlay" id="connection-modal">
+    <div class="modal-card">
+      <h2 class="modal-title">🔗 Configure Connection</h2>
+      <p class="modal-subtitle">Specify whether this relation flows one-way or two-ways, and describe the relationship.</p>
+
+      <div class="form-group">
         <label>Connector Arrow Type:</label>
-        <div class="cm-arrow-type-selector">
-          <div class="cm-arrow-option active" id="cm-opt-single" data-type="single">➡️ Single Arrow (One-Way)</div>
-          <div class="cm-arrow-option" id="cm-opt-dual" data-type="dual">⬄ Dual Arrows (Bi-Directional)</div>
+        <div class="arrow-type-selector">
+          <div class="arrow-option active" id="opt-single-arrow" data-type="single">
+            ➡️ Single Arrow (One-Way)
+          </div>
+          <div class="arrow-option" id="opt-dual-arrow" data-type="dual">
+            ⬄ Dual Arrows (Bi-Directional)
+          </div>
         </div>
       </div>
-      <div class="cm-form-group">
-        <label>Relationship phrase (e.g., "builds", "leads to", "reinforces"):</label>
-        <input type="text" id="cm-conn-input-label" class="cm-form-control" placeholder="Enter relationship...">
+
+      <div class="form-group">
+        <label>Relationship phrase (e.g., "builds", "appeals to", "leads to", "is validated by", "mutually reinforces"):</label>
+        <input type="text" id="conn-input-label" class="form-control" placeholder="Enter relationship...">
       </div>
-      <div class="cm-modal-actions">
-        <button class="cm-btn cm-btn-secondary" id="cm-btn-del-conn" style="color: #ef4444;">Delete Connection</button>
-        <button class="cm-btn cm-btn-secondary" id="cm-btn-cancel-conn">Cancel</button>
-        <button class="cm-btn cm-btn-primary" id="cm-btn-save-conn">Save Relationship (+15 pts)</button>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btn-delete-connection" style="color: #ef4444;">Delete Connection</button>
+        <button class="btn btn-secondary" id="btn-cancel-connection">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-connection">Save Relationship (+15 pts)</button>
       </div>
     </div>
   </div>
 
   <!-- Cluster Instructor Secret Code Modal -->
-  <div class="cm-modal-overlay" id="cm-instructor-modal">
-    <div class="cm-modal-card" style="max-width: 500px;">
-      <h2 class="cm-modal-title">🔑 Cluster Instructor Verification</h2>
-      <p class="cm-modal-subtitle">Cluster Instructors: please review this concept map arrangement. If defensible, enter your authorized cluster code to grant +300 bonus points.</p>
-      <div class="cm-form-group">
+  <div class="modal-overlay" id="instructor-modal">
+    <div class="modal-card" style="max-width: 540px;">
+      <h2 class="modal-title">🔑 Cluster Instructor Verification</h2>
+      <p class="modal-subtitle">Cluster Instructors: please review this concept map arrangement. If defensible, enter your authorized cluster code to grant +300 bonus points.</p>
+
+      <div class="form-group">
         <label>Instructor Secret Code:</label>
-        <input type="password" id="cm-instructor-secret-input" class="cm-form-control" placeholder="Enter instructor code..." autocomplete="off">
+        <input type="password" id="instructor-secret-input" class="form-control" placeholder="Enter instructor code..." autocomplete="off">
       </div>
-      <p id="cm-instructor-error-msg" style="color: #ef4444; font-size: 0.88rem; display: none; margin-top: 4px;">Invalid instructor secret code. Please verify and try again.</p>
-      <div class="cm-modal-actions">
-        <button class="cm-btn cm-btn-secondary" id="cm-btn-cancel-instructor">Cancel</button>
-        <button class="cm-btn cm-btn-bonus" id="cm-btn-submit-instructor">Verify &amp; Award Bonus (+300 pts)</button>
+      <p id="instructor-error-msg" style="color: #ef4444; font-size: 0.9rem; display: none; margin-top: 6px;">Invalid instructor secret code. Please verify and try again.</p>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btn-cancel-instructor">Cancel</button>
+        <button class="btn btn-bonus" id="btn-submit-instructor">Verify &amp; Award Bonus (+300 pts)</button>
       </div>
     </div>
   </div>
 
   <!-- Badges Modal -->
-  <div class="cm-modal-overlay" id="cm-badges-modal">
-    <div class="cm-modal-card">
-      <h2 class="cm-modal-title">🏆 Your Achievements</h2>
-      <p class="cm-modal-subtitle">Earn badges as you explore creative layouts and articulate connections.</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 16px 0;" id="cm-badge-grid"></div>
-      <div class="cm-modal-actions">
-        <button class="cm-btn cm-btn-primary" id="cm-btn-close-badges">Close</button>
+  <div class="modal-overlay" id="badges-modal">
+    <div class="modal-card">
+      <h2 class="modal-title">🏆 Your Achievements</h2>
+      <p class="modal-subtitle">Earn badges as you explore creative layouts and articulate connections.</p>
+      <div class="badge-grid" id="badge-grid"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="btn-close-badges">Close</button>
       </div>
     </div>
   </div>
 
-  <!-- Reflection Modal -->
-  <div class="cm-modal-overlay" id="cm-reflection-modal">
-    <div class="cm-modal-card">
-      <h2 class="cm-modal-title">🌟 Reflect On Your Concept Map</h2>
-      <p class="cm-modal-subtitle">There are no wrong concept maps! Articulating your conceptual rationale strengthens comprehension and deep thinking.</p>
-      <div class="cm-form-group">
+  <!-- Reflection & Finish Modal -->
+  <div class="modal-overlay" id="reflection-modal">
+    <div class="modal-card">
+      <h2 class="modal-title">🌟 Reflect On Your Concept Map</h2>
+      <p class="modal-subtitle">There are no wrong concept maps! Articulating your conceptual rationale strengthens comprehension and deep thinking.</p>
+      <div class="form-group">
         <label>1. What is the central idea or core thesis of your concept map?</label>
-        <textarea id="cm-ref-q1" class="cm-form-control" rows="2" placeholder="e.g., Emotional trust acts as an initial catalyst, while cognitive trust sustains long-term adoption..."></textarea>
+        <textarea id="ref-q1" class="form-control" rows="3" placeholder="e.g., Emotional trust acts as an initial catalyst, while cognitive trust sustains long-term adoption..."></textarea>
       </div>
-      <div class="cm-form-group">
+      <div class="form-group">
         <label>2. Which connection is most meaningful or impactful to you, and why?</label>
-        <textarea id="cm-ref-q2" class="cm-form-control" rows="2" placeholder="e.g., The link between peer recommendations and emotional validation..."></textarea>
+        <textarea id="ref-q2" class="form-control" rows="3" placeholder="e.g., The link between peer recommendations and emotional vs. cognitive validation..."></textarea>
       </div>
-      <div class="cm-form-group">
+      <div class="form-group">
         <label>3. What new insight did you discover while constructing your layout?</label>
-        <textarea id="cm-ref-q3" class="cm-form-control" rows="2" placeholder="e.g., Technical understanding may not be essential if regulatory approval exists..."></textarea>
+        <textarea id="ref-q3" class="form-control" rows="3" placeholder="e.g., Full technical understanding might not be essential for adoption if regulatory approval exists..."></textarea>
       </div>
-      <div class="cm-form-group">
+      <div class="form-group">
         <label>4. If you had to rethink or alter your map, what would you adjust?</label>
-        <textarea id="cm-ref-q4" class="cm-form-control" rows="2" placeholder="e.g., Connect real-world problem solving directly to cognitive trust..."></textarea>
+        <textarea id="ref-q4" class="form-control" rows="3" placeholder="e.g., Connect real-world problem solving directly to cognitive trust..."></textarea>
       </div>
-      <div class="cm-modal-actions">
-        <button class="cm-btn cm-btn-secondary" id="cm-btn-close-ref">Back to Editing</button>
-        <button class="cm-btn cm-btn-primary" id="cm-btn-submit-ref">Submit &amp; View Summary 🚀</button>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btn-close-reflection">Back to Editing</button>
+        <button class="btn btn-primary" id="btn-submit-reflection">Submit &amp; View Summary 🚀</button>
       </div>
     </div>
   </div>
 
-  <!-- Summary Modal -->
-  <div class="cm-modal-overlay" id="cm-summary-modal">
-    <div class="cm-modal-card" style="max-width: 680px;">
-      <h2 class="cm-modal-title">🎉 Concept Map Quest Complete!</h2>
-      <p class="cm-modal-subtitle">You have constructed a distinctive conceptual network reflecting your perspective on trust in technology.</p>
-      <div class="cm-summary-stats">
-        <div class="cm-stat-box">
-          <div class="cm-stat-number" id="cm-sum-points">0</div>
-          <div class="cm-stat-label">Total Score</div>
+  <!-- Final Completion Screen Modal -->
+  <div class="modal-overlay" id="summary-modal">
+    <div class="modal-card" style="max-width: 750px;">
+      <h2 class="modal-title">🎉 Concept Map Quest Complete!</h2>
+      <p class="modal-subtitle">You have constructed a distinctive conceptual network reflecting your perspective on trust in technology.</p>
+      <div class="summary-stats">
+        <div class="stat-box">
+          <div class="stat-number" id="sum-points">0</div>
+          <div class="stat-label">Total Score</div>
         </div>
-        <div class="cm-stat-box">
-          <div class="cm-stat-number" id="cm-sum-placed">0/11</div>
-          <div class="cm-stat-label">Nodes Positioned</div>
+        <div class="stat-box">
+          <div class="stat-number" id="sum-placed">0/11</div>
+          <div class="stat-label">Nodes Positioned</div>
         </div>
-        <div class="cm-stat-box">
-          <div class="cm-stat-number" id="cm-sum-connections">0</div>
-          <div class="cm-stat-label">Connections</div>
+        <div class="stat-box">
+          <div class="stat-number" id="sum-connections">0</div>
+          <div class="stat-label">Connections</div>
         </div>
-        <div class="cm-stat-box">
-          <div class="cm-stat-number" id="cm-sum-bonus">None</div>
-          <div class="cm-stat-label">Instructor Bonus</div>
+        <div class="stat-box">
+          <div class="stat-number" id="sum-bonus">None</div>
+          <div class="stat-label">Instructor Bonus</div>
         </div>
       </div>
-      <div id="cm-instructor-summary-box"></div>
-      <h3 style="font-size: 1rem; margin-top: 14px; margin-bottom: 6px; color: #cbd5e1;">Your Articulated Reflections:</h3>
-      <div style="background: rgba(255, 255, 255, 0.04); border-radius: 8px; padding: 14px; margin: 12px 0; border: 1px solid rgba(255, 255, 255, 0.1);" id="cm-summary-reflections"></div>
-      <div class="cm-modal-actions">
-        <button class="cm-btn cm-btn-bonus" id="cm-btn-sum-instructor">🔑 Ask Instructor For Bonus (+300 pts)</button>
-        <button class="cm-btn cm-btn-secondary" id="cm-btn-sum-download">💾 Download Map</button>
-        <button class="cm-btn cm-btn-secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
-        <button class="cm-btn cm-btn-primary" id="cm-btn-restart">Keep Exploring</button>
+
+      <div id="instructor-summary-box"></div>
+
+      <h3 style="font-size: 1.05rem; margin-top: 18px; margin-bottom: 8px; color: #cbd5e1;">Your Articulated Reflections:</h3>
+      <div class="answers-review" id="summary-reflections"></div>
+      <div class="modal-actions">
+        <button class="btn btn-bonus" id="btn-summary-instructor-check" style="display: inline-flex;">🔑 Ask Instructor For Bonus (+300 pts)</button>
+        <button class="btn btn-secondary" id="btn-save-from-summary">💾 Download Map</button>
+        <button class="btn btn-secondary" id="btn-print-summary" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <button class="btn btn-primary" id="btn-restart-quest">Keep Exploring</button>
       </div>
     </div>
   </div>
 
   <script>
-    (function() {
-      const root = document.getElementById("concept-map-quest-root");
-      if (!root) return;
+    /* =====================================================================
+       1. DATA DEFINITIONS & STATE
+       ===================================================================== */
+    const RAW_CONCEPTS = [
+      // Core concepts (1-4)
+      { id: "c1", num: 1, category: "core", categoryLabel: "Core Concept", title: "User perceptions of a new technology" },
+      { id: "c2", num: 2, category: "core", categoryLabel: "Core Concept", title: "Cognitive trust" },
+      { id: "c3", num: 3, category: "core", categoryLabel: "Core Concept", title: "Emotional trust" },
+      { id: "c4", num: 4, category: "core", categoryLabel: "Core Concept", title: "Widespread adoption of a new technology" },
 
-      const RAW_CONCEPTS = [
-        // Core concepts (1-4)
-        { id: "c1", num: 1, category: "core", categoryLabel: "Core Concept", title: "User perceptions of a new technology" },
-        { id: "c2", num: 2, category: "core", categoryLabel: "Core Concept", title: "Cognitive trust" },
-        { id: "c3", num: 3, category: "core", categoryLabel: "Core Concept", title: "Emotional trust" },
-        { id: "c4", num: 4, category: "core", categoryLabel: "Core Concept", title: "Widespread adoption of a new technology" },
+      // Factors that may shape trust and adoption (5-11)
+      { id: "c5", num: 5, category: "factor", categoryLabel: "Shaping Factor", title: "The technology works well (i.e., does what it is supposed to do)" },
+      { id: "c6", num: 6, category: "factor", categoryLabel: "Shaping Factor", title: "People fully understanding how a new technology works" },
+      { id: "c7", num: 7, category: "factor", categoryLabel: "Shaping Factor", title: "The technology is seen as solving a real-world problem" },
+      { id: "c8", num: 8, category: "factor", categoryLabel: "Shaping Factor", title: "The technology has high ratings/reviews from other users" },
+      { id: "c9", num: 9, category: "factor", categoryLabel: "Shaping Factor", title: "People you know use and recommend the technology" },
+      { id: "c10", num: 10, category: "factor", categoryLabel: "Shaping Factor", title: "A celebrity endorses the technology" },
+      { id: "c11", num: 11, category: "factor", categoryLabel: "Shaping Factor", title: "The technology has been tested and approved by a government/regulatory body" }
+    ];
 
-        // Shaping Factors (5-11)
-        { id: "c5", num: 5, category: "factor", categoryLabel: "Shaping Factor", title: "The technology works well (i.e., does what it is supposed to do)" },
-        { id: "c6", num: 6, category: "factor", categoryLabel: "Shaping Factor", title: "People fully understanding how a new technology works" },
-        { id: "c7", num: 7, category: "factor", categoryLabel: "Shaping Factor", title: "The technology is seen as solving a real-world problem" },
-        { id: "c8", num: 8, category: "factor", categoryLabel: "Shaping Factor", title: "The technology has high ratings/reviews from other users" },
-        { id: "c9", num: 9, category: "factor", categoryLabel: "Shaping Factor", title: "People you know use and recommend the technology" },
-        { id: "c10", num: 10, category: "factor", categoryLabel: "Shaping Factor", title: "A celebrity endorses the technology" },
-        { id: "c11", num: 11, category: "factor", categoryLabel: "Shaping Factor", title: "The technology has been tested and approved by a government/regulatory body" }
-      ];
+    const COLOR_PALETTE = [
+      "#6366f1", // Indigo
+      "#ec4899", // Pink
+      "#10b981", // Emerald
+      "#f59e0b", // Amber
+      "#06b6d4", // Cyan
+      "#8b5cf6"  // Violet
+    ];
 
-      const COLOR_PALETTE = ["#6366f1", "#ec4899", "#10b981", "#f59e0b", "#06b6d4", "#8b5cf6"];
-      const VALID_INSTRUCTOR_CODES = ["CC0007", "CLUSTER", "NTU2025", "INSTRUCTOR", "BONUS"];
+    const BADGES = [
+      { id: "first_node", name: "First Step", desc: "Placed your first concept on canvas", icon: "🌱", unlocked: false },
+      { id: "bridge_builder", name: "Bridge Builder", desc: "Created your first 3 connections", icon: "🌉", unlocked: false },
+      { id: "dual_connector", name: "Mutual Link", desc: "Created a bi-directional dual connection", icon: "⬄", unlocked: false },
+      { id: "palette_master", name: "Visual Thinker", desc: "Customized colors of concept nodes", icon: "🎨", unlocked: false },
+      { id: "full_network", name: "Full Cartographer", desc: "Placed all 11 concepts on workspace", icon: "🗺️", unlocked: false },
+      { id: "deep_thinker", name: "Deep Thinker", desc: "Added detailed labels to connections", icon: "💡", unlocked: false },
+      { id: "instructor_endorsed", name: "Instructor Endorsed", desc: "Awarded cluster instructor bonus", icon: "🎓", unlocked: false }
+    ];
 
-      const BADGES = [
-        { id: "first_node", name: "First Step", desc: "Placed your first concept on canvas", icon: "🌱", unlocked: false },
-        { id: "bridge_builder", name: "Bridge Builder", desc: "Created your first 3 connections", icon: "🌉", unlocked: false },
-        { id: "dual_connector", name: "Mutual Link", desc: "Created a bi-directional dual connection", icon: "⬄", unlocked: false },
-        { id: "palette_master", name: "Visual Thinker", desc: "Customized colors of concept nodes", icon: "🎨", unlocked: false },
-        { id: "full_network", name: "Full Cartographer", desc: "Placed all 11 concepts on workspace", icon: "🗺️", unlocked: false },
-        { id: "deep_thinker", name: "Deep Thinker", desc: "Added detailed labels to connections", icon: "💡", unlocked: false },
-        { id: "instructor_endorsed", name: "Instructor Endorsed", desc: "Awarded cluster instructor bonus", icon: "🎓", unlocked: false }
-      ];
+    // Accepted Instructor Secret Codes
+    const VALID_INSTRUCTOR_CODES = ["CC0007", "CLUSTER", "NTU2025", "INSTRUCTOR", "BONUS"];
 
-      const state = {
-        score: 0,
-        totalInstructorBonus: 0,
-        instructorBonusCount: 0,
-        currentMapBonusAwarded: false,
-        placedNodes: {},
-        connections: [],
-        connectMode: false,
-        connectSourceId: null,
-        selectedConnectionId: null,
-        currentArrowChoice: "single",
-        zoom: 1.0,
-        reflections: { q1: "", q2: "", q3: "", q4: "" }
-      };
+    const state = {
+      score: 0,
+      totalInstructorBonus: 0, // Keeps cumulative bonus points intact across resets
+      instructorBonusCount: 0, // Number of instructor-approved maps
+      currentMapBonusAwarded: false, // Per-map approval lock
+      placedNodes: {}, // id -> { x, y, color, element }
+      connections: [], // { id, from, to, label, arrowType: "single" | "dual" }
+      connectMode: false,
+      connectSourceId: null,
+      selectedConnectionId: null,
+      currentArrowChoice: "single",
+      zoom: 1.0, // Zoom factor
+      reflections: { q1: "", q2: "", q3: "", q4: "" }
+    };
 
-      // Procedural Audio
-      let audioCtx = null;
-      function getAudioContext() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        return audioCtx;
+    /* =====================================================================
+       2. PROCEDURAL SOUND SYNTHESIZER (Web Audio API)
+       ===================================================================== */
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
 
-      function playPlaceSound() {
-        try {
-          const ctx = getAudioContext();
-          const now = ctx.currentTime;
+    // Melodic placement 'pop & chime' sound effect
+    function playPlaceSound() {
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(320, now);
+        osc.frequency.exponentialRampToValueAtTime(740, now + 0.1);
+
+        gain.gain.setValueAtTime(0.28, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.19);
+
+        const harmonic = ctx.createOscillator();
+        const harmGain = ctx.createGain();
+        harmonic.type = "triangle";
+        harmonic.frequency.setValueAtTime(1108, now + 0.04);
+        harmGain.gain.setValueAtTime(0.12, now + 0.04);
+        harmGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+        harmonic.connect(harmGain);
+        harmGain.connect(ctx.destination);
+
+        harmonic.start(now + 0.04);
+        harmonic.stop(now + 0.23);
+      } catch (e) {}
+    }
+
+    // Confetti celebration sound: festive fanfare + sparkles
+    function playCelebrationSound() {
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+
+        const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 0.15, ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < noiseBuffer.length; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+        const whiteNoise = ctx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+
+        const noiseFilter = ctx.createBiquadFilter();
+        noiseFilter.type = "bandpass";
+        noiseFilter.frequency.setValueAtTime(1200, now);
+        noiseFilter.Q.setValueAtTime(3, now);
+
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.35, now);
+        noiseGain.exponentialRampToValueAtTime(0.001, now + 0.14);
+
+        whiteNoise.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(ctx.destination);
+        whiteNoise.start(now);
+
+        const notes = [
+          { f: 523.25, delay: 0.05, dur: 0.35 },
+          { f: 659.25, delay: 0.14, dur: 0.35 },
+          { f: 783.99, delay: 0.23, dur: 0.40 },
+          { f: 1046.50, delay: 0.32, dur: 0.60 },
+          { f: 1318.51, delay: 0.42, dur: 0.85 }
+        ];
+
+        notes.forEach(note => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(320, now);
-          osc.frequency.exponentialRampToValueAtTime(740, now + 0.1);
-          gain.gain.setValueAtTime(0.25, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+          osc.type = "triangle";
+
+          const startTime = now + note.delay;
+          osc.frequency.setValueAtTime(note.f, startTime);
+
+          gain.gain.setValueAtTime(0.28, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + note.dur);
+
           osc.connect(gain);
           gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.19);
-        } catch (e) {}
-      }
 
-      function playCelebrationSound() {
-        try {
-          const ctx = getAudioContext();
-          const now = ctx.currentTime;
-          const notes = [
-            { f: 523.25, delay: 0.05 },
-            { f: 659.25, delay: 0.14 },
-            { f: 783.99, delay: 0.23 },
-            { f: 1046.50, delay: 0.32 },
-            { f: 1318.51, delay: 0.42 }
-          ];
-          notes.forEach(note => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = "triangle";
-            const startTime = now + note.delay;
-            osc.frequency.setValueAtTime(note.f, startTime);
-            gain.gain.setValueAtTime(0.24, startTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.4);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(startTime);
-            osc.stop(startTime + 0.45);
-          });
-        } catch (e) {}
-      }
+          osc.start(startTime);
+          osc.stop(startTime + note.dur + 0.05);
+        });
 
-      // Confetti Engine
-      const confettiCanvas = root.querySelector("#cm-confetti-canvas");
-      const confettiCtx = confettiCanvas.getContext("2d");
-      let confettiParticles = [];
-      let confettiAnimationId = null;
+        for (let j = 0; j < 5; j++) {
+          const sparkle = ctx.createOscillator();
+          const sparkleGain = ctx.createGain();
+          sparkle.type = "sine";
+          const sparkStart = now + 0.45 + (j * 0.08);
+          sparkle.frequency.setValueAtTime(1800 + Math.random() * 800, sparkStart);
 
-      function resizeConfetti() {
-        confettiCanvas.width = root.clientWidth;
-        confettiCanvas.height = root.clientHeight;
-      }
+          sparkleGain.gain.setValueAtTime(0.09, sparkStart);
+          sparkleGain.gain.exponentialRampToValueAtTime(0.0001, sparkStart + 0.25);
 
-      function triggerConfettiBurst() {
-        resizeConfetti();
-        const colors = ["#f59e0b", "#10b981", "#6366f1", "#ec4899", "#38bdf8", "#fbbf24"];
-        for (let i = 0; i < 120; i++) {
-          confettiParticles.push({
-            x: root.clientWidth / 2 + (Math.random() * 80 - 40),
-            y: root.clientHeight * 0.4 + (Math.random() * 60 - 30),
-            size: Math.random() * 7 + 5,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            vx: (Math.random() - 0.5) * 16,
-            vy: (Math.random() - 0.9) * 14 - 2,
-            rot: Math.random() * 360,
-            rotSpeed: (Math.random() - 0.5) * 10,
-            gravity: 0.35 + Math.random() * 0.15,
-            alpha: 1
-          });
+          sparkle.connect(sparkleGain);
+          sparkleGain.connect(ctx.destination);
+
+          sparkle.start(sparkStart);
+          sparkle.stop(sparkStart + 0.28);
         }
-        if (!confettiAnimationId) animateConfetti();
+      } catch (e) {}
+    }
+
+    /* =====================================================================
+       3. VISUAL CONFETTI BURST ENGINE
+       ===================================================================== */
+    const confettiCanvas = document.getElementById("confetti-canvas");
+    const confettiCtx = confettiCanvas.getContext("2d");
+    let confettiParticles = [];
+    let confettiAnimationId = null;
+
+    function resizeConfettiCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeConfettiCanvas);
+    resizeConfettiCanvas();
+
+    function triggerConfettiBurst() {
+      const colors = ["#f59e0b", "#10b981", "#6366f1", "#ec4899", "#38bdf8", "#fbbf24", "#a855f7"];
+      const count = 140;
+
+      for (let i = 0; i < count; i++) {
+        confettiParticles.push({
+          x: window.innerWidth / 2 + (Math.random() * 120 - 60),
+          y: window.innerHeight * 0.45 + (Math.random() * 80 - 40),
+          size: Math.random() * 8 + 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 18,
+          vy: (Math.random() - 0.9) * 16 - 3,
+          rot: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 12,
+          gravity: 0.38 + Math.random() * 0.2,
+          alpha: 1,
+          shape: Math.random() > 0.4 ? "rect" : "circle"
+        });
       }
 
-      function animateConfetti() {
+      if (!confettiAnimationId) {
+        animateConfetti();
+      }
+    }
+
+    function animateConfetti() {
+      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+      for (let i = confettiParticles.length - 1; i >= 0; i--) {
+        const p = confettiParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.rot += p.rotSpeed;
+        p.alpha -= 0.007;
+
+        if (p.alpha <= 0 || p.y > confettiCanvas.height + 20) {
+          confettiParticles.splice(i, 1);
+          continue;
+        }
+
+        confettiCtx.save();
+        confettiCtx.globalAlpha = Math.max(0, p.alpha);
+        confettiCtx.translate(p.x, p.y);
+        confettiCtx.rotate((p.rot * Math.PI) / 180);
+        confettiCtx.fillStyle = p.color;
+
+        if (p.shape === "circle") {
+          confettiCtx.beginPath();
+          confettiCtx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+          confettiCtx.fill();
+        } else {
+          confettiCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
+        }
+        confettiCtx.restore();
+      }
+
+      if (confettiParticles.length > 0) {
+        confettiAnimationId = requestAnimationFrame(animateConfetti);
+      } else {
         confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-        for (let i = confettiParticles.length - 1; i >= 0; i--) {
-          const p = confettiParticles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-          p.vy += p.gravity;
-          p.rot += p.rotSpeed;
-          p.alpha -= 0.008;
-
-          if (p.alpha <= 0 || p.y > confettiCanvas.height + 20) {
-            confettiParticles.splice(i, 1);
-            continue;
-          }
-
-          confettiCtx.save();
-          confettiCtx.globalAlpha = Math.max(0, p.alpha);
-          confettiCtx.translate(p.x, p.y);
-          confettiCtx.rotate((p.rot * Math.PI) / 180);
-          confettiCtx.fillStyle = p.color;
-          confettiCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
-          confettiCtx.restore();
-        }
-
-        if (confettiParticles.length > 0) {
-          confettiAnimationId = requestAnimationFrame(animateConfetti);
-        } else {
-          confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-          confettiAnimationId = null;
-        }
+        confettiAnimationId = null;
       }
+    }
 
-      // Elements
-      const cardListEl = root.querySelector("#cm-card-list");
-      const canvasAreaEl = root.querySelector("#cm-canvas-area");
-      const zoomStageEl = root.querySelector("#cm-zoom-stage");
-      const svgLayerEl = root.querySelector("#cm-svg-layer");
-      const hudPointsEl = root.querySelector("#cm-hud-points");
-      const hudPlacedEl = root.querySelector("#cm-hud-placed");
-      const hudConnectionsEl = root.querySelector("#cm-hud-connections");
-      const hudBonusStatusEl = root.querySelector("#cm-hud-bonus-status");
-      const drawerCountEl = root.querySelector("#cm-drawer-count");
-      const zoomLevelTextEl = root.querySelector("#cm-zoom-level-text");
+    /* =====================================================================
+       4. INITIALIZATION, ZOOM & RENDERING
+       ===================================================================== */
+    const cardListEl = document.getElementById("card-list");
+    const canvasAreaEl = document.getElementById("canvas-area");
+    const zoomStageEl = document.getElementById("zoom-stage");
+    const svgLayerEl = document.getElementById("svg-layer");
+    const hudPointsEl = document.getElementById("hud-points");
+    const hudPlacedEl = document.getElementById("hud-placed");
+    const hudConnectionsEl = document.getElementById("hud-connections");
+    const hudBonusStatusEl = document.getElementById("hud-bonus-status");
+    const drawerCountEl = document.getElementById("drawer-count");
+    const zoomLevelTextEl = document.getElementById("zoom-level-text");
 
-      function setZoom(val) {
-        state.zoom = Math.min(2.0, Math.max(0.5, parseFloat(val.toFixed(2))));
-        zoomStageEl.style.transform = `scale(${state.zoom})`;
-        zoomLevelTextEl.textContent = `${Math.round(state.zoom * 100)}%`;
-      }
+    const MIN_ZOOM = 0.5;
+    const MAX_ZOOM = 2.0;
 
-      function updateBonusHud() {
-        if (state.totalInstructorBonus > 0) {
-          hudBonusStatusEl.textContent = `+${state.totalInstructorBonus} (${state.instructorBonusCount} Approved)`;
-          hudBonusStatusEl.style.color = "#10b981";
-        } else {
-          hudBonusStatusEl.textContent = "Pending";
-          hudBonusStatusEl.style.color = "#f59e0b";
-        }
-      }
+    function setZoom(val) {
+      state.zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, parseFloat(val.toFixed(2))));
+      zoomStageEl.style.transform = `scale(${state.zoom})`;
+      zoomLevelTextEl.textContent = `${Math.round(state.zoom * 100)}%`;
+    }
 
-      function renderDrawer() {
-        cardListEl.innerHTML = "";
-        let remaining = 0;
-        const total = RAW_CONCEPTS.length;
+    function zoomIn() {
+      setZoom(state.zoom + 0.15);
+    }
 
-        const coreHeader = document.createElement("div");
-        coreHeader.className = "cm-section-category-header core";
-        coreHeader.innerHTML = `<span>🧠 Core Concepts (1–4)</span>`;
-        cardListEl.appendChild(coreHeader);
+    function zoomOut() {
+      setZoom(state.zoom - 0.15);
+    }
 
-        RAW_CONCEPTS.filter(c => c.category === "core").forEach(concept => {
-          const card = createDrawerCard(concept);
-          if (!state.placedNodes[concept.id]) remaining++;
-          cardListEl.appendChild(card);
-        });
+    function resetZoom() {
+      setZoom(1.0);
+    }
 
-        const factorsHeader = document.createElement("div");
-        factorsHeader.className = "cm-section-category-header factors";
-        factorsHeader.innerHTML = `<span>⚡ Factors Shaping Trust &amp; Adoption (5–11)</span>`;
-        cardListEl.appendChild(factorsHeader);
+    function initApp() {
+      renderDrawer();
+      renderBadgesModal();
+      setupEventListeners();
+      updateBonusHud();
+      setupZoomListeners();
+      setupSaveLoadSystem();
+    }
 
-        RAW_CONCEPTS.filter(c => c.category === "factor").forEach(concept => {
-          const card = createDrawerCard(concept);
-          if (!state.placedNodes[concept.id]) remaining++;
-          cardListEl.appendChild(card);
-        });
+    function setupZoomListeners() {
+      document.getElementById("btn-zoom-in").addEventListener("click", zoomIn);
+      document.getElementById("btn-zoom-out").addEventListener("click", zoomOut);
+      document.getElementById("btn-zoom-reset").addEventListener("click", resetZoom);
 
-        drawerCountEl.textContent = `${remaining} Left`;
-        hudPlacedEl.textContent = `${total - remaining} / ${total}`;
-        if (total - remaining === total) checkBadge("full_network");
-      }
-
-      function createDrawerCard(concept) {
-        const isPlaced = Boolean(state.placedNodes[concept.id]);
-        const card = document.createElement("div");
-        card.className = `cm-drawer-card ${isPlaced ? "placed" : ""}`;
-        card.dataset.id = concept.id;
-
-        if (!isPlaced) {
-          card.draggable = true;
-          card.addEventListener("dragstart", (e) => {
-            e.dataTransfer.setData("text/plain", concept.id);
-            e.dataTransfer.effectAllowed = "copy";
-          });
-        }
-
-        card.innerHTML = `
-          <div style="display:flex; align-items:flex-start; gap:8px; flex:1;">
-            <span style="color:#94a3b8; font-size:1.1rem; line-height:1;">⠿</span>
-            <div>
-              <span class="cm-card-num">#${concept.num}</span>
-              <span>${concept.title}</span>
-            </div>
-          </div>
-          ${!isPlaced ? `<button class="cm-card-add-btn">+ Add</button>` : `<span style="font-size:0.8rem; color:#94a3b8;">Placed</span>`}
-        `;
-
-        if (!isPlaced) {
-          card.querySelector(".cm-card-add-btn").addEventListener("click", (e) => {
-            e.stopPropagation();
-            placeConceptAuto(concept.id);
-          });
-        }
-
-        return card;
-      }
-
-      canvasAreaEl.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = "copy";
-      });
-
-      canvasAreaEl.addEventListener("drop", (e) => {
-        e.preventDefault();
-        const id = e.dataTransfer.getData("text/plain");
-        if (!id || state.placedNodes[id]) return;
-
-        const rect = canvasAreaEl.getBoundingClientRect();
-        const clientX = e.clientX - rect.left;
-        const clientY = e.clientY - rect.top;
-        const x = Math.max(20, (clientX / state.zoom) - 100);
-        const y = Math.max(20, (clientY / state.zoom) - 30);
-        spawnNodeOnCanvas(id, x, y);
-      });
-
-      function placeConceptAuto(id) {
-        if (state.placedNodes[id]) return;
-        const rect = canvasAreaEl.getBoundingClientRect();
-        const count = Object.keys(state.placedNodes).length;
-        const col = count % 3;
-        const row = Math.floor(count / 3);
-        const x = Math.max(25, Math.min(40 + col * 280, (rect.width / state.zoom) - 280));
-        const y = Math.max(25, Math.min(30 + row * 145, (rect.height / state.zoom) - 150));
-        spawnNodeOnCanvas(id, x, y);
-      }
-
-      function spawnNodeOnCanvas(id, x, y, customColor = null, suppressScore = false) {
-        const data = RAW_CONCEPTS.find(c => c.id === id);
-        if (!data) return;
-
-        if (!suppressScore) playPlaceSound();
-
-        const defaultBorder = data.category === "core" ? "#6366f1" : "#0284c7";
-        const color = customColor || defaultBorder;
-
-        const nodeEl = document.createElement("div");
-        nodeEl.className = "cm-concept-node";
-        nodeEl.id = `cm-node-${id}`;
-        nodeEl.style.left = `${x}px`;
-        nodeEl.style.top = `${y}px`;
-        nodeEl.style.borderColor = color;
-
-        let swatches = COLOR_PALETTE.map(c => `<div class="cm-color-swatch" style="background:${c}" data-color="${c}"></div>`).join("");
-
-        nodeEl.innerHTML = `
-          <div class="cm-node-header">
-            <span class="cm-node-category-pill ${data.category === 'core' ? 'core' : 'factor'}">
-              #${data.num} ${data.categoryLabel}
-            </span>
-            <div class="cm-node-actions">
-              <button class="cm-node-btn connect-btn" title="Connect">🔗</button>
-              <button class="cm-node-btn delete-btn" title="Remove">✕</button>
-            </div>
-          </div>
-          <div class="cm-node-content">${data.title}</div>
-          <div class="cm-color-swatches">${swatches}</div>
-        `;
-
-        zoomStageEl.appendChild(nodeEl);
-        state.placedNodes[id] = { x, y, color, element: nodeEl };
-
-        if (!suppressScore) {
-          addScore(25, "Concept placed!");
-          checkBadge("first_node");
-        }
-
-        setupNodeInteractivity(id, nodeEl);
-        renderDrawer();
-      }
-
-      function setupNodeInteractivity(id, nodeEl) {
-        nodeEl.querySelectorAll(".cm-color-swatch").forEach(swatch => {
-          swatch.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const col = swatch.dataset.color;
-            nodeEl.style.borderColor = col;
-            state.placedNodes[id].color = col;
-            addScore(5, "Node customized!");
-            checkBadge("palette_master");
-          });
-        });
-
-        nodeEl.querySelector(".delete-btn").addEventListener("click", (e) => {
-          e.stopPropagation();
-          removeNode(id);
-        });
-
-        nodeEl.querySelector(".connect-btn").addEventListener("click", (e) => {
-          e.stopPropagation();
-          handleConnectSelect(id);
-        });
-
-        nodeEl.addEventListener("click", (e) => {
-          if (state.connectMode || state.connectSourceId) {
-            e.stopPropagation();
-            handleConnectSelect(id);
-          }
-        });
-
-        let isDragging = false;
-        let startX, startY, initialLeft, initialTop;
-
-        nodeEl.addEventListener("pointerdown", (e) => {
-          if (e.target.closest(".cm-node-actions") || e.target.closest(".cm-color-swatches")) return;
-          isDragging = true;
-          startX = e.clientX;
-          startY = e.clientY;
-          initialLeft = parseFloat(nodeEl.style.left) || 0;
-          initialTop = parseFloat(nodeEl.style.top) || 0;
-          nodeEl.style.zIndex = 50;
-          nodeEl.setPointerCapture(e.pointerId);
-
-          const onPointerMove = (ev) => {
-            if (!isDragging) return;
-            const dx = (ev.clientX - startX) / state.zoom;
-            const dy = (ev.clientY - startY) / state.zoom;
-            const newLeft = Math.max(10, initialLeft + dx);
-            const newTop = Math.max(10, initialTop + dy);
-            nodeEl.style.left = `${newLeft}px`;
-            nodeEl.style.top = `${newTop}px`;
-            state.placedNodes[id].x = newLeft;
-            state.placedNodes[id].y = newTop;
-            updateConnections();
-          };
-
-          const onPointerUp = (ev) => {
-            if (isDragging) {
-              isDragging = false;
-              nodeEl.style.zIndex = 10;
-              nodeEl.releasePointerCapture(ev.pointerId);
-              nodeEl.removeEventListener("pointermove", onPointerMove);
-              nodeEl.removeEventListener("pointerup", onPointerUp);
-            }
-          };
-
-          nodeEl.addEventListener("pointermove", onPointerMove);
-          nodeEl.addEventListener("pointerup", onPointerUp);
-        });
-      }
-
-      function removeNode(id) {
-        if (state.placedNodes[id]) {
-          state.placedNodes[id].element.remove();
-          delete state.placedNodes[id];
-        }
-        state.connections = state.connections.filter(c => c.from !== id && c.to !== id);
-        updateConnections();
-        renderDrawer();
-      }
-
-      function handleConnectSelect(id) {
-        if (!state.connectSourceId) {
-          state.connectSourceId = id;
-          state.placedNodes[id].element.classList.add("connect-source");
-          showToast("Select second concept to establish relationship!", "🔗");
-        } else if (state.connectSourceId === id) {
-          clearConnectSource();
-        } else {
-          createConnection(state.connectSourceId, id);
-          clearConnectSource();
-        }
-      }
-
-      function clearConnectSource() {
-        if (state.connectSourceId && state.placedNodes[state.connectSourceId]) {
-          state.placedNodes[state.connectSourceId].element.classList.remove("connect-source");
-        }
-        state.connectSourceId = null;
-        root.querySelector("#cm-tool-connect").classList.remove("active");
-        state.connectMode = false;
-      }
-
-      function createConnection(fromId, toId, defaultLabel = "relates to", arrowType = "single") {
-        const exists = state.connections.find(c => (c.from === fromId && c.to === toId) || (c.from === toId && c.to === fromId));
-        if (exists) {
-          showToast("Concepts already connected! Click line to edit.", "ℹ️");
-          return;
-        }
-
-        const cid = `conn_${Date.now()}`;
-        state.connections.push({ id: cid, from: fromId, to: toId, label: defaultLabel, arrowType: arrowType });
-        addScore(30, "Connection forged!");
-        hudConnectionsEl.textContent = state.connections.length;
-        if (state.connections.length >= 3) checkBadge("bridge_builder");
-
-        updateConnections();
-        openLabelModal(cid);
-      }
-
-      function updateConnections() {
-        svgLayerEl.querySelectorAll(".cm-conn-item").forEach(el => el.remove());
-        hudConnectionsEl.textContent = state.connections.length;
-
-        state.connections.forEach(conn => {
-          const fromNode = state.placedNodes[conn.from]?.element;
-          const toNode = state.placedNodes[conn.to]?.element;
-          if (!fromNode || !toNode) return;
-
-          const x1 = fromNode.offsetLeft + fromNode.offsetWidth / 2;
-          const y1 = fromNode.offsetTop + fromNode.offsetHeight / 2;
-          const x2 = toNode.offsetLeft + toNode.offsetWidth / 2;
-          const y2 = toNode.offsetTop + toNode.offsetHeight / 2;
-
-          const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-          g.setAttribute("class", "cm-conn-item");
-
-          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-          line.setAttribute("x1", x1);
-          line.setAttribute("y1", y1);
-          line.setAttribute("x2", x2);
-          line.setAttribute("y2", y2);
-          line.setAttribute("class", "cm-connection-line");
-          line.setAttribute("marker-end", "url(#cm-arrow)");
-          if (conn.arrowType === "dual") line.setAttribute("marker-start", "url(#cm-arrow-start)");
-          line.addEventListener("click", () => openLabelModal(conn.id));
-
-          const midX = (x1 + x2) / 2;
-          const midY = (y1 + y2) / 2;
-          const labelText = (conn.arrowType === "dual" ? "⬄ " : "➜ ") + (conn.label || "relates to");
-          const textWidth = Math.max(90, labelText.length * 8 + 20);
-
-          const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-          rect.setAttribute("x", midX - textWidth / 2);
-          rect.setAttribute("y", midY - 13);
-          rect.setAttribute("width", textWidth);
-          rect.setAttribute("height", 26);
-          rect.setAttribute("class", "cm-connection-label-rect");
-          rect.addEventListener("click", () => openLabelModal(conn.id));
-
-          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-          text.setAttribute("x", midX);
-          text.setAttribute("y", midY);
-          text.setAttribute("class", "cm-connection-label-text");
-          text.textContent = labelText;
-          text.addEventListener("click", () => openLabelModal(conn.id));
-
-          g.appendChild(line);
-          g.appendChild(rect);
-          g.appendChild(text);
-          svgLayerEl.appendChild(g);
-        });
-      }
-
-      // Connection Modal
-      const connModal = root.querySelector("#cm-connection-modal");
-      const connInput = root.querySelector("#cm-conn-input-label");
-      const optSingle = root.querySelector("#cm-opt-single");
-      const optDual = root.querySelector("#cm-opt-dual");
-
-      function setArrowOption(type) {
-        state.currentArrowChoice = type;
-        if (type === "single") {
-          optSingle.classList.add("active");
-          optDual.classList.remove("active");
-        } else {
-          optDual.classList.add("active");
-          optSingle.classList.remove("active");
-        }
-      }
-
-      optSingle.addEventListener("click", () => setArrowOption("single"));
-      optDual.addEventListener("click", () => setArrowOption("dual"));
-
-      function openLabelModal(cid) {
-        state.selectedConnectionId = cid;
-        const conn = state.connections.find(c => c.id === cid);
-        if (!conn) return;
-        connInput.value = conn.label;
-        setArrowOption(conn.arrowType || "single");
-        connModal.classList.add("open");
-        connInput.focus();
-      }
-
-      root.querySelector("#cm-btn-save-conn").addEventListener("click", () => {
-        if (!state.selectedConnectionId) return;
-        const conn = state.connections.find(c => c.id === state.selectedConnectionId);
-        if (conn) {
-          conn.label = connInput.value.trim() || "relates to";
-          conn.arrowType = state.currentArrowChoice;
-          if (conn.arrowType === "dual") checkBadge("dual_connector");
-          addScore(15, "Relationship detailed!");
-          checkBadge("deep_thinker");
-          updateConnections();
-        }
-        connModal.classList.remove("open");
-      });
-
-      root.querySelector("#cm-btn-del-conn").addEventListener("click", () => {
-        if (!state.selectedConnectionId) return;
-        state.connections = state.connections.filter(c => c.id !== state.selectedConnectionId);
-        updateConnections();
-        connModal.classList.remove("open");
-        showToast("Connection deleted", "🗑️");
-      });
-
-      root.querySelector("#cm-btn-cancel-conn").addEventListener("click", () => connModal.classList.remove("open"));
-
-      // Instructor Secret Code (+300 PTS)
-      const instructorModal = root.querySelector("#cm-instructor-modal");
-      const secretInput = root.querySelector("#cm-instructor-secret-input");
-      const errorMsg = root.querySelector("#cm-instructor-error-msg");
-
-      function openInstructorModal() {
-        secretInput.value = "";
-        errorMsg.style.display = "none";
-        instructorModal.classList.add("open");
-        secretInput.focus();
-      }
-
-      root.querySelector("#cm-btn-instructor-trigger").addEventListener("click", openInstructorModal);
-      root.querySelector("#cm-tool-instructor-quick").addEventListener("click", openInstructorModal);
-      root.querySelector("#cm-btn-sum-instructor").addEventListener("click", () => {
-        root.querySelector("#cm-summary-modal").classList.remove("open");
-        openInstructorModal();
-      });
-      root.querySelector("#cm-btn-cancel-instructor").addEventListener("click", () => instructorModal.classList.remove("open"));
-
-      root.querySelector("#cm-btn-submit-instructor").addEventListener("click", () => {
-        const code = secretInput.value.trim().toUpperCase();
-        if (VALID_INSTRUCTOR_CODES.includes(code)) {
-          if (!state.currentMapBonusAwarded) {
-            state.currentMapBonusAwarded = true;
-            state.instructorBonusCount++;
-            state.totalInstructorBonus += 300;
-            addScore(300, "Cluster Instructor Bonus Unlocked!");
-            playCelebrationSound();
-            triggerConfettiBurst();
-            checkBadge("instructor_endorsed");
-            updateBonusHud();
-            showToast(`🎓 Cluster Instructor approved map #${state.instructorBonusCount}! (+300 pts)`, "🌟");
+      canvasAreaEl.addEventListener("wheel", (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          if (e.deltaY < 0) {
+            zoomIn();
           } else {
-            showToast("Bonus was already awarded for this map! Reset to build and verify another defensible map.", "ℹ️");
+            zoomOut();
           }
-          instructorModal.classList.remove("open");
-        } else {
-          errorMsg.style.display = "block";
         }
+      }, { passive: false });
+    }
+
+    function updateBonusHud() {
+      if (state.totalInstructorBonus > 0) {
+        hudBonusStatusEl.textContent = `+${state.totalInstructorBonus} (${state.instructorBonusCount} Approved)`;
+        hudBonusStatusEl.style.color = "#10b981";
+      } else {
+        hudBonusStatusEl.textContent = "Pending";
+        hudBonusStatusEl.style.color = "#f59e0b";
+      }
+    }
+
+    function renderDrawer() {
+      cardListEl.innerHTML = "";
+      let remaining = 0;
+      const totalConcepts = RAW_CONCEPTS.length;
+
+      // Group 1: Core concepts
+      const coreHeader = document.createElement("div");
+      coreHeader.className = "section-category-header core";
+      coreHeader.innerHTML = `<span>🧠 Core Concepts (1–4)</span>`;
+      cardListEl.appendChild(coreHeader);
+
+      RAW_CONCEPTS.filter(c => c.category === "core").forEach(concept => {
+        const card = createDrawerCard(concept);
+        if (!state.placedNodes[concept.id]) remaining++;
+        cardListEl.appendChild(card);
       });
 
-      // Save / Load System
-      const saveLoadModal = root.querySelector("#cm-save-load-modal");
-      const mapFileLoader = root.querySelector("#cm-map-file-loader");
+      // Group 2: Shaping Factors
+      const factorsHeader = document.createElement("div");
+      factorsHeader.className = "section-category-header factors";
+      factorsHeader.innerHTML = `<span>⚡ Factors Shaping Trust &amp; Adoption (5–11)</span>`;
+      cardListEl.appendChild(factorsHeader);
 
-      root.querySelector("#cm-btn-save-load").addEventListener("click", () => saveLoadModal.classList.add("open"));
-      root.querySelector("#cm-btn-close-save-load").addEventListener("click", () => saveLoadModal.classList.remove("open"));
-      root.querySelector("#cm-tool-quick-save").addEventListener("click", exportMapToFile);
-      root.querySelector("#cm-btn-sum-download").addEventListener("click", exportMapToFile);
-      root.querySelector("#cm-btn-export-file").addEventListener("click", () => {
-        exportMapToFile();
-        saveLoadModal.classList.remove("open");
-      });
-      root.querySelector("#cm-btn-import-file").addEventListener("click", () => mapFileLoader.click());
-      mapFileLoader.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          try {
-            applyLoadedData(JSON.parse(ev.target.result));
-            saveLoadModal.classList.remove("open");
-            showToast(`Concept map loaded!`, "📂");
-          } catch (err) {
-            alert("Invalid concept map JSON file.");
-          }
-        };
-        reader.readAsText(file);
-        e.target.value = "";
+      RAW_CONCEPTS.filter(c => c.category === "factor").forEach(concept => {
+        const card = createDrawerCard(concept);
+        if (!state.placedNodes[concept.id]) remaining++;
+        cardListEl.appendChild(card);
       });
 
-      root.querySelector("#cm-btn-quick-save-local").addEventListener("click", () => {
-        try {
-          localStorage.setItem("trust_tech_cm_ntulearn", JSON.stringify(createSavePayload()));
-          showToast("Saved to browser storage!", "⚡");
-        } catch (e) {
-          showToast("Unable to save locally", "⚠️");
-        }
-        saveLoadModal.classList.remove("open");
-      });
+      drawerCountEl.textContent = `${remaining} Left`;
+      hudPlacedEl.textContent = `${totalConcepts - remaining} / ${totalConcepts}`;
 
-      root.querySelector("#cm-btn-quick-load-local").addEventListener("click", () => {
-        try {
-          const str = localStorage.getItem("trust_tech_cm_ntulearn");
-          if (!str) { alert("No map found in browser storage."); return; }
-          applyLoadedData(JSON.parse(str));
-          showToast("Map restored from browser!", "🔄");
-        } catch (e) {
-          alert("Failed to load map.");
-        }
-        saveLoadModal.classList.remove("open");
-      });
+      if (totalConcepts - remaining === totalConcepts) {
+        checkBadge("full_network");
+      }
+    }
 
-      function createSavePayload() {
-        const serialNodes = {};
-        Object.keys(state.placedNodes).forEach(id => {
-          const n = state.placedNodes[id];
-          serialNodes[id] = { x: n.x, y: n.y, color: n.color };
+    function createDrawerCard(concept) {
+      const isPlaced = Boolean(state.placedNodes[concept.id]);
+      const card = document.createElement("div");
+      card.className = `drawer-card ${isPlaced ? "placed" : ""}`;
+      card.dataset.id = concept.id;
+
+      if (!isPlaced) {
+        card.draggable = true;
+        card.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("text/plain", concept.id);
+          e.dataTransfer.effectAllowed = "copy";
         });
-        return {
-          app: "ConceptMapQuestNTULearn",
-          version: "2.0",
-          savedAt: new Date().toISOString(),
-          score: state.score,
-          totalInstructorBonus: state.totalInstructorBonus,
-          instructorBonusCount: state.instructorBonusCount,
-          currentMapBonusAwarded: state.currentMapBonusAwarded,
-          nodes: serialNodes,
-          connections: state.connections,
-          reflections: {
-            q1: root.querySelector("#cm-ref-q1").value || state.reflections.q1,
-            q2: root.querySelector("#cm-ref-q2").value || state.reflections.q2,
-            q3: root.querySelector("#cm-ref-q3").value || state.reflections.q3,
-            q4: root.querySelector("#cm-ref-q4").value || state.reflections.q4
-          },
-          badges: BADGES.map(b => ({ id: b.id, unlocked: b.unlocked }))
-        };
       }
 
-      function exportMapToFile() {
-        const payload = createSavePayload();
-        const json = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
-        const a = document.createElement("a");
-        a.href = json;
-        a.download = `TrustTech_ConceptMap_${new Date().toISOString().slice(0, 10)}.json`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        showToast("Concept map file exported!", "💾");
+      card.innerHTML = `
+        <div class="card-info">
+          <span class="card-drag-handle">⠿</span>
+          <div>
+            <span class="card-num">#${concept.num}</span>
+            <span>${concept.title}</span>
+          </div>
+        </div>
+        ${!isPlaced ? `<button class="card-add-btn" title="Add to canvas">+ Add</button>` : `<span style="font-size:0.82rem; color:#94a3b8; font-weight:600;">Placed</span>`}
+      `;
+
+      if (!isPlaced) {
+        const addBtn = card.querySelector(".card-add-btn");
+        addBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          placeConceptAuto(concept.id);
+        });
       }
 
-      function applyLoadedData(data) {
-        if (!data || !data.nodes) return;
-        Object.keys(state.placedNodes).forEach(id => state.placedNodes[id].element.remove());
-        state.placedNodes = {};
-        state.connections = [];
+      return card;
+    }
 
-        if (typeof data.score === "number") state.score = data.score;
-        if (typeof data.totalInstructorBonus === "number") state.totalInstructorBonus = data.totalInstructorBonus;
-        if (typeof data.instructorBonusCount === "number") state.instructorBonusCount = data.instructorBonusCount;
-        if (typeof data.currentMapBonusAwarded === "boolean") state.currentMapBonusAwarded = data.currentMapBonusAwarded;
+    /* =====================================================================
+       5. PLACEMENT & SOUND TRIGGER
+       ===================================================================== */
+    canvasAreaEl.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "copy";
+    });
 
-        if (Array.isArray(data.badges)) {
-          data.badges.forEach(sb => {
-            const b = BADGES.find(item => item.id === sb.id);
-            if (b && sb.unlocked) b.unlocked = true;
-          });
-        }
+    canvasAreaEl.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const conceptId = e.dataTransfer.getData("text/plain");
+      if (!conceptId || state.placedNodes[conceptId]) return;
 
-        if (data.reflections) {
-          state.reflections = { ...state.reflections, ...data.reflections };
-          root.querySelector("#cm-ref-q1").value = state.reflections.q1 || "";
-          root.querySelector("#cm-ref-q2").value = state.reflections.q2 || "";
-          root.querySelector("#cm-ref-q3").value = state.reflections.q3 || "";
-          root.querySelector("#cm-ref-q4").value = state.reflections.q4 || "";
-        }
+      const rect = canvasAreaEl.getBoundingClientRect();
+      const clientX = e.clientX - rect.left;
+      const clientY = e.clientY - rect.top;
 
-        Object.keys(data.nodes).forEach(id => {
-          const n = data.nodes[id];
-          spawnNodeOnCanvas(id, n.x, n.y, n.color, true);
-        });
+      const x = Math.max(20, (clientX / state.zoom) - 100);
+      const y = Math.max(20, (clientY / state.zoom) - 30);
 
-        if (Array.isArray(data.connections)) {
-          state.connections = data.connections.map(c => ({
-            id: c.id || `conn_${Date.now()}_${Math.random()}`,
-            from: c.from,
-            to: c.to,
-            label: c.label || "relates to",
-            arrowType: c.arrowType || "single"
-          }));
-        }
+      spawnNodeOnCanvas(conceptId, x, y);
+    });
 
-        hudPointsEl.textContent = state.score;
-        updateBonusHud();
-        updateConnections();
-        renderDrawer();
-        renderBadgesModal();
+    function placeConceptAuto(id) {
+      if (state.placedNodes[id]) return;
+      const rect = canvasAreaEl.getBoundingClientRect();
+      const count = Object.keys(state.placedNodes).length;
+
+      const col = count % 3;
+      const row = Math.floor(count / 3);
+      const x = Math.max(30, Math.min(50 + col * 300, (rect.width / state.zoom) - 295));
+      const y = Math.max(30, Math.min(40 + row * 155, (rect.height / state.zoom) - 160));
+
+      spawnNodeOnCanvas(id, x, y);
+    }
+
+    function spawnNodeOnCanvas(id, x, y, customColor = null, suppressScore = false) {
+      const data = RAW_CONCEPTS.find(c => c.id === id);
+      if (!data) return;
+
+      if (!suppressScore) {
         playPlaceSound();
       }
 
-      // Badges
-      const badgesModal = root.querySelector("#cm-badges-modal");
-      root.querySelector("#cm-btn-badges-view").addEventListener("click", () => {
-        renderBadgesModal();
-        badgesModal.classList.add("open");
-      });
-      root.querySelector("#cm-btn-close-badges").addEventListener("click", () => badgesModal.classList.remove("open"));
+      const defaultBorder = data.category === "core" ? "#6366f1" : "#0284c7";
+      const color = customColor || defaultBorder;
 
-      function renderBadgesModal() {
-        root.querySelector("#cm-badge-grid").innerHTML = BADGES.map(b => `
-          <div style="background:rgba(255,255,255,0.05); border:1px solid ${b.unlocked ? '#a855f7' : 'rgba(255,255,255,0.1)'}; border-radius:8px; padding:10px; text-align:center;">
-            <div style="font-size:26px; margin-bottom:4px;">${b.icon}</div>
-            <div style="font-size:0.85rem; font-weight:700; color:#e2e8f0;">${b.name}</div>
-            <div style="font-size:0.75rem; color:${b.unlocked ? '#34d399' : '#94a3b8'}; margin-top:2px;">${b.unlocked ? 'Unlocked ✨' : 'Locked'}</div>
+      const nodeEl = document.createElement("div");
+      nodeEl.className = "concept-node";
+      nodeEl.id = `node-${id}`;
+      nodeEl.style.left = `${x}px`;
+      nodeEl.style.top = `${y}px`;
+      nodeEl.style.borderColor = color;
+
+      let swatchesHtml = COLOR_PALETTE.map(c => 
+        `<div class="color-swatch" style="background:${c}" data-color="${c}"></div>`
+      ).join("");
+
+      nodeEl.innerHTML = `
+        <div class="node-header">
+          <span class="node-category-pill ${data.category === 'core' ? 'core' : 'factor'}">
+            #${data.num} ${data.categoryLabel}
+          </span>
+          <div class="node-actions">
+            <button class="node-btn connect-btn" title="Connect to another concept">🔗</button>
+            <button class="node-btn delete-btn" title="Return to drawer">✕</button>
           </div>
-        `).join("");
+        </div>
+        <div class="node-content">${data.title}</div>
+        <div class="color-swatches">${swatchesHtml}</div>
+      `;
+
+      zoomStageEl.appendChild(nodeEl);
+
+      state.placedNodes[id] = {
+        x,
+        y,
+        color,
+        element: nodeEl
+      };
+
+      if (!suppressScore) {
+        addScore(25, "Concept placed!");
+        checkBadge("first_node");
       }
 
-      function checkBadge(badgeId) {
-        const b = BADGES.find(item => item.id === badgeId);
-        if (b && !b.unlocked) {
-          b.unlocked = true;
-          addScore(100, `Badge: ${b.name}!`);
-          showToast(`🏆 Badge Unlocked: ${b.name}!`, "✨");
-          renderBadgesModal();
+      setupNodeInteractivity(id, nodeEl);
+      renderDrawer();
+    }
+
+    function setupNodeInteractivity(id, nodeEl) {
+      nodeEl.querySelectorAll(".color-swatch").forEach(swatch => {
+        swatch.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const col = swatch.dataset.color;
+          nodeEl.style.borderColor = col;
+          state.placedNodes[id].color = col;
+          addScore(5, "Node customized!");
+          checkBadge("palette_master");
+        });
+      });
+
+      nodeEl.querySelector(".delete-btn").addEventListener("click", (e) => {
+        e.stopPropagation();
+        removeNode(id);
+      });
+
+      nodeEl.querySelector(".connect-btn").addEventListener("click", (e) => {
+        e.stopPropagation();
+        handleConnectSelect(id);
+      });
+
+      nodeEl.addEventListener("click", (e) => {
+        if (state.connectMode || state.connectSourceId) {
+          e.stopPropagation();
+          handleConnectSelect(id);
         }
+      });
+
+      let isDragging = false;
+      let startX, startY;
+      let initialLeft, initialTop;
+
+      nodeEl.addEventListener("pointerdown", (e) => {
+        if (e.target.closest(".node-actions") || e.target.closest(".color-swatches")) return;
+
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        initialLeft = parseFloat(nodeEl.style.left) || 0;
+        initialTop = parseFloat(nodeEl.style.top) || 0;
+        nodeEl.style.zIndex = 50;
+        nodeEl.setPointerCapture(e.pointerId);
+
+        const onPointerMove = (moveEvent) => {
+          if (!isDragging) return;
+          const dx = (moveEvent.clientX - startX) / state.zoom;
+          const dy = (moveEvent.clientY - startY) / state.zoom;
+
+          const newLeft = Math.max(10, initialLeft + dx);
+          const newTop = Math.max(10, initialTop + dy);
+
+          nodeEl.style.left = `${newLeft}px`;
+          nodeEl.style.top = `${newTop}px`;
+
+          state.placedNodes[id].x = newLeft;
+          state.placedNodes[id].y = newTop;
+
+          updateConnections();
+        };
+
+        const onPointerUp = (upEvent) => {
+          if (isDragging) {
+            isDragging = false;
+            nodeEl.style.zIndex = 10;
+            nodeEl.releasePointerCapture(upEvent.pointerId);
+            nodeEl.removeEventListener("pointermove", onPointerMove);
+            nodeEl.removeEventListener("pointerup", onPointerUp);
+          }
+        };
+
+        nodeEl.addEventListener("pointermove", onPointerMove);
+        nodeEl.addEventListener("pointerup", onPointerUp);
+      });
+    }
+
+    function removeNode(id) {
+      const nodeEl = state.placedNodes[id]?.element;
+      if (nodeEl) nodeEl.remove();
+      delete state.placedNodes[id];
+
+      state.connections = state.connections.filter(c => c.from !== id && c.to !== id);
+      updateConnections();
+      renderDrawer();
+    }
+
+    /* =====================================================================
+       6. CONNECTORS WITH SINGLE OR DUAL ARROWS
+       ===================================================================== */
+    function handleConnectSelect(id) {
+      if (!state.connectSourceId) {
+        state.connectSourceId = id;
+        state.placedNodes[id].element.classList.add("connect-source");
+        showToast("Select second concept to establish relationship!", "🔗");
+      } else if (state.connectSourceId === id) {
+        clearConnectSource();
+      } else {
+        createConnection(state.connectSourceId, id);
+        clearConnectSource();
+      }
+    }
+
+    function clearConnectSource() {
+      if (state.connectSourceId && state.placedNodes[state.connectSourceId]) {
+        state.placedNodes[state.connectSourceId].element.classList.remove("connect-source");
+      }
+      state.connectSourceId = null;
+      document.getElementById("tool-mode-connect").classList.remove("active");
+      state.connectMode = false;
+    }
+
+    function createConnection(fromId, toId, defaultLabel = "relates to", arrowType = "single") {
+      const exists = state.connections.find(c => (c.from === fromId && c.to === toId) || (c.from === toId && c.to === fromId));
+      if (exists) {
+        showToast("These concepts are already linked! Click the connection to edit.", "ℹ️");
+        return;
       }
 
-      // Reflection & Finish
-      const refModal = root.querySelector("#cm-reflection-modal");
-      const sumModal = root.querySelector("#cm-summary-modal");
+      const connectionId = `conn_${Date.now()}`;
+      state.connections.push({
+        id: connectionId,
+        from: fromId,
+        to: toId,
+        label: defaultLabel,
+        arrowType: arrowType
+      });
 
-      root.querySelector("#cm-btn-complete-map").addEventListener("click", () => refModal.classList.add("open"));
-      root.querySelector("#cm-btn-close-ref").addEventListener("click", () => refModal.classList.remove("open"));
+      addScore(30, "Connection forged!");
+      hudConnectionsEl.textContent = state.connections.length;
 
-      root.querySelector("#cm-btn-submit-ref").addEventListener("click", () => {
-        state.reflections.q1 = root.querySelector("#cm-ref-q1").value || "Cognitive and emotional trust form complementary pathways to technology adoption.";
-        state.reflections.q2 = root.querySelector("#cm-ref-q2").value || "The link between personal recommendations and emotional validation.";
-        state.reflections.q3 = root.querySelector("#cm-ref-q3").value || "People do not always need full technical understanding if regulatory approval exists.";
-        state.reflections.q4 = root.querySelector("#cm-ref-q4").value || "Exploring how celebrity endorsements might introduce vulnerabilities in trust.";
+      if (state.connections.length >= 3) {
+        checkBadge("bridge_builder");
+      }
 
-        addScore(150, "Reflections completed!");
-        refModal.classList.remove("open");
+      updateConnections();
+      openLabelModal(connectionId);
+    }
 
-        root.querySelector("#cm-sum-points").textContent = state.score;
-        root.querySelector("#cm-sum-placed").textContent = `${Object.keys(state.placedNodes).length}/11`;
-        root.querySelector("#cm-sum-connections").textContent = state.connections.length;
-        root.querySelector("#cm-sum-bonus").textContent = state.totalInstructorBonus > 0 ? `+${state.totalInstructorBonus} (${state.instructorBonusCount} Approved)` : "Pending Code";
+    function updateConnections() {
+      const existingElements = svgLayerEl.querySelectorAll(".connection-item");
+      existingElements.forEach(el => el.remove());
 
-        const sumBox = root.querySelector("#cm-instructor-summary-box");
-        if (state.totalInstructorBonus > 0) {
-          sumBox.innerHTML = `
-            <div style="background:rgba(16,185,129,0.2); border:1px solid #10b981; border-radius:8px; padding:12px; margin-top:12px; display:flex; align-items:center; gap:10px;">
-              <span style="font-size:24px;">🎓</span>
-              <div>
-                <strong style="color:#34d399; font-size:0.95rem;">Instructor Endorsement Active (${state.instructorBonusCount} Map${state.instructorBonusCount > 1 ? 's' : ''} Approved)</strong>
-                <p style="font-size:0.85rem; color:#cbd5e1; margin:2px 0 0 0;">Total instructor bonus awarded: <strong>+${state.totalInstructorBonus} pts</strong>.</p>
-              </div>
-            </div>
-          `;
-        } else {
-          sumBox.innerHTML = `
-            <div style="background:rgba(245,158,11,0.1); border:1px dashed rgba(245,158,11,0.4); border-radius:8px; padding:10px 14px; margin-top:10px;">
-              <span style="font-size:0.88rem; color:#fde68a;">⚠️ Present this defensible map to your Cluster Instructor to receive +300 bonus points.</span>
-            </div>
-          `;
+      hudConnectionsEl.textContent = state.connections.length;
+
+      state.connections.forEach(conn => {
+        const fromNode = state.placedNodes[conn.from]?.element;
+        const toNode = state.placedNodes[conn.to]?.element;
+        if (!fromNode || !toNode) return;
+
+        const x1 = fromNode.offsetLeft + fromNode.offsetWidth / 2;
+        const y1 = fromNode.offsetTop + fromNode.offsetHeight / 2;
+        const x2 = toNode.offsetLeft + toNode.offsetWidth / 2;
+        const y2 = toNode.offsetTop + toNode.offsetHeight / 2;
+
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.setAttribute("class", "connection-item");
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", x1);
+        line.setAttribute("y1", y1);
+        line.setAttribute("x2", x2);
+        line.setAttribute("y2", y2);
+        line.setAttribute("class", "connection-line");
+
+        line.setAttribute("marker-end", "url(#arrow)");
+        if (conn.arrowType === "dual") {
+          line.setAttribute("marker-start", "url(#arrow-start)");
         }
 
-        root.querySelector("#cm-summary-reflections").innerHTML = `
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b;">1. Main idea of your concept map:</div>
-          <div style="font-size:0.9rem; color:#e2e8f0; margin:2px 0 8px 6px;">${escapeHtml(state.reflections.q1)}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b;">2. Most meaningful connection:</div>
-          <div style="font-size:0.9rem; color:#e2e8f0; margin:2px 0 8px 6px;">${escapeHtml(state.reflections.q2)}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b;">3. Discovery during construction:</div>
-          <div style="font-size:0.9rem; color:#e2e8f0; margin:2px 0 8px 6px;">${escapeHtml(state.reflections.q3)}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b;">4. Adjustments for future tests:</div>
-          <div style="font-size:0.9rem; color:#e2e8f0; margin:2px 0 0 6px;">${escapeHtml(state.reflections.q4)}</div>
-        `;
-        sumModal.classList.add("open");
+        line.addEventListener("click", () => openLabelModal(conn.id));
+
+        const midX = (x1 + x2) / 2;
+        const midY = (y1 + y2) / 2;
+        const labelText = (conn.arrowType === "dual" ? "⬄ " : "➜ ") + (conn.label || "relates to");
+        const textWidth = Math.max(94, labelText.length * 8.5 + 24);
+
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("x", midX - textWidth / 2);
+        rect.setAttribute("y", midY - 14);
+        rect.setAttribute("width", textWidth);
+        rect.setAttribute("height", 28);
+        rect.setAttribute("class", "connection-label-rect");
+        rect.addEventListener("click", () => openLabelModal(conn.id));
+
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", midX);
+        text.setAttribute("y", midY);
+        text.setAttribute("class", "connection-label-text");
+        text.textContent = labelText;
+        text.addEventListener("click", () => openLabelModal(conn.id));
+
+        g.appendChild(line);
+        g.appendChild(rect);
+        g.appendChild(text);
+
+        svgLayerEl.appendChild(g);
+      });
+    }
+
+    /* =====================================================================
+       7. CONNECTION MODAL & ARROW TOGGLE
+       ===================================================================== */
+    const connModal = document.getElementById("connection-modal");
+    const connInput = document.getElementById("conn-input-label");
+    const optSingle = document.getElementById("opt-single-arrow");
+    const optDual = document.getElementById("opt-dual-arrow");
+
+    function setArrowOption(type) {
+      state.currentArrowChoice = type;
+      if (type === "single") {
+        optSingle.classList.add("active");
+        optDual.classList.remove("active");
+      } else {
+        optDual.classList.add("active");
+        optSingle.classList.remove("active");
+      }
+    }
+
+    optSingle.addEventListener("click", () => setArrowOption("single"));
+    optDual.addEventListener("click", () => setArrowOption("dual"));
+
+    function openLabelModal(connectionId) {
+      state.selectedConnectionId = connectionId;
+      const conn = state.connections.find(c => c.id === connectionId);
+      if (!conn) return;
+
+      connInput.value = conn.label;
+      setArrowOption(conn.arrowType || "single");
+      connModal.classList.add("open");
+      connInput.focus();
+    }
+
+    document.getElementById("btn-save-connection").addEventListener("click", () => {
+      if (!state.selectedConnectionId) return;
+      const conn = state.connections.find(c => c.id === state.selectedConnectionId);
+      if (conn) {
+        conn.label = connInput.value.trim() || "relates to";
+        conn.arrowType = state.currentArrowChoice;
+
+        if (conn.arrowType === "dual") {
+          checkBadge("dual_connector");
+        }
+
+        addScore(15, "Relationship detailed!");
+        checkBadge("deep_thinker");
+        updateConnections();
+      }
+      connModal.classList.remove("open");
+    });
+
+    document.getElementById("btn-delete-connection").addEventListener("click", () => {
+      if (!state.selectedConnectionId) return;
+      state.connections = state.connections.filter(c => c.id !== state.selectedConnectionId);
+      updateConnections();
+      connModal.classList.remove("open");
+      showToast("Connection deleted", "🗑️");
+    });
+
+    document.getElementById("btn-cancel-connection").addEventListener("click", () => {
+      connModal.classList.remove("open");
+    });
+
+    /* =====================================================================
+       8. SAVE & LOAD SYSTEM (JSON FILE + LOCAL STORAGE)
+       ===================================================================== */
+    const saveLoadModal = document.getElementById("save-load-modal");
+    const mapFileLoader = document.getElementById("map-file-loader");
+
+    function setupSaveLoadSystem() {
+      // Open Save/Load Modal
+      document.getElementById("btn-save-load").addEventListener("click", () => {
+        saveLoadModal.classList.add("open");
       });
 
-      root.querySelector("#cm-btn-restart").addEventListener("click", () => sumModal.classList.remove("open"));
+      document.getElementById("btn-close-save-load").addEventListener("click", () => {
+        saveLoadModal.classList.remove("open");
+      });
 
-      // Tools & Zoom Controls
-      root.querySelector("#cm-btn-zoom-in").addEventListener("click", () => setZoom(state.zoom + 0.15));
-      root.querySelector("#cm-btn-zoom-out").addEventListener("click", () => setZoom(state.zoom - 0.15));
-      root.querySelector("#cm-btn-zoom-reset").addEventListener("click", () => setZoom(1.0));
+      // Quick export from toolbar or summary modal
+      document.getElementById("tool-quick-save").addEventListener("click", exportMapToFile);
+      document.getElementById("btn-save-from-summary").addEventListener("click", exportMapToFile);
 
-      root.querySelector("#cm-btn-fullscreen").addEventListener("click", () => {
-        if (!document.fullscreenElement) {
-          if (root.requestFullscreen) root.requestFullscreen();
-          else if (root.webkitRequestFullscreen) root.webkitRequestFullscreen();
-        } else {
-          if (document.exitFullscreen) document.exitFullscreen();
+      // Modal action buttons
+      document.getElementById("btn-export-file").addEventListener("click", () => {
+        exportMapToFile();
+        saveLoadModal.classList.remove("open");
+      });
+
+      document.getElementById("btn-import-file").addEventListener("click", () => {
+        mapFileLoader.click();
+      });
+
+      mapFileLoader.addEventListener("change", handleFileImport);
+
+      document.getElementById("btn-quick-save-local").addEventListener("click", () => {
+        saveMapToLocalStorage();
+        saveLoadModal.classList.remove("open");
+      });
+
+      document.getElementById("btn-quick-load-local").addEventListener("click", () => {
+        loadMapFromLocalStorage();
+        saveLoadModal.classList.remove("open");
+      });
+
+      // Drag and drop JSON file directly onto canvas to load
+      canvasAreaEl.addEventListener("drop", (e) => {
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          const file = e.dataTransfer.files[0];
+          if (file.name.endsWith(".json")) {
+            e.preventDefault();
+            e.stopPropagation();
+            readJsonFile(file);
+          }
         }
       });
+    }
 
-      root.querySelector("#cm-tool-connect").addEventListener("click", function() {
-        state.connectMode = !state.connectMode;
-        this.classList.toggle("active", state.connectMode);
-        if (state.connectMode) showToast("Connect Mode: Click first concept, then second", "🔗");
-        else clearConnectSource();
+    function createSavePayload() {
+      const serializableNodes = {};
+      Object.keys(state.placedNodes).forEach(id => {
+        const node = state.placedNodes[id];
+        serializableNodes[id] = {
+          x: node.x,
+          y: node.y,
+          color: node.color
+        };
       });
 
-      root.querySelector("#cm-btn-auto-layout").addEventListener("click", () => {
-        const placedIds = Object.keys(state.placedNodes);
-        if (placedIds.length === 0) {
-          showToast("Place some concepts on the canvas first!", "ℹ️");
+      return {
+        app: "ConceptMapCreatorQuest",
+        version: "2.0",
+        savedAt: new Date().toISOString(),
+        score: state.score,
+        totalInstructorBonus: state.totalInstructorBonus,
+        instructorBonusCount: state.instructorBonusCount,
+        currentMapBonusAwarded: state.currentMapBonusAwarded,
+        nodes: serializableNodes,
+        connections: state.connections,
+        reflections: {
+          q1: document.getElementById("ref-q1").value || state.reflections.q1,
+          q2: document.getElementById("ref-q2").value || state.reflections.q2,
+          q3: document.getElementById("ref-q3").value || state.reflections.q3,
+          q4: document.getElementById("ref-q4").value || state.reflections.q4
+        },
+        badges: BADGES.map(b => ({ id: b.id, unlocked: b.unlocked }))
+      };
+    }
+
+    function exportMapToFile() {
+      const payload = createSavePayload();
+      const jsonString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+      const downloadAnchor = document.createElement("a");
+      const filename = `TrustTech_ConceptMap_${new Date().toISOString().slice(0, 10)}.json`;
+
+      downloadAnchor.setAttribute("href", jsonString);
+      downloadAnchor.setAttribute("download", filename);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      showToast("Concept map exported to file!", "💾");
+    }
+
+    function handleFileImport(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      readJsonFile(file);
+      e.target.value = ""; // Reset
+    }
+
+    function readJsonFile(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const loadedData = JSON.parse(event.target.result);
+          applyLoadedData(loadedData);
+          saveLoadModal.classList.remove("open");
+          showToast(`Concept map "${file.name}" loaded successfully!`, "📂");
+        } catch (err) {
+          alert("Invalid or corrupt concept map file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function saveMapToLocalStorage() {
+      const payload = createSavePayload();
+      try {
+        localStorage.setItem("trust_tech_concept_map", JSON.stringify(payload));
+        showToast("Concept map saved to browser storage!", "⚡");
+      } catch (e) {
+        showToast("Storage quota exceeded or unavailable", "⚠️");
+      }
+    }
+
+    function loadMapFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem("trust_tech_concept_map");
+        if (!stored) {
+          alert("No saved concept map found in this browser storage.");
           return;
         }
-        const rect = canvasAreaEl.getBoundingClientRect();
-        const centerX = (rect.width / state.zoom) / 2 - 100;
-        const centerY = (rect.height / state.zoom) / 2 - 50;
-        const radius = Math.min(rect.width / state.zoom, rect.height / state.zoom) * 0.32;
+        const loadedData = JSON.parse(stored);
+        applyLoadedData(loadedData);
+        showToast("Concept map restored from browser!", "🔄");
+      } catch (e) {
+        alert("Failed to load map from browser storage.");
+      }
+    }
 
-        placedIds.forEach((id, index) => {
-          const angle = (index / placedIds.length) * 2 * Math.PI;
-          const x = Math.round(centerX + radius * Math.cos(angle));
-          const y = Math.round(centerY + radius * Math.sin(angle));
-          const el = state.placedNodes[id].element;
-          el.style.left = `${x}px`;
-          el.style.top = `${y}px`;
-          state.placedNodes[id].x = x;
-          state.placedNodes[id].y = y;
+    function applyLoadedData(data) {
+      if (!data || !data.nodes) {
+        alert("Unrecognized concept map format.");
+        return;
+      }
+
+      // Clear existing canvas nodes
+      Object.keys(state.placedNodes).forEach(id => {
+        state.placedNodes[id].element.remove();
+      });
+      state.placedNodes = {};
+      state.connections = [];
+
+      // Restore scores & bonuses
+      if (typeof data.score === "number") state.score = data.score;
+      if (typeof data.totalInstructorBonus === "number") state.totalInstructorBonus = data.totalInstructorBonus;
+      if (typeof data.instructorBonusCount === "number") state.instructorBonusCount = data.instructorBonusCount;
+      if (typeof data.currentMapBonusAwarded === "boolean") state.currentMapBonusAwarded = data.currentMapBonusAwarded;
+
+      // Restore badges
+      if (Array.isArray(data.badges)) {
+        data.badges.forEach(sb => {
+          const b = BADGES.find(item => item.id === sb.id);
+          if (b && sb.unlocked) b.unlocked = true;
         });
-        updateConnections();
-        addScore(15, "Arrangement reorganized!");
-        showToast("Arranged in circular pattern!", "✨");
+      }
+
+      // Restore reflections
+      if (data.reflections) {
+        state.reflections = { ...state.reflections, ...data.reflections };
+        if (document.getElementById("ref-q1")) document.getElementById("ref-q1").value = state.reflections.q1 || "";
+        if (document.getElementById("ref-q2")) document.getElementById("ref-q2").value = state.reflections.q2 || "";
+        if (document.getElementById("ref-q3")) document.getElementById("ref-q3").value = state.reflections.q3 || "";
+        if (document.getElementById("ref-q4")) document.getElementById("ref-q4").value = state.reflections.q4 || "";
+      }
+
+      // Reconstruct nodes
+      Object.keys(data.nodes).forEach(id => {
+        const nodeInfo = data.nodes[id];
+        spawnNodeOnCanvas(id, nodeInfo.x, nodeInfo.y, nodeInfo.color, true);
       });
 
-      root.querySelector("#cm-tool-clear").addEventListener("click", () => {
-        if (confirm("Reset current workspace to explore another defensible perspective? All earned points and instructor bonuses will remain intact!")) {
-          Object.keys(state.placedNodes).forEach(id => state.placedNodes[id].element.remove());
-          state.placedNodes = {};
-          state.connections = [];
-          state.currentMapBonusAwarded = false;
+      // Restore connections
+      if (Array.isArray(data.connections)) {
+        state.connections = data.connections.map(c => ({
+          id: c.id || `conn_${Date.now()}_${Math.random()}`,
+          from: c.from,
+          to: c.to,
+          label: c.label || "relates to",
+          arrowType: c.arrowType || "single"
+        }));
+      }
+
+      hudPointsEl.textContent = state.score;
+      updateBonusHud();
+      updateConnections();
+      renderDrawer();
+      renderBadgesModal();
+      playPlaceSound();
+    }
+
+    /* =====================================================================
+       9. CLUSTER INSTRUCTOR SECRET CODE SYSTEM (+300 PTS) + CONFETTI
+       ===================================================================== */
+    const instructorModal = document.getElementById("instructor-modal");
+    const secretInput = document.getElementById("instructor-secret-input");
+    const errorMsg = document.getElementById("instructor-error-msg");
+
+    function openInstructorModal() {
+      secretInput.value = "";
+      errorMsg.style.display = "none";
+      instructorModal.classList.add("open");
+      secretInput.focus();
+    }
+
+    document.getElementById("btn-instructor-trigger").addEventListener("click", openInstructorModal);
+    document.getElementById("tool-instructor-quick").addEventListener("click", openInstructorModal);
+    document.getElementById("btn-summary-instructor-check").addEventListener("click", () => {
+      sumModal.classList.remove("open");
+      openInstructorModal();
+    });
+
+    document.getElementById("btn-cancel-instructor").addEventListener("click", () => {
+      instructorModal.classList.remove("open");
+    });
+
+    document.getElementById("btn-submit-instructor").addEventListener("click", () => {
+      const enteredCode = secretInput.value.trim().toUpperCase();
+      if (VALID_INSTRUCTOR_CODES.includes(enteredCode)) {
+        if (!state.currentMapBonusAwarded) {
+          state.currentMapBonusAwarded = true;
+          state.instructorBonusCount++;
+          state.totalInstructorBonus += 300;
+          addScore(300, "Cluster Instructor Bonus Unlocked!");
+
+          playCelebrationSound();
+          triggerConfettiBurst();
+
+          checkBadge("instructor_endorsed");
           updateBonusHud();
-          updateConnections();
-          renderDrawer();
-          showToast("Workspace ready for another perspective! Earned points preserved.", "✨");
+          showToast(`🎓 Cluster Instructor verified map #${state.instructorBonusCount}! (+300 pts)`, "🌟");
+        } else {
+          showToast("Bonus was already awarded for this map! Reset to build and verify another defensible map.", "ℹ️");
         }
+        instructorModal.classList.remove("open");
+      } else {
+        errorMsg.style.display = "block";
+      }
+    });
+
+    /* =====================================================================
+       10. REFLECTION & SUMMARY MODALS
+       ===================================================================== */
+    const badgesModal = document.getElementById("badges-modal");
+    document.getElementById("btn-badges-view").addEventListener("click", () => {
+      renderBadgesModal();
+      badgesModal.classList.add("open");
+    });
+    document.getElementById("btn-close-badges").addEventListener("click", () => {
+      badgesModal.classList.remove("open");
+    });
+
+    function renderBadgesModal() {
+      const grid = document.getElementById("badge-grid");
+      grid.innerHTML = BADGES.map(b => `
+        <div class="badge-item ${b.unlocked ? 'unlocked' : ''}">
+          <span class="badge-icon">${b.icon}</span>
+          <div class="badge-name">${b.name}</div>
+          <div class="badge-status">${b.unlocked ? 'Unlocked ✨' : 'Locked'}</div>
+        </div>
+      `).join("");
+    }
+
+    function checkBadge(badgeId) {
+      const badge = BADGES.find(b => b.id === badgeId);
+      if (badge && !badge.unlocked) {
+        badge.unlocked = true;
+        addScore(100, `Badge: ${badge.name}!`);
+        showToast(`🏆 Badge Unlocked: ${badge.name}!`, "✨");
+        renderBadgesModal();
+      }
+    }
+
+    const refModal = document.getElementById("reflection-modal");
+    const sumModal = document.getElementById("summary-modal");
+
+    document.getElementById("btn-complete-map").addEventListener("click", () => {
+      refModal.classList.add("open");
+    });
+
+    document.getElementById("btn-close-reflection").addEventListener("click", () => {
+      refModal.classList.remove("open");
+    });
+
+    document.getElementById("btn-submit-reflection").addEventListener("click", () => {
+      state.reflections.q1 = document.getElementById("ref-q1").value || "Cognitive and emotional trust are complementary pathways to widespread adoption.";
+      state.reflections.q2 = document.getElementById("ref-q2").value || "The link between personal recommendations and emotional trust.";
+      state.reflections.q3 = document.getElementById("ref-q3").value || "People do not always need to fully understand tech if regulatory validation is strong.";
+      state.reflections.q4 = document.getElementById("ref-q4").value || "Exploring how celebrity endorsements might introduce vulnerabilities in trust.";
+
+      addScore(150, "Reflections completed!");
+      refModal.classList.remove("open");
+
+      const totalConcepts = RAW_CONCEPTS.length;
+      document.getElementById("sum-points").textContent = state.score;
+      document.getElementById("sum-placed").textContent = `${Object.keys(state.placedNodes).length}/${totalConcepts}`;
+      document.getElementById("sum-connections").textContent = state.connections.length;
+      document.getElementById("sum-bonus").textContent = state.totalInstructorBonus > 0 
+        ? `+${state.totalInstructorBonus} (${state.instructorBonusCount} Approved)` 
+        : "Pending Code";
+
+      const summaryInstructorBox = document.getElementById("instructor-summary-box");
+      if (state.totalInstructorBonus > 0) {
+        summaryInstructorBox.innerHTML = `
+          <div class="instructor-verified-box">
+            <span class="icon">🎓</span>
+            <div>
+              <strong style="color: #34d399; font-size: 1.05rem;">Instructor Endorsement Active (${state.instructorBonusCount} Map${state.instructorBonusCount > 1 ? 's' : ''} Approved)</strong>
+              <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 4px;">Total instructor bonus awarded: <strong>+${state.totalInstructorBonus} pts</strong>. You can reset and build additional defensible maps to earn more bonus points!</p>
+            </div>
+          </div>
+        `;
+      } else {
+        summaryInstructorBox.innerHTML = `
+          <div style="background: rgba(245, 158, 11, 0.1); border: 1px dashed rgba(245, 158, 11, 0.4); border-radius: var(--radius-md); padding: 14px 18px; margin-top: 14px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 0.92rem; color: #fde68a;">⚠️ Present this defensible map to your Cluster Instructor to receive +300 bonus points.</span>
+          </div>
+        `;
+      }
+
+      document.getElementById("summary-reflections").innerHTML = `
+        <div class="review-q">1. Main idea of your concept map:</div>
+        <div class="review-a">${escapeHtml(state.reflections.q1)}</div>
+        <div class="review-q">2. Most meaningful connection:</div>
+        <div class="review-a">${escapeHtml(state.reflections.q2)}</div>
+        <div class="review-q">3. Discovery during construction:</div>
+        <div class="review-a">${escapeHtml(state.reflections.q3)}</div>
+        <div class="review-q">4. What you would adjust or test next:</div>
+        <div class="review-a">${escapeHtml(state.reflections.q4)}</div>
+      `;
+
+      sumModal.classList.add("open");
+    });
+
+    document.getElementById("btn-restart-quest").addEventListener("click", () => {
+      sumModal.classList.remove("open");
+    });
+
+    /* =====================================================================
+       11. TOOLBAR & UTILITIES
+       ===================================================================== */
+    function addScore(amount, reason) {
+      state.score += amount;
+      hudPointsEl.textContent = state.score;
+      if (reason) {
+        showToast(`+${amount} pts: ${reason}`);
+      }
+    }
+
+    document.getElementById("tool-mode-connect").addEventListener("click", function() {
+      state.connectMode = !state.connectMode;
+      this.classList.toggle("active", state.connectMode);
+      if (state.connectMode) {
+        showToast("Connect Mode: Click first concept, then second", "🔗");
+      } else {
+        clearConnectSource();
+      }
+    });
+
+    document.getElementById("btn-auto-layout").addEventListener("click", () => {
+      const placedIds = Object.keys(state.placedNodes);
+      if (placedIds.length === 0) {
+        showToast("Place some concepts on the canvas first!", "ℹ️");
+        return;
+      }
+
+      const rect = canvasAreaEl.getBoundingClientRect();
+      const centerX = (rect.width / state.zoom) / 2 - 110;
+      const centerY = (rect.height / state.zoom) / 2 - 55;
+      const radius = Math.min(rect.width / state.zoom, rect.height / state.zoom) * 0.32;
+
+      placedIds.forEach((id, index) => {
+        const angle = (index / placedIds.length) * 2 * Math.PI;
+        const x = Math.round(centerX + radius * Math.cos(angle));
+        const y = Math.round(centerY + radius * Math.sin(angle));
+
+        const nodeEl = state.placedNodes[id].element;
+        nodeEl.style.left = `${x}px`;
+        nodeEl.style.top = `${y}px`;
+        state.placedNodes[id].x = x;
+        state.placedNodes[id].y = y;
       });
 
-      function addScore(amount, reason) {
-        state.score += amount;
+      updateConnections();
+      addScore(15, "Arrangement reorganized!");
+      showToast("Arranged in circular map pattern!", "✨");
+    });
+
+    // Reset Map handler: keeps all previously earned bonus and base points intact
+    document.getElementById("tool-clear-canvas").addEventListener("click", () => {
+      if (confirm("Reset current workspace to explore another defensible perspective? All earned points and instructor bonuses will remain intact!")) {
+        Object.keys(state.placedNodes).forEach(id => {
+          state.placedNodes[id].element.remove();
+        });
+        state.placedNodes = {};
+        state.connections = [];
+
+        state.currentMapBonusAwarded = false;
+
         hudPointsEl.textContent = state.score;
-        if (reason) showToast(`+${amount} pts: ${reason}`);
-      }
+        updateBonusHud();
 
-      function showToast(message, icon = "⭐") {
-        const hub = root.querySelector("#cm-toast-hub");
-        const toast = document.createElement("div");
-        toast.className = "cm-toast";
-        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
-        hub.appendChild(toast);
-        setTimeout(() => {
-          toast.style.opacity = "0";
-          toast.style.transform = "translateX(100%)";
-          toast.style.transition = "all 0.3s ease";
-          setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        updateConnections();
+        renderDrawer();
+        showToast("Workspace ready for another perspective! Earned points preserved.", "✨");
       }
+    });
 
-      function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-      }
+    function showToast(message, icon = "⭐") {
+      const toastHub = document.getElementById("toast-hub");
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+      toastHub.appendChild(toast);
 
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(100%)";
+        toast.style.transition = "all 0.3s ease";
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function setupEventListeners() {
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
-          root.querySelectorAll(".cm-modal-overlay.open").forEach(m => m.classList.remove("open"));
+          document.querySelectorAll(".modal-overlay.open").forEach(modal => modal.classList.remove("open"));
           clearConnectSource();
         }
       });
+    }
 
-      // Initialize
-      renderDrawer();
-      renderBadgesModal();
-      updateBonusHud();
-      setZoom(1.0);
-    })();
+    window.addEventListener("DOMContentLoaded", initApp);
   </script>
-</div>
-<!-- END NTULEARN DIRECT COPY-PASTE SNIPPET -->
-
+</body>
+</html>
