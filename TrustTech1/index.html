@@ -1,11 +1,28 @@
-<!-- NTULEARN DIRECT COPY-PASTE SNIPPET: CONCEPT MAP CREATOR QUEST -->
-<div id="concept-map-quest-root">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🧠❤️ Head or Heart: What Makes Us Trust Tech?</title>
   <style>
-    /* Scoped Root Container & Resets */
+    /* ==========================================================================
+       NTULEARN EMBED & SIZING STYLES
+       ========================================================================== */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #0b1120;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
     #concept-map-quest-root {
       --cm-bg: linear-gradient(135deg, #0b1120 0%, #171d3d 50%, #111c44 100%);
       --cm-card-bg: #ffffff;
-      --cm-panel-bg: rgba(15, 23, 42, 0.96);
+      --cm-panel-bg: rgba(15, 23, 42, 0.97);
       --cm-primary: #6366f1;
       --cm-accent: #f59e0b;
       --cm-success: #10b981;
@@ -13,26 +30,22 @@
       --cm-text-dark: #0f172a;
       --cm-text-light: #f8fafc;
       --cm-radius-sm: 8px;
-      --cm-radius-md: 12px;
-      --cm-radius-lg: 18px;
-      
-      all: initial;
+      --cm-radius-md: 14px;
+      --cm-radius-lg: 20px;
+
       display: flex;
       flex-direction: column;
       position: relative;
       width: 100%;
-      height: 860px;
-      min-height: 650px;
+      height: 100vh;
+      min-height: 880px;
       background: var(--cm-bg);
       color: var(--cm-text-light);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      border-radius: var(--cm-radius-md);
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 18px;
       box-sizing: border-box;
       user-select: none;
+      -webkit-user-select: none;
+      overflow: hidden;
     }
 
     #concept-map-quest-root * {
@@ -40,7 +53,7 @@
       font-family: inherit;
     }
 
-    /* Scoped Confetti Canvas Layer */
+    /* Confetti Overlay */
     #concept-map-quest-root #cm-confetti-canvas {
       position: absolute;
       inset: 0;
@@ -50,35 +63,35 @@
       z-index: 999;
     }
 
-    /* Header & Gamification Bar */
+    /* Top Navigation & Scoreboard */
     #concept-map-quest-root .cm-header {
       background: rgba(15, 23, 42, 0.98);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 12px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       z-index: 30;
-      gap: 12px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
     #concept-map-quest-root .cm-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     #concept-map-quest-root .cm-brand-icon {
-      font-size: 24px;
+      font-size: 30px;
       background: linear-gradient(135deg, #818cf8, #ec4899);
-      border-radius: 10px;
-      padding: 6px 8px;
+      border-radius: 12px;
+      padding: 6px 12px;
       display: inline-flex;
     }
 
     #concept-map-quest-root .cm-brand h1 {
-      font-size: 1.25rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: #fff;
       margin: 0;
@@ -87,7 +100,7 @@
 
     #concept-map-quest-root .cm-hud-metrics {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -95,47 +108,48 @@
     #concept-map-quest-root .cm-metric-badge {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       background: rgba(255, 255, 255, 0.08);
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      font-size: 0.9rem;
-      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 1rem;
+      font-weight: 700;
     }
 
     #concept-map-quest-root .cm-points-badge .cm-val {
       color: #fbbf24;
       font-weight: 800;
-      font-size: 1.05rem;
+      font-size: 1.2rem;
     }
 
     #concept-map-quest-root .cm-bonus-badge {
-      background: rgba(245, 158, 11, 0.15);
-      border-color: rgba(245, 158, 11, 0.45);
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(245, 158, 11, 0.5);
     }
 
     #concept-map-quest-root .cm-bonus-badge .cm-val {
       color: #f59e0b;
       font-weight: 800;
+      font-size: 1.1rem;
     }
 
     #concept-map-quest-root .cm-header-actions {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
     }
 
     #concept-map-quest-root .cm-btn {
-      padding: 8px 14px;
-      border-radius: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
       border: none;
       font-weight: 700;
-      font-size: 0.88rem;
+      font-size: 0.95rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.15s ease;
       color: #fff;
       line-height: 1;
@@ -147,12 +161,12 @@
 
     #concept-map-quest-root .cm-btn-primary {
       background: linear-gradient(135deg, #6366f1, #4f46e5);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
     }
 
     #concept-map-quest-root .cm-btn-secondary {
       background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.22);
     }
 
     #concept-map-quest-root .cm-btn-secondary:hover {
@@ -161,19 +175,25 @@
 
     #concept-map-quest-root .cm-btn-bonus {
       background: linear-gradient(135deg, #f59e0b, #d97706);
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+    }
+
+    #concept-map-quest-root .cm-btn-fullscreen {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);
+      font-weight: 800;
     }
 
     /* Student Instructions Banner */
     #concept-map-quest-root .cm-instructions-banner {
       background: linear-gradient(90deg, #1e1b4b 0%, #1e293b 60%, #0f172a 100%);
       border-bottom: 2px solid #6366f1;
-      padding: 12px 20px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       z-index: 25;
-      font-size: 0.96rem;
-      line-height: 1.45;
+      font-size: 1.05rem;
+      line-height: 1.5;
       color: #f1f5f9;
     }
 
@@ -184,10 +204,10 @@
     #concept-map-quest-root .cm-highlight-pill {
       background: rgba(245, 158, 11, 0.25);
       color: #fde68a;
-      padding: 2px 8px;
-      border-radius: 6px;
+      padding: 3px 10px;
+      border-radius: 8px;
       border: 1px solid rgba(245, 158, 11, 0.45);
-      font-weight: 700;
+      font-weight: 800;
     }
 
     /* Workspace Body */
@@ -198,90 +218,69 @@
       overflow: hidden;
     }
 
-    /* Sidebar Drawer */
+    /* Concept Bank Drawer */
     #concept-map-quest-root .cm-sidebar {
-      width: 380px;
+      width: 440px;
       background: var(--cm-panel-bg);
-      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: 1px solid rgba(255, 255, 255, 0.14);
       display: flex;
       flex-direction: column;
       z-index: 20;
     }
 
     #concept-map-quest-root .cm-sidebar-header {
-      padding: 12px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     #concept-map-quest-root .cm-sidebar-header h2 {
-      font-size: 1.05rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: #e2e8f0;
       margin: 0;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     #concept-map-quest-root .cm-badge-count {
       background: #4f46e5;
-      padding: 3px 8px;
-      border-radius: 10px;
-      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
     }
 
     #concept-map-quest-root .cm-card-list {
-      padding: 12px;
+      padding: 16px;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 9px;
-    }
-
-    #concept-map-quest-root .cm-section-category-header {
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 5px 8px;
-      border-radius: 5px;
-      margin-top: 6px;
-    }
-
-    #concept-map-quest-root .cm-section-category-header.core {
-      color: #a5b4fc;
-      background: rgba(99, 102, 241, 0.2);
-      border-left: 3px solid #818cf8;
-    }
-
-    #concept-map-quest-root .cm-section-category-header.factors {
-      color: #7dd3fc;
-      background: rgba(14, 165, 233, 0.2);
-      border-left: 3px solid #38bdf8;
+      gap: 12px;
     }
 
     #concept-map-quest-root .cm-drawer-card {
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: var(--cm-radius-md);
-      padding: 10px 12px;
+      padding: 14px 16px;
       cursor: grab;
-      font-size: 0.92rem;
-      line-height: 1.35;
+      font-size: 1.02rem;
+      line-height: 1.45;
       color: #f8fafc;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 12px;
       transition: background 0.15s, border-color 0.15s;
     }
 
     #concept-map-quest-root .cm-drawer-card:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.16);
       border-color: #818cf8;
     }
 
@@ -291,44 +290,43 @@
       border-style: dashed;
     }
 
-    #concept-map-quest-root .cm-card-num {
-      background: rgba(255, 255, 255, 0.14);
-      color: #cbd5e1;
-      font-size: 0.76rem;
-      font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin-right: 4px;
-    }
-
     #concept-map-quest-root .cm-card-add-btn {
       background: #4f46e5;
       border: none;
       color: white;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
     }
 
-    /* Canvas Area & Zoom Container */
+    /* Infinite Canvas Container */
     #concept-map-quest-root .cm-canvas-container {
       flex: 1;
       position: relative;
       background: radial-gradient(circle at 50% 50%, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.95) 100%);
       overflow: hidden;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    #concept-map-quest-root .cm-canvas-container.panning {
+      cursor: grabbing !important;
     }
 
     #concept-map-quest-root .cm-canvas-grid {
       position: absolute;
       inset: 0;
-      background-size: 30px 30px;
-      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.09) 1.5px, transparent 1.5px);
+      background-size: 34px 34px;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
       pointer-events: none;
+      width: 100%;
+      height: 100%;
     }
 
+    /* Zoom & Pan Stage */
     #concept-map-quest-root .cm-zoom-stage {
       position: absolute;
       top: 0;
@@ -336,32 +334,33 @@
       width: 100%;
       height: 100%;
       transform-origin: 0 0;
-      transition: transform 0.08s ease-out;
+      pointer-events: none;
     }
 
     /* Floating Zoom Controls */
     #concept-map-quest-root .cm-zoom-controls {
       position: absolute;
-      top: 14px;
-      right: 18px;
-      background: rgba(15, 23, 42, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      top: 18px;
+      right: 22px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.24);
       border-radius: var(--cm-radius-sm);
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 4px 6px;
+      gap: 6px;
+      padding: 6px 10px;
       z-index: 40;
+      cursor: default;
     }
 
     #concept-map-quest-root .cm-zoom-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       color: #fff;
-      border-radius: 5px;
-      width: 28px;
-      height: 28px;
-      font-size: 1.1rem;
+      border-radius: 6px;
+      width: 36px;
+      height: 36px;
+      font-size: 1.35rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -370,14 +369,14 @@
     }
 
     #concept-map-quest-root .cm-zoom-level {
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.96rem;
+      font-weight: 800;
       color: #cbd5e1;
-      min-width: 44px;
+      min-width: 56px;
       text-align: center;
     }
 
-    /* SVG Layer */
+    /* SVG Connections */
     #concept-map-quest-root svg.cm-connections-layer {
       position: absolute;
       top: 0;
@@ -391,7 +390,7 @@
 
     #concept-map-quest-root .cm-connection-line {
       stroke: #818cf8;
-      stroke-width: 3.5px;
+      stroke-width: 4.5px;
       fill: none;
       cursor: pointer;
       pointer-events: stroke;
@@ -400,21 +399,21 @@
 
     #concept-map-quest-root .cm-connection-line:hover {
       stroke: #f59e0b;
-      stroke-width: 5.5px;
+      stroke-width: 7px;
     }
 
     #concept-map-quest-root .cm-connection-label-rect {
       fill: #1e293b;
       stroke: #64748b;
       stroke-width: 1.5px;
-      rx: 6;
+      rx: 7;
       cursor: pointer;
       pointer-events: all;
     }
 
     #concept-map-quest-root .cm-connection-label-text {
       fill: #f8fafc;
-      font-size: 12.5px;
+      font-size: 14.5px;
       font-weight: 700;
       text-anchor: middle;
       dominant-baseline: central;
@@ -422,20 +421,22 @@
       pointer-events: all;
     }
 
-    /* Canvas Nodes */
+    /* Canvas Concept Nodes */
     #concept-map-quest-root .cm-concept-node {
       position: absolute;
-      min-width: 210px;
-      max-width: 270px;
+      min-width: 270px;
+      max-width: 340px;
       background: var(--cm-card-bg);
       color: var(--cm-text-dark);
       border-radius: var(--cm-radius-md);
-      padding: 12px 14px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      padding: 16px 18px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
       cursor: grab;
-      border: 3.5px solid #818cf8;
+      border: 4px solid #6366f1;
       z-index: 10;
       touch-action: none;
+      pointer-events: auto;
+      user-select: none;
     }
 
     #concept-map-quest-root .cm-concept-node:active {
@@ -449,123 +450,101 @@
 
     @keyframes cmPulse {
       0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      70% { box-shadow: 0 0 0 14px rgba(16, 185, 129, 0); }
       100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
     #concept-map-quest-root .cm-node-header {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
-      margin-bottom: 6px;
-    }
-
-    #concept-map-quest-root .cm-node-category-pill {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    #concept-map-quest-root .cm-node-category-pill.core {
-      background: #e0e7ff;
-      color: #4338ca;
-    }
-
-    #concept-map-quest-root .cm-node-category-pill.factor {
-      background: #e0f2fe;
-      color: #0369a1;
+      margin-bottom: 10px;
     }
 
     #concept-map-quest-root .cm-node-actions {
       display: flex;
-      gap: 5px;
+      gap: 6px;
     }
 
     #concept-map-quest-root .cm-node-btn {
       background: rgba(0, 0, 0, 0.06);
-      border: 1px solid rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(0, 0, 0, 0.14);
       color: #475569;
       cursor: pointer;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 0.8rem;
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-size: 0.95rem;
     }
 
     #concept-map-quest-root .cm-node-btn:hover {
-      background: rgba(0, 0, 0, 0.12);
+      background: rgba(0, 0, 0, 0.14);
       color: #0f172a;
     }
 
     #concept-map-quest-root .cm-node-content {
-      font-size: 0.94rem;
-      font-weight: 600;
-      line-height: 1.35;
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.45;
       color: #0f172a;
       pointer-events: none;
     }
 
     #concept-map-quest-root .cm-color-swatches {
       display: flex;
-      gap: 5px;
-      margin-top: 8px;
-      padding-top: 6px;
-      border-top: 1px solid rgba(0,0,0,0.08);
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
 
     #concept-map-quest-root .cm-color-swatch {
-      width: 15px;
-      height: 15px;
+      width: 19px;
+      height: 19px;
       border-radius: 50%;
       cursor: pointer;
-      border: 1px solid rgba(0,0,0,0.2);
+      border: 1px solid rgba(0, 0, 0, 0.25);
     }
 
     /* Floating Toolbar */
     #concept-map-quest-root .cm-floating-tools {
       position: absolute;
-      bottom: 20px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(15, 23, 42, 0.94);
-      padding: 6px 16px;
-      border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 8px 20px;
+      border-radius: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 14px;
       z-index: 30;
+      cursor: default;
     }
 
     #concept-map-quest-root .cm-tool-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.88rem;
-      font-weight: 600;
+      gap: 8px;
+      font-size: 0.98rem;
+      font-weight: 700;
       color: #e2e8f0;
       cursor: pointer;
-      padding: 6px 14px;
-      border-radius: 16px;
+      padding: 9px 18px;
+      border-radius: 20px;
       transition: background 0.15s;
     }
 
     #concept-map-quest-root .cm-tool-item:hover {
-      background: rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.16);
     }
 
-    #concept-map-quest-root .cm-tool-item.active {
-      background: #4f46e5;
-      color: #fff;
-    }
-
-    /* Modals (Scoped Absolutely within Root) */
+    /* Scoped Modals */
     #concept-map-quest-root .cm-modal-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.78);
+      background: rgba(0, 0, 0, 0.82);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -573,7 +552,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
-      padding: 20px;
+      padding: 24px;
     }
 
     #concept-map-quest-root .cm-modal-overlay.open {
@@ -583,50 +562,50 @@
 
     #concept-map-quest-root .cm-modal-card {
       background: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: var(--cm-radius-lg);
-      padding: 24px;
-      max-width: 620px;
+      padding: 30px;
+      max-width: 680px;
       width: 100%;
       max-height: 92%;
       overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
     }
 
     #concept-map-quest-root .cm-modal-title {
-      font-size: 1.35rem;
+      font-size: 1.5rem;
       font-weight: 800;
-      margin: 0 0 6px 0;
+      margin: 0 0 8px 0;
       color: #fff;
     }
 
     #concept-map-quest-root .cm-modal-subtitle {
-      font-size: 0.92rem;
+      font-size: 1rem;
       color: #94a3b8;
-      margin-bottom: 16px;
-      line-height: 1.4;
+      margin-bottom: 20px;
+      line-height: 1.5;
     }
 
     #concept-map-quest-root .cm-form-group {
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
 
     #concept-map-quest-root .cm-form-group label {
       display: block;
-      font-size: 0.92rem;
+      font-size: 1rem;
       font-weight: 700;
       color: #cbd5e1;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     #concept-map-quest-root .cm-form-control {
       width: 100%;
-      padding: 10px 14px;
+      padding: 13px 16px;
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--cm-radius-sm);
       color: #fff;
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       outline: none;
     }
 
@@ -637,25 +616,25 @@
     #concept-map-quest-root .cm-modal-actions {
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 24px;
     }
 
     #concept-map-quest-root .cm-arrow-type-selector {
       display: flex;
-      gap: 10px;
+      gap: 12px;
     }
 
     #concept-map-quest-root .cm-arrow-option {
       flex: 1;
-      padding: 10px;
+      padding: 13px;
       background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: var(--cm-radius-sm);
       color: #cbd5e1;
       cursor: pointer;
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 0.98rem;
       font-weight: 700;
     }
 
@@ -669,67 +648,68 @@
     #concept-map-quest-root .cm-save-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 16px;
     }
 
     #concept-map-quest-root .cm-action-card {
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: var(--cm-radius-md);
-      padding: 14px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     #concept-map-quest-root .cm-action-card h3 {
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: #f8fafc;
       margin: 0;
     }
 
     #concept-map-quest-root .cm-action-card p {
-      font-size: 0.85rem;
+      font-size: 0.92rem;
       color: #94a3b8;
       margin: 0;
       flex: 1;
+      line-height: 1.4;
     }
 
     /* Summary Stats */
     #concept-map-quest-root .cm-summary-stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 14px;
+      margin-bottom: 20px;
     }
 
     #concept-map-quest-root .cm-stat-box {
       background: rgba(255, 255, 255, 0.06);
       border-radius: var(--cm-radius-sm);
-      padding: 12px;
+      padding: 16px;
       text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.14);
     }
 
     #concept-map-quest-root .cm-stat-number {
-      font-size: 1.45rem;
+      font-size: 1.7rem;
       font-weight: 800;
       color: #38bdf8;
     }
 
     #concept-map-quest-root .cm-stat-label {
-      font-size: 0.75rem;
+      font-size: 0.82rem;
       color: #94a3b8;
       text-transform: uppercase;
-      font-weight: 700;
-      margin-top: 3px;
+      font-weight: 800;
+      margin-top: 4px;
     }
 
     /* Scoped Toast Alerts */
     #concept-map-quest-root .cm-toast-container {
       position: absolute;
-      top: 14px;
-      right: 170px;
+      top: 18px;
+      right: 180px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -741,17 +721,20 @@
       background: rgba(15, 23, 42, 0.96);
       border-left: 4px solid var(--cm-accent);
       color: white;
-      padding: 10px 16px;
+      padding: 13px 20px;
       border-radius: var(--cm-radius-sm);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-      font-size: 0.92rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      font-size: 1rem;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       pointer-events: all;
     }
   </style>
+</head>
+<body>
 
+<div id="concept-map-quest-root">
   <!-- Confetti Canvas -->
   <canvas id="cm-confetti-canvas"></canvas>
 
@@ -791,14 +774,14 @@
       <button class="cm-btn cm-btn-secondary" id="cm-btn-badges-view">🏆 Badges</button>
       <button class="cm-btn cm-btn-bonus" id="cm-btn-instructor-trigger">🔑 Instructor Verification (+300)</button>
       <button class="cm-btn cm-btn-primary" id="cm-btn-complete-map">✨ Finish &amp; Reflect</button>
-      <button class="cm-btn cm-btn-secondary" id="cm-btn-fullscreen" title="Toggle Fullscreen">⛶ Fullscreen</button>
+      <button class="cm-btn cm-btn-fullscreen" id="cm-btn-fullscreen" title="Open Fullscreen in NTULearn">⛶ Fullscreen</button>
     </div>
   </div>
 
   <!-- Student Instructions Banner -->
   <div class="cm-instructions-banner">
     <div>
-      <strong>Student Instructions:</strong> Map out the 4 Core Concepts and 7 Shaping Factors using single (➜) or dual (⬄) connectors to articulate how cognitive and emotional trust emerge. <span class="cm-highlight-pill">There is no one fixed solution.</span> When ready, present your map to your cluster instructor to receive <strong>+300 bonus points</strong>. Groups can reset and construct other defensible maps to continue earning bonus points!
+      <strong>Student Instructions:</strong> Map out the 11 concepts using single (➜) or dual (⬄) connectors to articulate how trust and adoption emerge. <span class="cm-highlight-pill">There is no one fixed solution.</span> When ready, present your defensible map to your cluster instructor to receive <strong>+300 bonus points</strong>. Click and drag the background to pan anywhere across the canvas!
     </div>
   </div>
 
@@ -808,14 +791,14 @@
     <aside class="cm-sidebar">
       <div class="cm-sidebar-header">
         <h2>Concept Bank <span class="cm-badge-count" id="cm-drawer-count">11 Left</span></h2>
-        <button class="cm-btn cm-btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;" id="cm-btn-auto-layout" title="Arrange placed concepts in a circle">Arrange</button>
+        <button class="cm-btn cm-btn-secondary" style="padding: 7px 14px; font-size: 0.9rem;" id="cm-btn-auto-layout" title="Arrange placed concepts in a circle">Arrange</button>
       </div>
       <div class="cm-card-list" id="cm-card-list"></div>
     </aside>
 
     <!-- Canvas Workspace -->
     <main class="cm-canvas-container" id="cm-canvas-area">
-      <div class="cm-canvas-grid"></div>
+      <div class="cm-canvas-grid" id="cm-canvas-grid"></div>
 
       <!-- Zoom Controller -->
       <div class="cm-zoom-controls">
@@ -825,14 +808,14 @@
         <button class="cm-zoom-btn" id="cm-btn-zoom-reset" title="Reset Zoom">↺</button>
       </div>
 
-      <!-- Scaled Stage -->
+      <!-- Scaled & Panned Stage -->
       <div class="cm-zoom-stage" id="cm-zoom-stage">
         <svg class="cm-connections-layer" id="cm-svg-layer">
           <defs>
-            <marker id="cm-arrow" viewBox="0 0 10 10" refX="21" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <marker id="cm-arrow" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
               <path d="M 0 1 L 9 5 L 0 9 z" fill="#818cf8" />
             </marker>
-            <marker id="cm-arrow-start" viewBox="0 0 10 10" refX="-11" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <marker id="cm-arrow-start" viewBox="0 0 10 10" refX="-12" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto">
               <path d="M 9 1 L 0 5 L 9 9 z" fill="#818cf8" />
             </marker>
           </defs>
@@ -841,9 +824,6 @@
 
       <!-- Floating Toolbar -->
       <div class="cm-floating-tools">
-        <div class="cm-tool-item" id="cm-tool-connect" title="Toggle Connection Mode">
-          <span>🔗 Connect Mode</span>
-        </div>
         <div class="cm-tool-item" id="cm-tool-instructor-quick" title="Ask Instructor for Verification">
           <span>🎓 Instructor Sign-Off (+300)</span>
         </div>
@@ -910,7 +890,7 @@
         <input type="text" id="cm-conn-input-label" class="cm-form-control" placeholder="Enter relationship...">
       </div>
       <div class="cm-modal-actions">
-        <button class="cm-btn cm-btn-secondary" id="cm-btn-del-conn" style="color: #ef4444;">Delete Connection</button>
+        <button class="cm-btn cm-btn-del" id="cm-btn-del-conn" style="background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); padding: 10px 18px; border-radius: 10px; font-weight: 700; cursor: pointer;">Delete Connection</button>
         <button class="cm-btn cm-btn-secondary" id="cm-btn-cancel-conn">Cancel</button>
         <button class="cm-btn cm-btn-primary" id="cm-btn-save-conn">Save Relationship (+15 pts)</button>
       </div>
@@ -918,15 +898,15 @@
   </div>
 
   <!-- Cluster Instructor Secret Code Modal -->
-  <div class="cm-modal-overlay" id="cm-instructor-modal">
-    <div class="cm-modal-card" style="max-width: 500px;">
+  <div class="cm-instructor-modal cm-modal-overlay" id="cm-instructor-modal">
+    <div class="cm-modal-card" style="max-width: 540px;">
       <h2 class="cm-modal-title">🔑 Cluster Instructor Verification</h2>
       <p class="cm-modal-subtitle">Cluster Instructors: please review this concept map arrangement. If defensible, enter your authorized cluster code to grant +300 bonus points.</p>
       <div class="cm-form-group">
         <label>Instructor Secret Code:</label>
         <input type="password" id="cm-instructor-secret-input" class="cm-form-control" placeholder="Enter instructor code..." autocomplete="off">
       </div>
-      <p id="cm-instructor-error-msg" style="color: #ef4444; font-size: 0.88rem; display: none; margin-top: 4px;">Invalid instructor secret code. Please verify and try again.</p>
+      <p id="cm-instructor-error-msg" style="color: #ef4444; font-size: 0.95rem; display: none; margin-top: 4px;">Invalid instructor secret code. Please verify and try again.</p>
       <div class="cm-modal-actions">
         <button class="cm-btn cm-btn-secondary" id="cm-btn-cancel-instructor">Cancel</button>
         <button class="cm-btn cm-btn-bonus" id="cm-btn-submit-instructor">Verify &amp; Award Bonus (+300 pts)</button>
@@ -939,7 +919,7 @@
     <div class="cm-modal-card">
       <h2 class="cm-modal-title">🏆 Your Achievements</h2>
       <p class="cm-modal-subtitle">Earn badges as you explore creative layouts and articulate connections.</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 16px 0;" id="cm-badge-grid"></div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin: 20px 0;" id="cm-badge-grid"></div>
       <div class="cm-modal-actions">
         <button class="cm-btn cm-btn-primary" id="cm-btn-close-badges">Close</button>
       </div>
@@ -976,7 +956,7 @@
 
   <!-- Summary Modal -->
   <div class="cm-modal-overlay" id="cm-summary-modal">
-    <div class="cm-modal-card" style="max-width: 680px;">
+    <div class="cm-modal-card" style="max-width: 740px;">
       <h2 class="cm-modal-title">🎉 Concept Map Quest Complete!</h2>
       <p class="cm-modal-subtitle">You have constructed a distinctive conceptual network reflecting your perspective on trust in technology.</p>
       <div class="cm-summary-stats">
@@ -998,8 +978,8 @@
         </div>
       </div>
       <div id="cm-instructor-summary-box"></div>
-      <h3 style="font-size: 1rem; margin-top: 14px; margin-bottom: 6px; color: #cbd5e1;">Your Articulated Reflections:</h3>
-      <div style="background: rgba(255, 255, 255, 0.04); border-radius: 8px; padding: 14px; margin: 12px 0; border: 1px solid rgba(255, 255, 255, 0.1);" id="cm-summary-reflections"></div>
+      <h3 style="font-size: 1.1rem; margin-top: 18px; margin-bottom: 8px; color: #cbd5e1;">Your Articulated Reflections:</h3>
+      <div style="background: rgba(255, 255, 255, 0.04); border-radius: 10px; padding: 18px; margin: 12px 0; border: 1px solid rgba(255, 255, 255, 0.12);" id="cm-summary-reflections"></div>
       <div class="cm-modal-actions">
         <button class="cm-btn cm-btn-bonus" id="cm-btn-sum-instructor">🔑 Ask Instructor For Bonus (+300 pts)</button>
         <button class="cm-btn cm-btn-secondary" id="cm-btn-sum-download">💾 Download Map</button>
@@ -1008,27 +988,26 @@
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    (function() {
+<script>
+  (function() {
+    function initApp() {
       const root = document.getElementById("concept-map-quest-root");
       if (!root) return;
 
       const RAW_CONCEPTS = [
-        // Core concepts (1-4)
-        { id: "c1", num: 1, category: "core", categoryLabel: "Core Concept", title: "User perceptions of a new technology" },
-        { id: "c2", num: 2, category: "core", categoryLabel: "Core Concept", title: "Cognitive trust" },
-        { id: "c3", num: 3, category: "core", categoryLabel: "Core Concept", title: "Emotional trust" },
-        { id: "c4", num: 4, category: "core", categoryLabel: "Core Concept", title: "Widespread adoption of a new technology" },
-
-        // Shaping Factors (5-11)
-        { id: "c5", num: 5, category: "factor", categoryLabel: "Shaping Factor", title: "The technology works well (i.e., does what it is supposed to do)" },
-        { id: "c6", num: 6, category: "factor", categoryLabel: "Shaping Factor", title: "People fully understanding how a new technology works" },
-        { id: "c7", num: 7, category: "factor", categoryLabel: "Shaping Factor", title: "The technology is seen as solving a real-world problem" },
-        { id: "c8", num: 8, category: "factor", categoryLabel: "Shaping Factor", title: "The technology has high ratings/reviews from other users" },
-        { id: "c9", num: 9, category: "factor", categoryLabel: "Shaping Factor", title: "People you know use and recommend the technology" },
-        { id: "c10", num: 10, category: "factor", categoryLabel: "Shaping Factor", title: "A celebrity endorses the technology" },
-        { id: "c11", num: 11, category: "factor", categoryLabel: "Shaping Factor", title: "The technology has been tested and approved by a government/regulatory body" }
+        { id: "c1", title: "User perceptions of a new technology" },
+        { id: "c2", title: "Cognitive trust" },
+        { id: "c3", title: "Emotional trust" },
+        { id: "c4", title: "Widespread adoption of a new technology" },
+        { id: "c5", title: "The technology works well" },
+        { id: "c6", title: "People have enough information to understand its benefits and risks" },
+        { id: "c7", title: "The technology is seen as solving a real-world problem" },
+        { id: "c8", title: "High ratings/reviews from other users" },
+        { id: "c9", title: "People you know use and recommend it" },
+        { id: "c10", title: "Celebrity endorsement" },
+        { id: "c11", title: "Government/regulatory approval" }
       ];
 
       const COLOR_PALETTE = ["#6366f1", "#ec4899", "#10b981", "#f59e0b", "#06b6d4", "#8b5cf6"];
@@ -1051,15 +1030,16 @@
         currentMapBonusAwarded: false,
         placedNodes: {},
         connections: [],
-        connectMode: false,
         connectSourceId: null,
         selectedConnectionId: null,
         currentArrowChoice: "single",
         zoom: 1.0,
+        panX: 0,
+        panY: 0,
         reflections: { q1: "", q2: "", q3: "", q4: "" }
       };
 
-      // Procedural Audio
+      // Procedural Web Audio API
       let audioCtx = null;
       function getAudioContext() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1102,7 +1082,7 @@
             osc.type = "triangle";
             const startTime = now + note.delay;
             osc.frequency.setValueAtTime(note.f, startTime);
-            gain.gain.setValueAtTime(0.24, startTime);
+            gain.gain.setValueAtTime(0.25, startTime);
             gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.4);
             osc.connect(gain);
             gain.connect(ctx.destination);
@@ -1126,14 +1106,14 @@
       function triggerConfettiBurst() {
         resizeConfetti();
         const colors = ["#f59e0b", "#10b981", "#6366f1", "#ec4899", "#38bdf8", "#fbbf24"];
-        for (let i = 0; i < 120; i++) {
+        for (let i = 0; i < 130; i++) {
           confettiParticles.push({
-            x: root.clientWidth / 2 + (Math.random() * 80 - 40),
-            y: root.clientHeight * 0.4 + (Math.random() * 60 - 30),
-            size: Math.random() * 7 + 5,
+            x: root.clientWidth / 2 + (Math.random() * 90 - 45),
+            y: root.clientHeight * 0.4 + (Math.random() * 70 - 35),
+            size: Math.random() * 8 + 5,
             color: colors[Math.floor(Math.random() * colors.length)],
             vx: (Math.random() - 0.5) * 16,
-            vy: (Math.random() - 0.9) * 14 - 2,
+            vy: (Math.random() - 0.9) * 15 - 2,
             rot: Math.random() * 360,
             rotSpeed: (Math.random() - 0.5) * 10,
             gravity: 0.35 + Math.random() * 0.15,
@@ -1175,9 +1155,10 @@
         }
       }
 
-      // Elements
+      // DOM Elements
       const cardListEl = root.querySelector("#cm-card-list");
       const canvasAreaEl = root.querySelector("#cm-canvas-area");
+      const canvasGridEl = root.querySelector("#cm-canvas-grid");
       const zoomStageEl = root.querySelector("#cm-zoom-stage");
       const svgLayerEl = root.querySelector("#cm-svg-layer");
       const hudPointsEl = root.querySelector("#cm-hud-points");
@@ -1187,11 +1168,64 @@
       const drawerCountEl = root.querySelector("#cm-drawer-count");
       const zoomLevelTextEl = root.querySelector("#cm-zoom-level-text");
 
-      function setZoom(val) {
-        state.zoom = Math.min(2.0, Math.max(0.5, parseFloat(val.toFixed(2))));
-        zoomStageEl.style.transform = `scale(${state.zoom})`;
+      // Transform Applicator (Zoom + Pan)
+      function applyViewportTransform() {
+        zoomStageEl.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+        canvasGridEl.style.backgroundPosition = `${state.panX}px ${state.panY}px`;
+        const dotSize = 34 * state.zoom;
+        canvasGridEl.style.backgroundSize = `${dotSize}px ${dotSize}px`;
         zoomLevelTextEl.textContent = `${Math.round(state.zoom * 100)}%`;
       }
+
+      function setZoom(val) {
+        state.zoom = Math.min(2.0, Math.max(0.5, parseFloat(val.toFixed(2))));
+        applyViewportTransform();
+      }
+
+      // Infinite Canvas Panning (Mouse + Touch)
+      let isPanning = false;
+      let panStartX = 0;
+      let panStartY = 0;
+
+      canvasAreaEl.addEventListener("pointerdown", (e) => {
+        // Only pan if clicking empty background or non-interactive canvas areas
+        if (
+          e.target.closest(".cm-concept-node") ||
+          e.target.closest(".cm-zoom-controls") ||
+          e.target.closest(".cm-floating-tools") ||
+          e.target.closest(".cm-toast-container") ||
+          e.target.closest(".cm-connection-label-rect") ||
+          e.target.closest(".cm-connection-label-text")
+        ) {
+          return;
+        }
+
+        isPanning = true;
+        panStartX = e.clientX - state.panX;
+        panStartY = e.clientY - state.panY;
+        canvasAreaEl.classList.add("panning");
+        canvasAreaEl.setPointerCapture(e.pointerId);
+      });
+
+      canvasAreaEl.addEventListener("pointermove", (e) => {
+        if (!isPanning) return;
+        state.panX = e.clientX - panStartX;
+        state.panY = e.clientY - panStartY;
+        applyViewportTransform();
+      });
+
+      const endPan = (e) => {
+        if (isPanning) {
+          isPanning = false;
+          canvasAreaEl.classList.remove("panning");
+          try {
+            canvasAreaEl.releasePointerCapture(e.pointerId);
+          } catch (err) {}
+        }
+      };
+
+      canvasAreaEl.addEventListener("pointerup", endPan);
+      canvasAreaEl.addEventListener("pointercancel", endPan);
 
       function updateBonusHud() {
         if (state.totalInstructorBonus > 0) {
@@ -1208,23 +1242,7 @@
         let remaining = 0;
         const total = RAW_CONCEPTS.length;
 
-        const coreHeader = document.createElement("div");
-        coreHeader.className = "cm-section-category-header core";
-        coreHeader.innerHTML = `<span>🧠 Core Concepts (1–4)</span>`;
-        cardListEl.appendChild(coreHeader);
-
-        RAW_CONCEPTS.filter(c => c.category === "core").forEach(concept => {
-          const card = createDrawerCard(concept);
-          if (!state.placedNodes[concept.id]) remaining++;
-          cardListEl.appendChild(card);
-        });
-
-        const factorsHeader = document.createElement("div");
-        factorsHeader.className = "cm-section-category-header factors";
-        factorsHeader.innerHTML = `<span>⚡ Factors Shaping Trust &amp; Adoption (5–11)</span>`;
-        cardListEl.appendChild(factorsHeader);
-
-        RAW_CONCEPTS.filter(c => c.category === "factor").forEach(concept => {
+        RAW_CONCEPTS.forEach(concept => {
           const card = createDrawerCard(concept);
           if (!state.placedNodes[concept.id]) remaining++;
           cardListEl.appendChild(card);
@@ -1250,14 +1268,11 @@
         }
 
         card.innerHTML = `
-          <div style="display:flex; align-items:flex-start; gap:8px; flex:1;">
-            <span style="color:#94a3b8; font-size:1.1rem; line-height:1;">⠿</span>
-            <div>
-              <span class="cm-card-num">#${concept.num}</span>
-              <span>${concept.title}</span>
-            </div>
+          <div style="display:flex; align-items:flex-start; gap:10px; flex:1;">
+            <span style="color:#94a3b8; font-size:1.15rem; line-height:1;">⠿</span>
+            <span style="font-weight:600;">${concept.title}</span>
           </div>
-          ${!isPlaced ? `<button class="cm-card-add-btn">+ Add</button>` : `<span style="font-size:0.8rem; color:#94a3b8;">Placed</span>`}
+          ${!isPlaced ? `<button class="cm-card-add-btn">+ Add</button>` : `<span style="font-size:0.88rem; color:#94a3b8;">Placed</span>`}
         `;
 
         if (!isPlaced) {
@@ -1283,8 +1298,8 @@
         const rect = canvasAreaEl.getBoundingClientRect();
         const clientX = e.clientX - rect.left;
         const clientY = e.clientY - rect.top;
-        const x = Math.max(20, (clientX / state.zoom) - 100);
-        const y = Math.max(20, (clientY / state.zoom) - 30);
+        const x = (clientX - state.panX) / state.zoom - 140;
+        const y = (clientY - state.panY) / state.zoom - 45;
         spawnNodeOnCanvas(id, x, y);
       });
 
@@ -1294,8 +1309,12 @@
         const count = Object.keys(state.placedNodes).length;
         const col = count % 3;
         const row = Math.floor(count / 3);
-        const x = Math.max(25, Math.min(40 + col * 280, (rect.width / state.zoom) - 280));
-        const y = Math.max(25, Math.min(30 + row * 145, (rect.height / state.zoom) - 150));
+
+        const canvasCenterX = (rect.width / 2 - state.panX) / state.zoom - 320;
+        const canvasCenterY = (rect.height / 2 - state.panY) / state.zoom - 180;
+
+        const x = canvasCenterX + (col * 330);
+        const y = canvasCenterY + (row * 180);
         spawnNodeOnCanvas(id, x, y);
       }
 
@@ -1305,8 +1324,7 @@
 
         if (!suppressScore) playPlaceSound();
 
-        const defaultBorder = data.category === "core" ? "#6366f1" : "#0284c7";
-        const color = customColor || defaultBorder;
+        const color = customColor || "#6366f1";
 
         const nodeEl = document.createElement("div");
         nodeEl.className = "cm-concept-node";
@@ -1319,12 +1337,9 @@
 
         nodeEl.innerHTML = `
           <div class="cm-node-header">
-            <span class="cm-node-category-pill ${data.category === 'core' ? 'core' : 'factor'}">
-              #${data.num} ${data.categoryLabel}
-            </span>
             <div class="cm-node-actions">
-              <button class="cm-node-btn connect-btn" title="Connect">🔗</button>
-              <button class="cm-node-btn delete-btn" title="Remove">✕</button>
+              <button class="cm-node-btn connect-btn" title="Connect to another concept">🔗</button>
+              <button class="cm-node-btn delete-btn" title="Remove concept">✕</button>
             </div>
           </div>
           <div class="cm-node-content">${data.title}</div>
@@ -1366,31 +1381,32 @@
         });
 
         nodeEl.addEventListener("click", (e) => {
-          if (state.connectMode || state.connectSourceId) {
+          if (state.connectSourceId) {
             e.stopPropagation();
             handleConnectSelect(id);
           }
         });
 
-        let isDragging = false;
-        let startX, startY, initialLeft, initialTop;
+        let isDraggingNode = false;
+        let startClientX, startClientY, initialLeft, initialTop;
 
         nodeEl.addEventListener("pointerdown", (e) => {
           if (e.target.closest(".cm-node-actions") || e.target.closest(".cm-color-swatches")) return;
-          isDragging = true;
-          startX = e.clientX;
-          startY = e.clientY;
+          e.stopPropagation(); // Do not trigger background canvas panning
+          isDraggingNode = true;
+          startClientX = e.clientX;
+          startClientY = e.clientY;
           initialLeft = parseFloat(nodeEl.style.left) || 0;
           initialTop = parseFloat(nodeEl.style.top) || 0;
           nodeEl.style.zIndex = 50;
           nodeEl.setPointerCapture(e.pointerId);
 
-          const onPointerMove = (ev) => {
-            if (!isDragging) return;
-            const dx = (ev.clientX - startX) / state.zoom;
-            const dy = (ev.clientY - startY) / state.zoom;
-            const newLeft = Math.max(10, initialLeft + dx);
-            const newTop = Math.max(10, initialTop + dy);
+          const onNodeMove = (ev) => {
+            if (!isDraggingNode) return;
+            const dx = (ev.clientX - startClientX) / state.zoom;
+            const dy = (ev.clientY - startClientY) / state.zoom;
+            const newLeft = initialLeft + dx;
+            const newTop = initialTop + dy;
             nodeEl.style.left = `${newLeft}px`;
             nodeEl.style.top = `${newTop}px`;
             state.placedNodes[id].x = newLeft;
@@ -1398,18 +1414,22 @@
             updateConnections();
           };
 
-          const onPointerUp = (ev) => {
-            if (isDragging) {
-              isDragging = false;
+          const onNodeUp = (ev) => {
+            if (isDraggingNode) {
+              isDraggingNode = false;
               nodeEl.style.zIndex = 10;
-              nodeEl.releasePointerCapture(ev.pointerId);
-              nodeEl.removeEventListener("pointermove", onPointerMove);
-              nodeEl.removeEventListener("pointerup", onPointerUp);
+              try {
+                nodeEl.releasePointerCapture(ev.pointerId);
+              } catch (err) {}
+              nodeEl.removeEventListener("pointermove", onNodeMove);
+              nodeEl.removeEventListener("pointerup", onNodeUp);
+              nodeEl.removeEventListener("pointercancel", onNodeUp);
             }
           };
 
-          nodeEl.addEventListener("pointermove", onPointerMove);
-          nodeEl.addEventListener("pointerup", onPointerUp);
+          nodeEl.addEventListener("pointermove", onNodeMove);
+          nodeEl.addEventListener("pointerup", onNodeUp);
+          nodeEl.addEventListener("pointercancel", onNodeUp);
         });
       }
 
@@ -1441,8 +1461,6 @@
           state.placedNodes[state.connectSourceId].element.classList.remove("connect-source");
         }
         state.connectSourceId = null;
-        root.querySelector("#cm-tool-connect").classList.remove("active");
-        state.connectMode = false;
       }
 
       function createConnection(fromId, toId, defaultLabel = "relates to", arrowType = "single") {
@@ -1492,13 +1510,13 @@
           const midX = (x1 + x2) / 2;
           const midY = (y1 + y2) / 2;
           const labelText = (conn.arrowType === "dual" ? "⬄ " : "➜ ") + (conn.label || "relates to");
-          const textWidth = Math.max(90, labelText.length * 8 + 20);
+          const textWidth = Math.max(105, labelText.length * 9.2 + 26);
 
           const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
           rect.setAttribute("x", midX - textWidth / 2);
-          rect.setAttribute("y", midY - 13);
+          rect.setAttribute("y", midY - 15);
           rect.setAttribute("width", textWidth);
-          rect.setAttribute("height", 26);
+          rect.setAttribute("height", 30);
           rect.setAttribute("class", "cm-connection-label-rect");
           rect.addEventListener("click", () => openLabelModal(conn.id));
 
@@ -1672,7 +1690,7 @@
         });
         return {
           app: "ConceptMapQuestNTULearn",
-          version: "2.0",
+          version: "2.3",
           savedAt: new Date().toISOString(),
           score: state.score,
           totalInstructorBonus: state.totalInstructorBonus,
@@ -1680,6 +1698,9 @@
           currentMapBonusAwarded: state.currentMapBonusAwarded,
           nodes: serialNodes,
           connections: state.connections,
+          panX: state.panX,
+          panY: state.panY,
+          zoom: state.zoom,
           reflections: {
             q1: root.querySelector("#cm-ref-q1").value || state.reflections.q1,
             q2: root.querySelector("#cm-ref-q2").value || state.reflections.q2,
@@ -1712,6 +1733,9 @@
         if (typeof data.totalInstructorBonus === "number") state.totalInstructorBonus = data.totalInstructorBonus;
         if (typeof data.instructorBonusCount === "number") state.instructorBonusCount = data.instructorBonusCount;
         if (typeof data.currentMapBonusAwarded === "boolean") state.currentMapBonusAwarded = data.currentMapBonusAwarded;
+        if (typeof data.panX === "number") state.panX = data.panX;
+        if (typeof data.panY === "number") state.panY = data.panY;
+        if (typeof data.zoom === "number") state.zoom = data.zoom;
 
         if (Array.isArray(data.badges)) {
           data.badges.forEach(sb => {
@@ -1748,6 +1772,7 @@
         updateConnections();
         renderDrawer();
         renderBadgesModal();
+        applyViewportTransform();
         playPlaceSound();
       }
 
@@ -1761,10 +1786,10 @@
 
       function renderBadgesModal() {
         root.querySelector("#cm-badge-grid").innerHTML = BADGES.map(b => `
-          <div style="background:rgba(255,255,255,0.05); border:1px solid ${b.unlocked ? '#a855f7' : 'rgba(255,255,255,0.1)'}; border-radius:8px; padding:10px; text-align:center;">
-            <div style="font-size:26px; margin-bottom:4px;">${b.icon}</div>
-            <div style="font-size:0.85rem; font-weight:700; color:#e2e8f0;">${b.name}</div>
-            <div style="font-size:0.75rem; color:${b.unlocked ? '#34d399' : '#94a3b8'}; margin-top:2px;">${b.unlocked ? 'Unlocked ✨' : 'Locked'}</div>
+          <div style="background:rgba(255,255,255,0.05); border:1px solid ${b.unlocked ? '#a855f7' : 'rgba(255,255,255,0.1)'}; border-radius:10px; padding:14px; text-align:center;">
+            <div style="font-size:30px; margin-bottom:5px;">${b.icon}</div>
+            <div style="font-size:0.95rem; font-weight:700; color:#e2e8f0;">${b.name}</div>
+            <div style="font-size:0.82rem; color:${b.unlocked ? '#34d399' : '#94a3b8'}; margin-top:4px;">${b.unlocked ? 'Unlocked ✨' : 'Locked'}</div>
           </div>
         `).join("");
       }
@@ -1803,41 +1828,45 @@
         const sumBox = root.querySelector("#cm-instructor-summary-box");
         if (state.totalInstructorBonus > 0) {
           sumBox.innerHTML = `
-            <div style="background:rgba(16,185,129,0.2); border:1px solid #10b981; border-radius:8px; padding:12px; margin-top:12px; display:flex; align-items:center; gap:10px;">
-              <span style="font-size:24px;">🎓</span>
+            <div style="background:rgba(16,185,129,0.2); border:1px solid #10b981; border-radius:10px; padding:16px; margin-top:14px; display:flex; align-items:center; gap:12px;">
+              <span style="font-size:28px;">🎓</span>
               <div>
-                <strong style="color:#34d399; font-size:0.95rem;">Instructor Endorsement Active (${state.instructorBonusCount} Map${state.instructorBonusCount > 1 ? 's' : ''} Approved)</strong>
-                <p style="font-size:0.85rem; color:#cbd5e1; margin:2px 0 0 0;">Total instructor bonus awarded: <strong>+${state.totalInstructorBonus} pts</strong>.</p>
+                <strong style="color:#34d399; font-size:1.05rem;">Instructor Endorsement Active (${state.instructorBonusCount} Map${state.instructorBonusCount > 1 ? 's' : ''} Approved)</strong>
+                <p style="font-size:0.95rem; color:#cbd5e1; margin:4px 0 0 0;">Total instructor bonus awarded: <strong>+${state.totalInstructorBonus} pts</strong>.</p>
               </div>
             </div>
           `;
         } else {
           sumBox.innerHTML = `
-            <div style="background:rgba(245,158,11,0.1); border:1px dashed rgba(245,158,11,0.4); border-radius:8px; padding:10px 14px; margin-top:10px;">
-              <span style="font-size:0.88rem; color:#fde68a;">⚠️ Present this defensible map to your Cluster Instructor to receive +300 bonus points.</span>
+            <div style="background:rgba(245,158,11,0.1); border:1px dashed rgba(245,158,11,0.4); border-radius:10px; padding:14px 18px; margin-top:14px;">
+              <span style="font-size:0.98rem; color:#fde68a;">⚠️ Present this defensible map to your Cluster Instructor to receive +300 bonus points.</span>
             </div>
           `;
         }
 
         root.querySelector("#cm-summary-reflections").innerHTML = `
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b;">1. Main idea of your concept map:</div>
-          <div style="font-size:0.9rem; color:#e2e8f0; margin:2px 0 8px 6px;">${escapeHtml(state.reflections.q1)}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b;">2. Most meaningful connection:</div>
-          <div style="font-size:0.9rem; color:#e2e8f0; margin:2px 0 8px 6px;">${escapeHtml(state.reflections.q2)}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b;">3. Discovery during construction:</div>
-          <div style="font-size:0.9rem; color:#e2e8f0; margin:2px 0 8px 6px;">${escapeHtml(state.reflections.q3)}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#f59e0b;">4. Adjustments for future tests:</div>
-          <div style="font-size:0.9rem; color:#e2e8f0; margin:2px 0 0 6px;">${escapeHtml(state.reflections.q4)}</div>
+          <div style="font-size:0.95rem; font-weight:700; color:#f59e0b;">1. Main idea of your concept map:</div>
+          <div style="font-size:1rem; color:#e2e8f0; margin:4px 0 12px 8px;">${escapeHtml(state.reflections.q1)}</div>
+          <div style="font-size:0.95rem; font-weight:700; color:#f59e0b;">2. Most meaningful connection:</div>
+          <div style="font-size:1rem; color:#e2e8f0; margin:4px 0 12px 8px;">${escapeHtml(state.reflections.q2)}</div>
+          <div style="font-size:0.95rem; font-weight:700; color:#f59e0b;">3. Discovery during construction:</div>
+          <div style="font-size:1rem; color:#e2e8f0; margin:4px 0 12px 8px;">${escapeHtml(state.reflections.q3)}</div>
+          <div style="font-size:0.95rem; font-weight:700; color:#f59e0b;">4. Adjustments for future tests:</div>
+          <div style="font-size:1rem; color:#e2e8f0; margin:4px 0 0 8px;">${escapeHtml(state.reflections.q4)}</div>
         `;
         sumModal.classList.add("open");
       });
 
       root.querySelector("#cm-btn-restart").addEventListener("click", () => sumModal.classList.remove("open"));
 
-      // Tools & Zoom Controls
+      // Zoom & Fullscreen Controls
       root.querySelector("#cm-btn-zoom-in").addEventListener("click", () => setZoom(state.zoom + 0.15));
       root.querySelector("#cm-btn-zoom-out").addEventListener("click", () => setZoom(state.zoom - 0.15));
-      root.querySelector("#cm-btn-zoom-reset").addEventListener("click", () => setZoom(1.0));
+      root.querySelector("#cm-btn-zoom-reset").addEventListener("click", () => {
+        state.panX = 0;
+        state.panY = 0;
+        setZoom(1.0);
+      });
 
       root.querySelector("#cm-btn-fullscreen").addEventListener("click", () => {
         if (!document.fullscreenElement) {
@@ -1848,13 +1877,6 @@
         }
       });
 
-      root.querySelector("#cm-tool-connect").addEventListener("click", function() {
-        state.connectMode = !state.connectMode;
-        this.classList.toggle("active", state.connectMode);
-        if (state.connectMode) showToast("Connect Mode: Click first concept, then second", "🔗");
-        else clearConnectSource();
-      });
-
       root.querySelector("#cm-btn-auto-layout").addEventListener("click", () => {
         const placedIds = Object.keys(state.placedNodes);
         if (placedIds.length === 0) {
@@ -1862,9 +1884,9 @@
           return;
         }
         const rect = canvasAreaEl.getBoundingClientRect();
-        const centerX = (rect.width / state.zoom) / 2 - 100;
-        const centerY = (rect.height / state.zoom) / 2 - 50;
-        const radius = Math.min(rect.width / state.zoom, rect.height / state.zoom) * 0.32;
+        const centerX = (rect.width / 2 - state.panX) / state.zoom - 140;
+        const centerY = (rect.height / 2 - state.panY) / state.zoom - 60;
+        const radius = Math.min(rect.width / state.zoom, rect.height / state.zoom) * 0.35;
 
         placedIds.forEach((id, index) => {
           const angle = (index / placedIds.length) * 2 * Math.PI;
@@ -1931,9 +1953,15 @@
       renderDrawer();
       renderBadgesModal();
       updateBonusHud();
-      setZoom(1.0);
-    })();
-  </script>
-</div>
-<!-- END NTULEARN DIRECT COPY-PASTE SNIPPET -->
+      applyViewportTransform();
+    }
 
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initApp);
+    } else {
+      initApp();
+    }
+  })();
+</script>
+</body>
+</html>
