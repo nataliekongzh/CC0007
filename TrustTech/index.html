@@ -546,38 +546,39 @@
       background: rgba(255, 255, 255, 0.16);
     }
 
-    /* Pop-up / Toast Alerts in Non-Intrusive Empty Space (Bottom Right) */
+    /* Pop-up / Toast Alerts in Prime Right Empty Space for High Motivation */
     #concept-map-quest-root .cm-toast-container {
       position: absolute;
-      bottom: 24px;
+      top: 80px;
       right: 24px;
       display: flex;
-      flex-direction: column-reverse;
-      gap: 10px;
+      flex-direction: column;
+      gap: 12px;
       z-index: 450;
       pointer-events: none;
-      max-width: 360px;
+      max-width: 380px;
     }
 
     #concept-map-quest-root .cm-toast {
-      background: rgba(15, 23, 42, 0.97);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-left: 4px solid var(--cm-accent);
+      background: rgba(15, 23, 42, 0.98);
+      border: 1.5px solid rgba(99, 102, 241, 0.5);
+      border-left: 5px solid #f59e0b;
       color: white;
-      padding: 12px 18px;
-      border-radius: var(--cm-radius-sm);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
-      font-size: 0.94rem;
+      padding: 13px 18px;
+      border-radius: var(--cm-radius-md);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 16px rgba(245, 158, 11, 0.15);
+      font-size: 0.96rem;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       pointer-events: all;
-      animation: cmToastSlideUp 0.25s ease-out;
+      animation: cmToastSlideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    @keyframes cmToastSlideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    @keyframes cmToastSlideInRight {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
 
     /* Scoped Modals */
@@ -757,7 +758,7 @@
 
   <!-- Header: Single Unified Horizontal Line -->
   <header class="cm-header">
-    <!-- Clean Title (Brain/Heart Shapes Removed) -->
+    <!-- Clean Title -->
     <div class="cm-brand">
       <h1>Head or Heart: What Makes Us Trust Tech?</h1>
     </div>
@@ -795,7 +796,7 @@
   <!-- Student Instructions Banner -->
   <div class="cm-instructions-banner">
     <div>
-      <strong>Student Instructions:</strong> Map out the 11 concepts using single (➜) or dual (⬄) connectors to articulate how trust and adoption emerge. <span class="cm-highlight-pill">There is no one fixed solution.</span>  When ready, present your defensible map to your cluster instructor to receive <strong>+300 bonus points</strong>!
+      <strong>Student Instructions:</strong> Map out the 11 concepts using single (➜) or dual (⬄) connectors to articulate how trust and adoption emerge. <span class="cm-highlight-pill">There is no one fixed solution.</span> Points reward <em>thoughtful articulation</em>: describe relationships clearly and elaborate on your reflections. When ready, present your defensible maps and perspectives to your cluster instructor to receive <strong>+300 bonus points</strong> (can be awarded repeatedly for each defensible perspective)!
     </div>
   </div>
 
@@ -838,20 +839,20 @@
 
       <!-- Floating Toolbar -->
       <div class="cm-floating-tools">
-        <div class="cm-tool-item" id="cm-tool-instructor-quick" title="Ask Instructor for Verification">
+        <div class="cm-tool-item" id="cm-tool-instructor-quick" title="Ask Instructor for Verification (+300 pts)">
           <span>🎓 Instructor Sign-Off (+300)</span>
         </div>
         <div class="cm-tool-item" id="cm-tool-quick-save" title="Export this map to a file">
           <span>💾 Download Map</span>
         </div>
-        <div class="cm-tool-item" id="cm-tool-clear" title="Reset map to explore another perspective (earned bonus points are kept)">
+        <div class="cm-tool-item" id="cm-tool-clear" title="Reset workspace to explore another perspective (earned bonus points remain intact)">
           <span>🔄 Reset Map</span>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- Pop-up Messages Hub in Empty Space (Bottom-Right) -->
+  <!-- Highly Visible Motivation Toast Alerts in Right Empty Space -->
   <div class="cm-toast-container" id="cm-toast-hub"></div>
 
   <!-- Save / Load Modal -->
@@ -916,7 +917,7 @@
   <div class="cm-instructor-modal cm-modal-overlay" id="cm-instructor-modal">
     <div class="cm-modal-card" style="max-width: 540px;">
       <h2 class="cm-modal-title">🔑 Cluster Instructor Verification</h2>
-      <p class="cm-modal-subtitle">Cluster Instructors: please review this concept map arrangement. If defensible, enter your authorized cluster code to grant +300 bonus points.</p>
+      <p class="cm-modal-subtitle">Cluster Instructors: review this concept map arrangement. If the students present a defensible perspective or deep critical reasoning, enter your cluster code to award +300 bonus points. <em>(You can award bonuses repeatedly as students develop and defend new perspectives!)</em></p>
       <div class="cm-form-group">
         <label>Instructor Secret Code:</label>
         <input type="password" id="cm-instructor-secret-input" class="cm-form-control" placeholder="Enter instructor code..." autocomplete="off">
@@ -1043,7 +1044,6 @@
         score: 0,
         totalInstructorBonus: 0,
         instructorBonusCount: 0,
-        currentMapBonusAwarded: false,
         placedNodes: {},
         connections: [],
         connectSourceId: null,
@@ -1628,7 +1628,7 @@
 
       root.querySelector("#cm-btn-cancel-conn").addEventListener("click", () => connModal.classList.remove("open"));
 
-      // Instructor Secret Code (+300 PTS)
+      // Instructor Secret Code (+300 PTS - Multi-Award Support)
       const instructorModal = root.querySelector("#cm-instructor-modal");
       const secretInput = root.querySelector("#cm-instructor-secret-input");
       const errorMsg = root.querySelector("#cm-instructor-error-msg");
@@ -1651,19 +1651,15 @@
       root.querySelector("#cm-btn-submit-instructor").addEventListener("click", () => {
         const code = secretInput.value.trim().toUpperCase();
         if (VALID_INSTRUCTOR_CODES.includes(code)) {
-          if (!state.currentMapBonusAwarded) {
-            state.currentMapBonusAwarded = true;
-            state.instructorBonusCount++;
-            state.totalInstructorBonus += 300;
-            addScore(300, "Cluster Instructor Bonus Unlocked (+300)!");
-            playCelebrationSound();
-            triggerConfettiBurst();
-            checkBadge("instructor_endorsed");
-            updateBonusHud();
-            showToast(`🎓 Cluster Instructor approved map #${state.instructorBonusCount}! (+300 pts)`, "🌟");
-          } else {
-            showToast("Bonus was already awarded for this map! Reset to build and verify another defensible map.", "ℹ️");
-          }
+          // Increment approval count and cumulative points repeatedly
+          state.instructorBonusCount++;
+          state.totalInstructorBonus += 300;
+          addScore(300, `Cluster Instructor Bonus #${state.instructorBonusCount} Approved (+300)!`);
+          playCelebrationSound();
+          triggerConfettiBurst();
+          checkBadge("instructor_endorsed");
+          updateBonusHud();
+          showToast(`🎓 Cluster Instructor approved perspective #${state.instructorBonusCount}! (+300 pts)`, "🌟");
           instructorModal.classList.remove("open");
         } else {
           errorMsg.style.display = "block";
@@ -1730,12 +1726,11 @@
         });
         return {
           app: "ConceptMapQuestNTULearn",
-          version: "2.5",
+          version: "2.6",
           savedAt: new Date().toISOString(),
           score: state.score,
           totalInstructorBonus: state.totalInstructorBonus,
           instructorBonusCount: state.instructorBonusCount,
-          currentMapBonusAwarded: state.currentMapBonusAwarded,
           nodes: serialNodes,
           connections: state.connections,
           panX: state.panX,
@@ -1772,7 +1767,6 @@
         if (typeof data.score === "number") state.score = data.score;
         if (typeof data.totalInstructorBonus === "number") state.totalInstructorBonus = data.totalInstructorBonus;
         if (typeof data.instructorBonusCount === "number") state.instructorBonusCount = data.instructorBonusCount;
-        if (typeof data.currentMapBonusAwarded === "boolean") state.currentMapBonusAwarded = data.currentMapBonusAwarded;
         if (typeof data.panX === "number") state.panX = data.panX;
         if (typeof data.panY === "number") state.panY = data.panY;
         if (typeof data.zoom === "number") state.zoom = data.zoom;
@@ -1885,7 +1879,7 @@
             <div style="background:rgba(16,185,129,0.2); border:1px solid #10b981; border-radius:10px; padding:16px; margin-top:14px; display:flex; align-items:center; gap:12px;">
               <span style="font-size:28px;">🎓</span>
               <div>
-                <strong style="color:#34d399; font-size:1.05rem;">Instructor Endorsement Active (${state.instructorBonusCount} Map${state.instructorBonusCount > 1 ? 's' : ''} Approved)</strong>
+                <strong style="color:#34d399; font-size:1.05rem;">Instructor Endorsement Active (${state.instructorBonusCount} Perspective${state.instructorBonusCount > 1 ? 's' : ''} Approved)</strong>
                 <p style="font-size:0.95rem; color:#cbd5e1; margin:4px 0 0 0;">Total instructor bonus awarded: <strong>+${state.totalInstructorBonus} pts</strong>.</p>
               </div>
             </div>
@@ -1962,7 +1956,6 @@
           Object.keys(state.placedNodes).forEach(id => state.placedNodes[id].element.remove());
           state.placedNodes = {};
           state.connections = [];
-          state.currentMapBonusAwarded = false;
           updateBonusHud();
           updateConnections();
           renderDrawer();
@@ -1976,19 +1969,19 @@
         if (reason) showToast(`+${amount} pts: ${reason}`);
       }
 
-      // Pop-up messages appear in empty bottom-right area with smooth slide-up
+      // Pop-up messages appear in the right empty space for high visibility and motivation
       function showToast(message, icon = "⭐") {
         const hub = root.querySelector("#cm-toast-hub");
         const toast = document.createElement("div");
         toast.className = "cm-toast";
-        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+        toast.innerHTML = `<span style="font-size:1.3rem;">${icon}</span> <span>${message}</span>`;
         hub.appendChild(toast);
         setTimeout(() => {
           toast.style.opacity = "0";
-          toast.style.transform = "translateY(20px)";
-          toast.style.transition = "all 0.3s ease";
-          setTimeout(() => toast.remove(), 300);
-        }, 3200);
+          toast.style.transform = "translateX(40px)";
+          toast.style.transition = "all 0.35s ease";
+          setTimeout(() => toast.remove(), 350);
+        }, 3400);
       }
 
       function escapeHtml(text) {
